@@ -1,0 +1,25 @@
+{% extends "graph.html" %}
+{% import 'forms.html' as forms %}
+{% block section_tutorial %}
+
+  {% block thispost %}{% endblock %}  
+  {% if session.logged_in %}
+  	{{ forms.edit_post( url_for('add_tutorial') ) }}
+  {% endif %}
+  <ul class=tutorials>
+  {% for tutorial in tutorials %}
+    <li>
+		<a href="{{ url_for('show_tutorial', tutorial_id = tutorial.id) }}"><h2>{{ tutorial.title }}</h2></a>
+		{{ tutorial.x|safe }} <br>
+		{{ tutorial.y|safe }} <br>
+		{{ tutorial.publish|safe }} <br>
+		{{ tutorial.iconPath|safe }} <br>
+		{{ tutorial.id|safe }} <br>
+<a href="{{ url_for('delete_tutorial', tutorial_id = tutorial.id) }}">X</a>
+	</li>
+  {% else %}
+    <li><em>Unbelievable.  No tutorials here so far</em></li>
+  {% endfor %}
+  </ul>
+{% endblock %}
+

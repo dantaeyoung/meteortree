@@ -2,6 +2,7 @@
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 from flask.ext import restful
+from flask.ext.sqlalchemy import SQLAlchemy
 from contextlib import closing
 
 
@@ -17,6 +18,42 @@ api = restful.Api(app)
 
 app.config.from_object(__name__)
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + DATABASE
+
+db = SQLAlchemy(app)
+
+class Tutorial(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	title = db.Column(db.String(80))
+	publish = db.Column(db.String(20))
+	iconPath = db.Column(db.String(80))
+	x = db.Column(db.Integer, nullable=False)
+	y = db.Column(db.Integer, nullable=False)
+
+	def __init__(self, title, x, y):
+		self.title = title
+		self.x = x
+		self.y = y
+
+	def __repr__(self):
+		return '<Tutorial %r>' % self.title
+
+	def getDict(self):
+		return {k:v for (k, v) in self.__dict__.items() if not k.startswith('_')}
+
+class Dependency(db.Model):
+	lower_id = db.Column(db.Integer, db.ForeignKey('tutorial.id'), primary_key=True)
+	higher_id = db.Column(db.Integer, db.ForeignKey('tutorial.id'), primary_key=True)
+	lower_tutorial = db.relationship(Tutorial, primaryjoin=lower_id==Tutorial.id, backref='lower_edges')
+	higher_tutorial = db.relationship(Tutorial, primaryjoin=higher_id==Tutorial.id, backref='higher_edges')
+
+	def __init__(self, t1, t2):
+		if t1.id < t2.id:
+			self.lower_tutorial = t1
+			self.higher_tutorial = t2
+		else:
+			self.lower_tutorial = t2
+			self.higher_tutorial = t1
 
 def init_db():
 	with closing(connect_db()) as db:
@@ -49,68 +86,90 @@ def login():
 		else:
 			session['logged_in'] = True
 			flash('You were logged in')
-			return redirect(url_for('show_entries'))
+			return redirect(url_for('show_tutorials'))
 	return render_template('login.html', error=error)
 
 @app.route('/logout')
 def logout():
 	session.pop('logged_in', None)
 	flash('You were logged out')
-	return redirect(url_for('show_entries'))
+	return redirect(url_for('show_tutorials'))
 
 @app.route('/')
 def root():
-	return show_entries()
+	return show_tutorials()
 
 @app.route('/')
-def show_entries():
-	cur = g.db.execute('select title, text, id from entries order by id desc')
-	entries = [dict(title=row[0], text=row[1], id=row[2]) for row in cur.fetchall()]
-	return render_template('show_entries.html', entries=entries)
+def show_tutorials():
+	tutorials = Tutorial.query.all()
+	return render_template('show_tutorials.html', tutorials=tutorials)
 
 @app.route('/add', methods=['POST'])
-def add_entry():
+def add_tutorial():
 	if not session.get('logged_in'):
 		abort(401)
-	cur = g.db.execute('select title, text, id from entries where title = ?', [request.form['title']])
-	firstres = cur.fetchone()
-	g.db.execute('insert into entries (title, text) values (?, ?)',
-			 [request.form['title'], request.form['text']])
-	g.db.commit()
-	flash('New entry was successfully posted')
-	return redirect(url_for('show_entries'))
 
-@app.route('/delete/<entry_id>')
-def delete_entry(entry_id):
+	db.session.add(Tutorial(request.form['title'], 4, 5))
+	db.session.commit()
+	flash('New tutorial was successfully posted')
+	return redirect(url_for('show_tutorials'))
+	
+
+@app.route('/delete/<tutorial_id>')
+def delete_tutorial(tutorial_id):
 	if not session.get('logged_in'):
 		abort(401)
-	g.db.execute('delete from entries where id= ?', [entry_id])
-	g.db.commit()
+	Tutorial.query.filter_by(id=tutorial_id).delete()
+	db.session.commit()
+
 	flash('Entry was succesfully removed')
-	return redirect(url_for('show_entries'))
+	return redirect(url_for('show_tutorials'))
 
-@app.route('/entry/<entry_id>')
-def show_entry(entry_id):
-	cur = g.db.execute('select title, text, id from entries where id = ?', [entry_id])
-	row = cur.fetchone()
-	entry = dict(title=row[0], text=row[1], id=row[2])
-	return render_template('show_entry.html', entry=entry)
+@app.route('/tutorial/<tutorial_id>')
+def show_tutorial(tutorial_id):
+	tutorial = Tutorial.query.filter_by(id=tutorial_id).first()
+	return render_template('show_tutorial.html', tutorial=tutorial)
+
+
+
+
 
 class getTutorials(restful.Resource):
-    def get(self):
-		cur = g.db.execute('select title, text, id from entries order by id desc')
-		entries = [dict(title=row[0], text=row[1], id=row[2]) for row in cur.fetchall()]
-		return entries
+	def get(self):
+		tutorials = Tutorial.query.order_by(Tutorial.id.desc()).all()
+		return [t.getDict() for t in tutorials]
 
 class putTutorials(restful.Resource):
-    def post(self):
-		cur = g.db.execute('select title, text, id from entries order by id desc')
-		entries = [dict(title=row[0], text=row[1], id=row[2]) for row in cur.fetchall()]
-		return entries
+	def post(self):
+		cur = g.db.execute('select title, iconPath, id from tutorials order by id desc')
+		tutorials = [dict(title=row[0], text=row[1], id=row[2]) for row in cur.fetchall()]
+		return tutorials
+
+class editTutorial(restful.Resource):
+	def get(self, tutorial_id):
+		#return tutorial_id
+		tutorial = Tutorial.query.filter_by(id=tutorial_id).first()
+		if(tutorial):
+			return tutorial.getDict()
+		else:
+			return {}
+
+	def post(self, tutorial_id):
+		tutorial = Tutorial.query.filter_by(id=tutorial_id).first()
+		tutorial.x = request.form['x']
+		tutorial.y = request.form['y']
+		db.session.commit()
+		return 
+
+class getDependencies(restful.Resource):
+	def get(self):
+		dependencies = Dependency.query.order_by(Dependency.lower_id.desc()).all()
+		return [t.getDict() for t in dependencies]
 
 api.add_resource(getTutorials, '/tutorials')
 api.add_resource(putTutorials, '/tutorials/new')
-
+api.add_resource(editTutorial, '/tutorials/<int:tutorial_id>')
+api.add_resource(getDependencies, '/dependencies')
 
 if __name__ == '__main__':
 	app.debug = True
