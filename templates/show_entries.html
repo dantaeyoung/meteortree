@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% import 'forms.html' as forms %}
+{% block body %}
+  {% block thispost %}{% endblock %}  
+  {% if session.logged_in %}
+  	{{ forms.edit_post( url_for('add_entry') ) }}
+  {% endif %}
+  <ul class=entries>
+  {% for entry in entries %}
+    <li><a href="{{ url_for('show_entry', entry_id = entry.id) }}"><h2>{{ entry.title }}</h2></a>{{ entry.text|safe }}<a href="{{ url_for('delete_entry', entry_id = entry.id) }}">X</a></li>
+  {% else %}
+    <li><em>Unbelievable.  No entries here so far</em></li>
+  {% endfor %}
+  </ul>
+{% endblock %}
+
