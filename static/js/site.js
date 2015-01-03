@@ -6,6 +6,7 @@ $(function() {
   d3.json("/tutorials?format=json", function(error, data) {
     data.sort(function(a,b) { return d3.ascending(parseInt(a.id), parseInt(b.id)); });
     tutorialData = data;
+	console.log(tutorialData);
     drawSkilltree();
   });
 
@@ -13,16 +14,16 @@ $(function() {
     dependencyData = data;
     drawSkilltree();
   });
-
+/*
   $.ajax("/courses?format=json", {
     success: function (data, status, xhr) {
       courseData = data;
       drawSkilltree();
     }
   });
-
+*/
   function drawSkilltree() {
-    if (tutorialData !== null && dependencyData !== null && courseData !== null) {
+    if (tutorialData !== null && dependencyData !== null) { // && courseData !== null) {
       setupTreeCanvas();
       lookupDefaultIconPath();
       drawLines(dependencyData);
@@ -30,13 +31,14 @@ $(function() {
       drawCreate(tutorialData);
       drawTools(tutorialData, dependencyData);
       setupSteps();
-      drawCourses(courseData);
+      //drawCourses(courseData);
     }
   }
 });
 
 function lookupDefaultIconPath() {
   window.tutorialDefaultIconPath = $("#javascript-helpers #tutorialDefaultIconPath").attr("src");
+  window.tutorialDefaultIconPath = "/static/img/tutorial-default-icon.png";
 }
 
 function setupTreeCanvas() {

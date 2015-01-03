@@ -1,26 +1,24 @@
 # all the imports
-import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash
 from flask.ext import restful
 from flask.ext.sqlalchemy import SQLAlchemy
 from contextlib import closing
 
+app = Flask(__name__)
+api = restful.Api(app)
 
-# configuration
 DATABASE = '/tmp/flaskr.db'
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
 
-app = Flask(__name__)
-api = restful.Api(app)
-
 app.config.from_object(__name__)
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + DATABASE
 
 db = SQLAlchemy(app)
+
 
 class Tutorial(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -38,8 +36,9 @@ class Tutorial(db.Model):
 	def __repr__(self):
 		return '<Tutorial %r>' % self.title
 
-	def getDict(self):
+	def as_json(self):
 		return {k:v for (k, v) in self.__dict__.items() if not k.startswith('_')}
+
 
 class Dependency(db.Model):
 	lower_id = db.Column(db.Integer, db.ForeignKey('tutorial.id'), primary_key=True)
@@ -56,23 +55,7 @@ class Dependency(db.Model):
 			self.higher_tutorial = t1
 
 def init_db():
-	with closing(connect_db()) as db:
-		with app.open_resource('schema.sql', mode='r') as f:
-			db.cursor().executescript(f.read())
-		db.commit()
-
-def connect_db():
-	return sqlite3.connect(app.config['DATABASE'])
-
-@app.before_request
-def before_request():
-    g.db = connect_db()
-
-@app.teardown_request
-def teardown_request(exception):
-	db = getattr(g, 'db', None)
-	if db is not None:
-		db.close()
+	db.create_all()
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -119,7 +102,7 @@ def add_tutorial():
 def delete_tutorial(tutorial_id):
 	if not session.get('logged_in'):
 		abort(401)
-	Tutorial.query.filter_by(id=tutorial_id).delete()
+	Tutorial.query.get(tutorial_id).delete()
 	db.session.commit()
 
 	flash('Entry was succesfully removed')
@@ -127,53 +110,63 @@ def delete_tutorial(tutorial_id):
 
 @app.route('/tutorial/<tutorial_id>')
 def show_tutorial(tutorial_id):
-	tutorial = Tutorial.query.filter_by(id=tutorial_id).first()
+	tutorial = Tutorial.query.get(tutorial_id)
 	return render_template('show_tutorial.html', tutorial=tutorial)
 
 
 
 
-
-class getTutorials(restful.Resource):
+class TutorialListAPI(restful.Resource):
 	def get(self):
 		tutorials = Tutorial.query.order_by(Tutorial.id.desc()).all()
-		return [t.getDict() for t in tutorials]
+		return [t.as_json() for t in tutorials]
 
-class putTutorials(restful.Resource):
 	def post(self):
-		cur = g.db.execute('select title, iconPath, id from tutorials order by id desc')
-		tutorials = [dict(title=row[0], text=row[1], id=row[2]) for row in cur.fetchall()]
-		return tutorials
+		tut = Tutorial(request.form['title'], 4, 5)
+		db.session.add(tut)
+		db.session.commit()
+		return { tutorial: tut.as_json() }
 
-class editTutorial(restful.Resource):
+
+class TutorialAPI(restful.Resource):
 	def get(self, tutorial_id):
-		#return tutorial_id
-		tutorial = Tutorial.query.filter_by(id=tutorial_id).first()
+		tutorial = Tutorial.query.get(tutorial_id)
 		if(tutorial):
-			return tutorial.getDict()
+			return tutorial.as_json()
 		else:
 			return {}
 
-	def post(self, tutorial_id):
-		tutorial = Tutorial.query.filter_by(id=tutorial_id).first()
-		tutorial.x = request.form['x']
-		tutorial.y = request.form['y']
+	def put(self, tutorial_id):
+		tutorial = Tutorial.query.get(tutorial_id)
+		if not tutorial:
+			restful.abort(404, message='Invalid tutorial')
+		try:
+			tutorial.x = request.form['x']
+			tutorial.y = request.form['y']
+		except:
+			restful.session.abort(400)
 		db.session.commit()
 		return 
+		
+	def delete(self, tutorial_id):
+		tutorial = Tutorial.query.get(tutorial_id)
+		if not tutorial:
+			restful.abort(404, message='Invalid tutorial')
+		db.session.delete(tutorial)
+		db.session.commit()
+
 
 class getDependencies(restful.Resource):
 	def get(self):
 		dependencies = Dependency.query.order_by(Dependency.lower_id.desc()).all()
-		return [t.getDict() for t in dependencies]
+		return [t.as_json() for t in dependencies]
 
-api.add_resource(getTutorials, '/tutorials')
-api.add_resource(putTutorials, '/tutorials/new')
-api.add_resource(editTutorial, '/tutorials/<int:tutorial_id>')
+
+api.add_resource(TutorialListAPI, '/tutorials')
+api.add_resource(TutorialAPI, '/tutorials/<int:tutorial_id>')
 api.add_resource(getDependencies, '/dependencies')
 
 if __name__ == '__main__':
-	app.debug = True
-	app.run()
-
-
+	app.run(debug=True)
+	db.create_all(app=app)
 
