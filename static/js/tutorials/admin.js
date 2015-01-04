@@ -170,18 +170,22 @@ var tutorialMover = {
     if (this.moveTarget !== null) {
       console.log("finish tutorialMover");
       var p = gridDisplayToDatabase(mouse);
-      $.post("/tutorials/" + this.moveTarget.id + "/move", {"move.x": p.x , "move.y": p.y})
-         .done(function() {
-           var date = new Date();
-           $("#saving-status .timeago").html("Last save at " + date.toLocaleString());
-         })
-         .fail(function() {
-           $("#saving-status").html("Error saving - refresh page.");
-           $("body").addClass("error error-saving");
-         })
-         .always(function() {
-           console.log("now you can close the page");
-         });
+
+	  $.ajax({
+		  type: 'PUT',
+		  url: "/tutorials/" + this.moveTarget.id,
+		  data: "x=" + p.x + "&y=" + p.y})
+	 .done(function() {
+	   var date = new Date();
+	   $("#saving-status .timeago").html("Last save at " + date.toLocaleString());
+	 })
+	 .fail(function() {
+	   $("#saving-status").html("Error saving - refresh page.");
+	   $("body").addClass("error error-saving");
+	 })
+	 .always(function() {
+	   console.log("now you can close the page");
+	 });
 
       $(".tutorial-" + this.moveTarget.id).attr('class', function(index, classNames) {
         //removeClass doesn't work on SVG elements
