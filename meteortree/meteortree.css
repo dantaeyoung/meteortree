@@ -1,0 +1,47 @@
+/* CSS declarations go here */
+
+.container {
+	position: relative;
+	height: 100%;
+}
+.section-tree {
+	margin-right: 400px;
+	height: 1000px;
+	border: 2px solid cyan;
+	position: relative;
+}
+.section-info {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	width: 400px;
+	height: 100%;
+	overflow-y: scroll;
+	font-size: 0.8em;
+	margin-left: 610px;
+}
+
+.icon {
+	height: 60px;
+	width: 60px;
+	border: 1px solid black;
+}
+
+.step_form {
+	border: 2px solid cyan;
+	margin: 5px;
+	width: 300px;
+}
+
+.tutorial {
+	border: 2px solid green;
+	margin: 5px;
+	width: 300px;
+}
+
+.step {
+	border: 2px solid pink;
+	margin: 5px;
+	width: 300px;
+}
+

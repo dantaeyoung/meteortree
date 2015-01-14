@@ -1,0 +1,79 @@
+<head>
+  <title>meteortree</title>
+</head>
+
+<body>
+<div class="container">
+
+
+<div class="section-tree">
+  {{#each icons}}
+	{{> icon}}
+  {{/each}}
+</div>
+<div class="section-info">
+
+  <!-- add a form below the h1 -->
+  <form class="new-tutorial">
+    <input type="text" name="title" placeholder="Type to add new tutorials" />
+    <input type="text" name="x" value="0" />
+    <input type="text" name="y" value="0" />
+    <input type="submit" />
+  </form>
+<ul>
+  {{#each tutorials}}
+	{{> tutorial}}
+  {{/each}}
+</ul>
+</div>
+
+
+</div>
+</body>
+
+
+<template name="icon">
+<div class="icon" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; ">
+		{{ title }}
+</div>
+</template>
+
+<template name="step">
+<div class="step">
+	{{ video_embedded }}
+  <form class="update-step">
+	UPDATE
+    <input type="text" name="description" placeholder="description" value="{{description}}">
+    <input type="text" name="video_url" placeholder="video_url" value="{{video_url}}">
+    <input type="text" name="ordinal" placeholder="ordinal" value="{{ordinal}}" >
+	{{ tutorial_id }}
+    <input type="submit" />
+  </form>
+</div>
+</template>
+
+<template name="tutorial">
+  <div class="tutorial">
+	<h1>tutorial: {{ title }}</h1>
+		<button class="xplus">X+</button>
+		<button class="xminus">X-</button>
+		<button class="yplus">Y+</button>
+		<button class="yminus">Y-</button>
+		<br>
+		{{ _id }}
+		<br>
+		{{ x }}, {{ y }}
+		<br>
+		{{ createdAt }}
+		<p>You've pressed the button {{counter}} times.</p>
+		<button class="delete">KILLME</button>
+		{{#each steps}}
+			{{> step }}
+		{{/each}}
+		NEW
+	    {{> step tutorial_id =  _id  new="true"}}
+		<br>
+  </div>
+</template>
+
+
