@@ -6,11 +6,10 @@
 <div class="container">
 
 
-<div class="section-tree">
-  {{#each icons}}
-	{{> icon}}
-  {{/each}}
-</div>
+	<div class="section-tree">
+		{{> sectiontree }}
+	</div>
+
 <div class="section-info">
 
   <!-- add a form below the h1 -->
@@ -31,10 +30,18 @@
 </div>
 </body>
 
+<template name="sectiontree">
+  {{#each nodes}}
+	{{> node}}
+  {{/each}}
+</template> 
 
-<template name="icon">
-<div class="icon" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; ">
+<template name="node">
+<div class="node" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; " id={{_id}}>
+	<div class="node-image">
 		{{ title }}
+	</div>
+	<div class="change-dep"></div>
 </div>
 </template>
 

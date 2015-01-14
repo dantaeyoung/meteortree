@@ -1,5 +1,7 @@
 /* CSS declarations go here */
-
+body.dep-mode {
+	background-color: pink;
+}
 .container {
 	position: relative;
 	height: 100%;
@@ -21,7 +23,7 @@
 	margin-left: 610px;
 }
 
-.icon {
+.node-image {
 	height: 60px;
 	width: 60px;
 	border: 1px solid black;
@@ -44,4 +46,23 @@
 	margin: 5px;
 	width: 300px;
 }
+.ui-draggable {
+	cursor: move;
+	cursor: -webkit-grab; 
+	cursor: -moz-grab;
+}
+.ui-draggable-dragging {
+	box-shadow: 10px 10px 10px #AAA;
+	margin-left: -10px;
+	margin-top: -10px;
+	cursor: move;
+	cursor: -webkit-grabbing; cursor: -moz-grabbing;
 
+}
+
+.change-dep {
+	cursor: pointer;
+	width: 20px;
+	height: 20px;
+	background-color: green;
+}
