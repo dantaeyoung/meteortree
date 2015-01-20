@@ -10,3 +10,5 @@ insecure
 accounts-ui
 accounts-password
 coffeescript
+cfs:standard-packages
+cfs:filesystem

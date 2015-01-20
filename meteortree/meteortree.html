@@ -6,29 +6,44 @@
 <div class="container">
 
 
+
+  <div class='section-logo'>
+    <img class='logo' src='/img/site-logo.jpg' />
+{{> loginButtons}}
+	<div class="discard-draft button">DISCARD DRAFT</div>
+	<div class="save-draft button">SAVE DRAFT</div>
+{{ allicons }}
+  </div>
+
 	<div class="section-tree">
 		{{> sectiontree }}
 	</div>
 
 <div class="section-info">
 
+  {{#if currentUser}}
   <!-- add a form below the h1 -->
   <form class="new-tutorial">
     <input type="text" name="title" placeholder="Type to add new tutorials" />
-    <input type="text" name="x" value="0" />
-    <input type="text" name="y" value="0" />
     <input type="submit" />
   </form>
-<ul>
+  {{/if}}
+
+<div class="tutorials">
   {{#each tutorials}}
 	{{> tutorial}}
   {{/each}}
-</ul>
+</div>
+
 </div>
 
 
 </div>
 </body>
+
+<template name="upload">
+ {{> upload_bootstrap contentType='images' fileTypes='.jpg' }}
+</template>
 
 <template name="sectiontree">
   {{#each nodes}}
@@ -37,9 +52,12 @@
 </template> 
 
 <template name="node">
+{{nodehelper}}
 <div class="node" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; " id={{_id}}>
-	<div class="node-image">
+		{{ publishMode }}
+	<div class="node_icon">
 		{{ title }}
+		{{{ nodeIcon }}}
 	</div>
 	<div class="change-dep"></div>
 </div>
@@ -47,7 +65,8 @@
 
 <template name="step">
 <div class="step">
-	{{ video_embedded }}
+	{{{ video_embedded }}}
+	<button class="delete">KILLME</button>
   <form class="update-step">
 	UPDATE
     <input type="text" name="description" placeholder="description" value="{{description}}">
@@ -60,26 +79,21 @@
 </template>
 
 <template name="tutorial">
-  <div class="tutorial">
+  <div class="tutorial" id="{{ _id }}">
 	<h1>tutorial: {{ title }}</h1>
-		<button class="xplus">X+</button>
-		<button class="xminus">X-</button>
-		<button class="yplus">Y+</button>
-		<button class="yminus">Y-</button>
-		<br>
-		{{ _id }}
-		<br>
-		{{ x }}, {{ y }}
-		<br>
+		{{ isPublished }}
 		{{ createdAt }}
-		<p>You've pressed the button {{counter}} times.</p>
-		<button class="delete">KILLME</button>
 		{{#each steps}}
 			{{> step }}
 		{{/each}}
-		NEW
-	    {{> step tutorial_id =  _id  new="true"}}
-		<br>
+		{{#if currentUser}}
+			{{draft_y}}
+			{{draft_x}}
+			{{ >upload tutorial_id = _id }}
+			<button class="delete">KILLME</button>
+						NEW
+			{{> step tutorial_id =  _id  new="true"}}
+		{{/if}}
   </div>
 </template>
 

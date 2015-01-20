@@ -1,15 +1,67 @@
-/* CSS declarations go here */
+
+/***** SELECTION AND SCROLL STYLES *****/
+
+::selection,
+a::selection,
+img::selection {
+	background: #fc0452;
+	color: #ffffff;
+}
+
+::-moz-selection {
+	background: #fc0452;
+	color: #ffffff; 
+} 
+
+::-webkit-scrollbar-thumb:vertical { background-color: #fc0452; height:200px;}
+::-webkit-scrollbar-thumb:horizontal { background-color: #fc0452; height:10px !important;}
+::-webkit-scrollbar { height:10px; width:7px; background-color:#fcfeff; }
+
+/*** **/
+body.draft-mode .section-tree {
+	background-color: #ccc;
+}
+
+.button {
+cursor:pointer;
+border: 1px solid green;
+}
+
+.draft-node {
+	opacity: 0.3;
+}
+
 body.dep-mode {
 	background-color: pink;
 }
+
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
 .container {
 	position: relative;
 	height: 100%;
 }
+
+.section-logo {
+	position: absolute;
+	z-index: 1000;
+	top:  30px;
+	left: 30px;
+}
+
+.section-logo .logo {
+	width: 120px;
+	height: 120px;
+}
+
 .section-tree {
+		background-color: #EAEAEA;
+
 	margin-right: 400px;
 	height: 1000px;
-	border: 2px solid cyan;
 	position: relative;
 }
 .section-info {
@@ -29,16 +81,31 @@ body.dep-mode {
 	border: 1px solid black;
 }
 
+.node {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .step_form {
 	border: 2px solid cyan;
 	margin: 5px;
 	width: 300px;
 }
 
+.tutorials {
+	position: relative;
+}
 .tutorial {
+	position: absolute;
+	top: 0px;
 	border: 2px solid green;
 	margin: 5px;
 	width: 300px;
+	display: none;
 }
 
 .step {
@@ -65,4 +132,30 @@ body.dep-mode {
 	width: 20px;
 	height: 20px;
 	background-color: green;
+}
+
+.jqDropZone {
+    background: lightgrey;
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: bold;
+}
+.jqDropZone.in {
+    width: 600px;
+    height: 200px;
+    line-height: 200px;
+    font-size: larger;
+}
+.jqDropZone.hover {
+    background: lawngreen;
+}
+.jqDropZone.fade {
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    opacity: 1;
 }
