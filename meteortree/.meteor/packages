@@ -13,3 +13,4 @@ coffeescript
 cfs:standard-packages
 cfs:filesystem
 cfs:graphicsmagick
+fortawesome:fontawesome

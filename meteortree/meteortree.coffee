@@ -72,6 +72,18 @@ if Meteor.isClient
 		# Prevent default form submit
 		return false
 
+
+	Template.body.events "submit .update-tutorial": ->
+		title = event.target.title.value
+		Tutorials.upsert this._id,
+			$set:  
+				title: title
+				updatedAt: new Date() # current time
+				updatedById: Meteor.userId()
+				updatedByUsername: Meteor.user().username
+		return false
+
+
 	Template.tutorial.helpers
 		steps: ->
 			Steps.find
@@ -138,7 +150,7 @@ if Meteor.isClient
 				description: description
 				video_url: video_url
 				ordinal: ordinal
-				createdAt: new Date() # current time
+				updatedAt: new Date() # current time
 		if "new" in this
 			event.target.description.value = ""
 			event.target.video_url.value = ""
@@ -179,7 +191,6 @@ if Meteor.isClient
 			that = this
 
 			if this.draft_y != this.y or this.draft_x != this.x
-				console.log "DRAFDAS"
 				$(".node#" + this._id).addClass("draft-node")
 
 			jsPlumb.ready ->
@@ -199,8 +210,8 @@ if Meteor.isClient
 									draft_y: ui.position.top / GRID_MULTIPLIER
 				drawLinks that._id
 
-	Template.step.events "click .edit-button": ->
-		$(".step#" + this._id + " .edit").slideToggle(200);
+	Template.body.events "click .edit-button": ->
+		$(event.srcElement.parentElement).children(".edit-form").toggle('slide', { 'direction': 'right'}, 300)
 				
 
 	Template.node.events "click": ->
@@ -260,6 +271,8 @@ if Meteor.isClient
 				target: $('#' + d.tutorial2)
 				anchor: [ "Left", "Right" ]
 
+
+
 	Template.node.helpers
 		nodeIcon: ->
 			console.log this
@@ -304,6 +317,10 @@ if Meteor.isClient
 				endpointOptions = { isSource:true, isTarget:true }; 
 #				endpoint = jsPlumb.addEndpoint('elementId', endpointOptions);
 				console.log $(".node")
+
+			$( ".sortable" ).sortable({
+			  handle: ".sorthandle"
+			});
 
 	Accounts.ui.config
 		passwordSignupFields: "USERNAME_ONLY"

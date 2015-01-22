@@ -19,7 +19,24 @@ body.draft-mode .section-tree {
 }
 
 .button {
-cursor:pointer;
+	cursor:pointer;
+}
+
+.button {
+	background: #fc0452;
+  color: white;
+  padding: 5px 10px 5px 10px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.button:hover {
+  background-image: -webkit-linear-gradient(top, #f5c4d4, #e6a6ba);
+  background-image: -moz-linear-gradient(top, #f5c4d4, #e6a6ba);
+  background-image: -ms-linear-gradient(top, #f5c4d4, #e6a6ba);
+  background-image: -o-linear-gradient(top, #f5c4d4, #e6a6ba);
+  background-image: linear-gradient(to bottom, #f5c4d4, #e6a6ba);
+  text-decoration: none;
 }
 
 .draft-node {
@@ -77,10 +94,11 @@ img::selection {
 
 
 .section-tutorial {
+	pointer-events: none;
 	position: absolute;
 	right: 0px;
 	top: 0px;
-	width: 400px;
+	width: 800px;
 	height: 100%;
 	overflow-y: scroll;
 	font-size: 0.8em;
@@ -172,7 +190,9 @@ img::selection {
 
 
 .section-tutorial-inner {
+	pointer-events: all;
 	padding: 20px;
+	padding-left: 400px;
 	/*margin: 20px;*/
 }
 
@@ -256,8 +276,17 @@ img::selection {
 	 margin-bottom: 20px;
 }
 
-.step .edit {
+.new .edit-form { 
+	display: block !important;
+}
+
+.edit-form {
+position: absolute;
+right: 300px;
+    border-right: 3px solid #fc0452;
 	display: none;
+	background-color: #FFFAFA;
+	padding: 15px;
 }
 
 .step-inner {
@@ -277,5 +306,11 @@ img::selection {
 	max-width: 100%;
 }
 
+/*** TREE SVG */
+
+._jsPlumb_connector path {
+	stroke-width: 2px;
+	stroke-dasharray: 4px 2px;
+}
 
 

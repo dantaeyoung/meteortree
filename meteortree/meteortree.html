@@ -1,6 +1,9 @@
 <head>
   <title>meteortree</title>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+<!--	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script> -->
 </head>
 
 <body>
@@ -69,16 +72,16 @@
 </template>
 
 <template name="step">
-<div class="step" id="{{_id}}">
+<div class="step {{new}}" id="{{_id}}">
 	<div class="step-inner">
-		<div class="step-description">
-			{{ description }}
-		</div>
-		{{{ video_embedded }}}
 		{{#if currentUser}}
-		<div class="edit-button button">EDIT ME</div>
-		<div class="edit">
-			<button class="delete">KILLME</button>
+		{{#if new}}
+		<div class="new-button button">NEW STEP</div>
+		{{else}}
+		<div class="edit-button button">EDIT STEP</div>
+		{{/if}}
+		<div class="edit-form">
+			<button class="delete">DELETE</button>
 			<form class="update-step">
 				UPDATE
 				<input type="text" name="description" placeholder="description" value="{{description}}">
@@ -89,6 +92,12 @@
 			</form>
 		</div>
 		{{/if}}
+		<div class="step-description">
+			{{ description }}
+		</div>
+		<div class="step-video">
+			{{{ video_embedded }}}
+		</div>
 	</div>
 </div>
 </template>
@@ -101,19 +110,24 @@
 				<div class="title">{{ title }}</div>
 			</div>
 		</div>
-		<div class="steps">
+		{{#if currentUser}}
+		<div class="edit-button button">EDIT TUTORIAL</div>
+		<div class="edit-form">
+			{{ >upload tutorial_id = _id }}
+			<button class="delete">DELETE</button>
+			<form class="update-tutorial">
+				UPDATE
+				<input type="text" name="title" placeholder="title" value="{{title}}">
+				<input type="submit" />
+			</form>
+		</div>
+		{{/if}}
+		<div class="steps sortable">
 		{{#each steps}}
 			{{> step }}
 		{{/each}}
 		</div>
-		{{#if currentUser}}
-		<div class="edit">
-			{{ >upload tutorial_id = _id }}
-			<button class="delete">KILLME</button>
-						NEW
-			{{> step tutorial_id =  _id  new="true"}}
-		</div>
-		{{/if}}
+		{{> step tutorial_id =  _id  new="new"}}
 		<div class="debug">
 			{{ isPublished }}
 			{{ createdAt }}
