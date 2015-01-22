@@ -21,7 +21,8 @@ if Meteor.isClient
 					createdAt: -1
 		else
 			Tutorials.find 
-				publishMode: "publish",
+				publishMode: "publish"
+			,
 				sort:
 					createdAt: -1
 
@@ -75,9 +76,11 @@ if Meteor.isClient
 
 	Template.body.events "submit .update-tutorial": ->
 		title = event.target.title.value
+		publishMode = event.target.publishMode.value
 		Tutorials.upsert this._id,
 			$set:  
 				title: title
+				publishMode: publishMode
 				updatedAt: new Date() # current time
 				updatedById: Meteor.userId()
 				updatedByUsername: Meteor.user().username
@@ -88,6 +91,9 @@ if Meteor.isClient
 		steps: ->
 			Steps.find
 				tutorial_id: this._id
+			,
+				sort:
+					ordinal: 1
 		nodeIcon: ->
 			console.log this
 			icon = Icons.findOne({tutorial_id:this._id})
@@ -97,11 +103,16 @@ if Meteor.isClient
 			else
 				imgurl = DEFAULT_ICON
 			return "<img src='" + imgurl + "'>"
+		publishChecked: ->
+			if this.publishMode == "publish"
+				return "checked='checked'"
 
 
 	Template.tutorial.events
 		"click button.delete": ->
-			Tutorials.remove this._id
+			r = confirm("Delete this tutorial? This cannot be undone.")
+			if r == true 
+				Tutorials.remove this._id
 
 
 	Template.upload.events
@@ -118,19 +129,20 @@ if Meteor.isClient
 			return false
 #				Images.insert(files[i], (err, fileObj) ->
 
-	Template.step.helpers video_embedded: ->
-		console.log("video-embedded-called")
-		if this.video_url
-			parseUrl = this.video_url.match(/(http|https):\/\/(?:www.)?(?:(vimeo).com\/(.*)|(youtube).com\/watch\?v=(.*?)$)/)
-			if parseUrl
-				if parseUrl[2] || parseUrl[3]
-					vimeoID = parseUrl[3]
-					embedUrl = '//player.vimeo.com/video/' + vimeoID
-					return '<div class="lazyYT" data-vimeo-id="' + vimeoID + '"></div>'
-				else
-					youtubeID = parseUrl[5]
-					embedUrl = '//www.youtube.com/embed/' + youtubeID
-					return '<div class="lazyYT" data-youtube-id="' + youtubeID + '"></div>'
+	Template.step.helpers
+		video_embedded: ->
+			console.log("video-embedded-called")
+			if this.video_url
+				parseUrl = this.video_url.match(/(http|https):\/\/(?:www.)?(?:(vimeo).com\/(.*)|(youtube).com\/watch\?v=(.*?)$)/)
+				if parseUrl
+					if parseUrl[2] || parseUrl[3]
+						vimeoID = parseUrl[3]
+						embedUrl = '//player.vimeo.com/video/' + vimeoID
+						return '<div class="lazyYT" data-vimeo-id="' + vimeoID + '"></div>'
+					else
+						youtubeID = parseUrl[5]
+						embedUrl = '//www.youtube.com/embed/' + youtubeID
+						return '<div class="lazyYT" data-youtube-id="' + youtubeID + '"></div>'
 
 	Deps.autorun ->
 		steps_dep.depend()
@@ -138,18 +150,20 @@ if Meteor.isClient
 
 	Template.step.events
 		"click button.delete": ->
-			Steps.remove this._id
+			r = confirm("Delete this step? This cannot be undone.")
+			if r == true 
+				Steps.remove this._id
+
 
 	Template.step.events "submit .update-step": ->
 		description = event.target.description.value
 		video_url = event.target.video_url.value
-		ordinal = event.target.ordinal.value
 		Steps.upsert this._id,
 			$set:  
 				tutorial_id: this.tutorial_id
 				description: description
 				video_url: video_url
-				ordinal: ordinal
+				ordinal: 99999
 				updatedAt: new Date() # current time
 		if "new" in this
 			event.target.description.value = ""
@@ -291,10 +305,25 @@ if Meteor.isClient
 	Template.node.rendered = ->
 		console.log "node renderd"
 		$('.lazyYT').lazyYT()
+		$( ".sortable" ).sortable
+			handle: ".sorthandle"
+			stop: (event, ui ) ->
+				console.log this
+				console.log $(this).children(".step").each (i) ->
+					console.log $(this).attr("id")
+					Steps.update $(this).attr("id"),
+						$set:  
+							ordinal: i * 10
+							updatedAt: new Date() # current time
+						(error) -> 
+							console.log error
+						
+
 
 	Template.body.helpers
 		allicons: ->
 			return _.map(Icons.find({}).fetch(), (i) -> return i.filename;)
+
 
 		
 	Meteor.startup ->
@@ -318,9 +347,6 @@ if Meteor.isClient
 #				endpoint = jsPlumb.addEndpoint('elementId', endpointOptions);
 				console.log $(".node")
 
-			$( ".sortable" ).sortable({
-			  handle: ".sorthandle"
-			});
 
 	Accounts.ui.config
 		passwordSignupFields: "USERNAME_ONLY"

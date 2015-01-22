@@ -73,6 +73,7 @@
 
 <template name="step">
 <div class="step {{new}}" id="{{_id}}">
+	<div class="sorthandle"><i class="fa fa-arrows fa-3x"></i></div>
 	<div class="step-inner">
 		{{#if currentUser}}
 		{{#if new}}
@@ -83,10 +84,10 @@
 		<div class="edit-form">
 			<button class="delete">DELETE</button>
 			<form class="update-step">
-				UPDATE
+				Description
 				<input type="text" name="description" placeholder="description" value="{{description}}">
+				Video URL
 				<input type="text" name="video_url" placeholder="video_url" value="{{video_url}}">
-				<input type="text" name="ordinal" placeholder="ordinal" value="{{ordinal}}" >
 				{{ tutorial_id }}
 				<input type="submit" />
 			</form>
@@ -103,8 +104,9 @@
 </template>
 
 <template name="tutorial">
-	<div class="tutorial" id="{{ _id }}">
+	<div class="tutorial {{ publishMode}}" id="{{ _id }}">
 		<div class="header">
+			<div class="draft-warning">DRAFT</div>
 			<div class="header-inner">
 				<div class="icon">{{{ nodeIcon }}}</div>
 				<div class="title">{{ title }}</div>
@@ -116,6 +118,8 @@
 			{{ >upload tutorial_id = _id }}
 			<button class="delete">DELETE</button>
 			<form class="update-tutorial">
+				Publish?
+				<input type="checkbox" name="publishMode" value="publish" {{publishChecked}} ><br>
 				UPDATE
 				<input type="text" name="title" placeholder="title" value="{{title}}">
 				<input type="submit" />

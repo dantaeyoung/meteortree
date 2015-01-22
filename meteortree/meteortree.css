@@ -124,11 +124,14 @@ img::selection {
 
 .tutorials {
 	position: relative;
+	width: 380px;
 }
 .tutorial {
 	position: absolute;
 	top: 0px;
-	margin: 5px;
+	margin-left: 0px;
+	margin: 20px;
+	padding: 20px;
 	width: 300px;
 	display: none;
 }
@@ -191,7 +194,6 @@ img::selection {
 
 .section-tutorial-inner {
 	pointer-events: all;
-	padding: 20px;
 	padding-left: 400px;
 	/*margin: 20px;*/
 }
@@ -238,7 +240,7 @@ img::selection {
 	display: none;
 }
 
-.section-tutorial .Draft .draft-warning {
+.section-tutorial .draft .draft-warning {
 	-webkit-appearance:none;
 	-moz-appearance:none;
 	appearance:none;
@@ -250,14 +252,14 @@ img::selection {
 	color: #bfb029;
 }
 
-.section-tutorial-inner.Draft {
+.tutorial.draft  {
 	background: url(
 	data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==
 	   ) repeat #f4e69c;
 }
 
 
-.tutorial.Draft  {
+.node.draft  {
   opacity: 0.3;
   fill: #b2a31f;
 }
@@ -287,6 +289,17 @@ right: 300px;
 	display: none;
 	background-color: #FFFAFA;
 	padding: 15px;
+}
+
+.sorthandle {
+	cursor: move;
+	cursor: -webkit-grab; 
+	cursor: -moz-grab;
+}
+
+.sorthandle {
+	cursor: move;
+	cursor: -webkit-grabbing; cursor: -moz-grabbing;
 }
 
 .step-inner {
