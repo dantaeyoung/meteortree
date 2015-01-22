@@ -2,7 +2,7 @@ Tutorials = new Mongo.Collection("tutorials")
 Steps = new Mongo.Collection("steps")
 Links = new Mongo.Collection("deps")
 Icons = new FS.Collection("icons", {
-  stores: [new FS.Store.FileSystem("icons", {path: "~/uploads"})]
+  stores: [new FS.Store.FileSystem("icons")]
 });
 
 if Meteor.isClient
