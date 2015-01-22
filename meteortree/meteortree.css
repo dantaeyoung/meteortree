@@ -1,3 +1,37 @@
+html, body{
+   height: 100%;
+   width: 100%;
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+color: #333;
+	font-size: 0.8em;
+}
+
+body.dep-mode {
+	background-color: pink;
+}
+body.draft-mode .section-tree {
+	background-color: #ccc;
+}
+
+.button {
+cursor:pointer;
+}
+
+.draft-node {
+	opacity: 0.3;
+}
+
+.container {
+	position: relative;
+	height: 100%;
+}
+
+
 
 /***** SELECTION AND SCROLL STYLES *****/
 
@@ -18,32 +52,6 @@ img::selection {
 ::-webkit-scrollbar { height:10px; width:7px; background-color:#fcfeff; }
 
 /*** **/
-body.draft-mode .section-tree {
-	background-color: #ccc;
-}
-
-.button {
-cursor:pointer;
-border: 1px solid green;
-}
-
-.draft-node {
-	opacity: 0.3;
-}
-
-body.dep-mode {
-	background-color: pink;
-}
-
-body {
-	margin: 0px;
-	padding: 0px;
-}
-
-.container {
-	position: relative;
-	height: 100%;
-}
 
 .section-logo {
 	position: absolute;
@@ -58,13 +66,17 @@ body {
 }
 
 .section-tree {
-		background-color: #EAEAEA;
-
+	background-color: #EAEAEA;
 	margin-right: 400px;
-	height: 1000px;
+	height: 100%;
+	overflow: scroll;
+}
+.section-tree-inner {
 	position: relative;
 }
-.section-info {
+
+
+.section-tutorial {
 	position: absolute;
 	right: 0px;
 	top: 0px;
@@ -72,8 +84,8 @@ body {
 	height: 100%;
 	overflow-y: scroll;
 	font-size: 0.8em;
-	margin-left: 610px;
 }
+
 
 .node-image {
 	height: 60px;
@@ -90,11 +102,7 @@ body {
     user-select: none;
 }
 
-.step_form {
-	border: 2px solid cyan;
-	margin: 5px;
-	width: 300px;
-}
+
 
 .tutorials {
 	position: relative;
@@ -102,17 +110,11 @@ body {
 .tutorial {
 	position: absolute;
 	top: 0px;
-	border: 2px solid green;
 	margin: 5px;
 	width: 300px;
 	display: none;
 }
 
-.step {
-	border: 2px solid pink;
-	margin: 5px;
-	width: 300px;
-}
 .ui-draggable {
 	cursor: move;
 	cursor: -webkit-grab; 
@@ -159,3 +161,121 @@ body {
     transition: all 0.3s ease-out;
     opacity: 1;
 }
+
+/** tutorial **/
+
+
+
+/**** TUTORIAL ****/
+
+
+
+
+.section-tutorial-inner {
+	padding: 20px;
+	/*margin: 20px;*/
+}
+
+.section-tutorial .header-inner {
+	display: table;
+	margin-bottom: 20px;
+	width: 100%;
+}
+
+.section-tutorial .header-inner > div {
+	border-top: 5px solid #fc0452;
+	padding-top: 5px;
+	display: table-cell;
+	vertical-align:middle;
+	padding-right: 10px;
+}
+
+
+.section-tutorial .header-inner textarea {
+	font-size: 1em !important;
+	width: 100%;
+
+}
+.section-tutorial .header-inner .title {
+	text-transform: uppercase;
+	font-weight: bold;
+	letter-spacing: 0.1em;
+	font-size: 2em;
+}
+
+.section-tutorial .header-edit .label {
+	float: left;
+	width: 100px;
+	padding-top: 5px;
+	font-weight: bold;
+}
+
+.section-tutorial .header-edit .submit {
+	margin: 20px 0px;
+}
+
+.draft-warning {
+	display: none;
+}
+
+.section-tutorial .Draft .draft-warning {
+	-webkit-appearance:none;
+	-moz-appearance:none;
+	appearance:none;
+	display: block !important;
+	font-weight: bold;
+	font-size: 3em; 
+	height:100%;
+	margin-bottom: -20px;
+	color: #bfb029;
+}
+
+.section-tutorial-inner.Draft {
+	background: url(
+	data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==
+	   ) repeat #f4e69c;
+}
+
+
+.tutorial.Draft  {
+  opacity: 0.3;
+  fill: #b2a31f;
+}
+
+/***** TUTORIAL STEP STYLES *****/
+
+.step-description, .step-description .input {
+	font-size: 11px !important;
+	line-height: 18px !important;
+	letter-spacing: 0px !important;
+}
+
+
+.step {
+  /*padding: 20px;*/
+	 margin-bottom: 20px;
+}
+
+.step .edit {
+	display: none;
+}
+
+.step-inner {
+  padding: 10px;
+  border-top: 1px dotted #fc0452;
+}
+
+.step .step-description {
+	margin-bottom: 10px;
+}
+
+
+.step .step-video img {
+	max-width: 100%;
+}
+.step iframe {
+	max-width: 100%;
+}
+
+
+

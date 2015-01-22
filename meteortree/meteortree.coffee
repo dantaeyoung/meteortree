@@ -1,13 +1,18 @@
 Tutorials = new Mongo.Collection("tutorials")
 Steps = new Mongo.Collection("steps")
 Links = new Mongo.Collection("deps")
-Icons = new Mongo.Collection("icons")
+Icons = new FS.Collection("icons", {
+  stores: [new FS.Store.FileSystem("icons", {path: "~/uploads"})]
+});
 
 if Meteor.isClient
 	
 	# counter starts at 0
 	Session.set "dep-mode", "False"
 	nodes_dep = new Deps.Dependency()
+	steps_dep = new Deps.Dependency()
+	jsPlumb.setContainer($("#jsPlumbContainer"))
+
 
 	Template.body.helpers tutorials: ->
 		if(Meteor.user())
@@ -67,21 +72,57 @@ if Meteor.isClient
 		# Prevent default form submit
 		return false
 
-	Template.tutorial.helpers steps: ->
-		Steps.find
-			tutorial_id: this._id
+	Template.tutorial.helpers
+		steps: ->
+			Steps.find
+				tutorial_id: this._id
+		nodeIcon: ->
+			console.log this
+			icon = Icons.findOne({tutorial_id:this._id})
+			console.log icon
+			if(icon)
+				imgurl = '/uploads/' + icon.filename
+			else
+				imgurl = DEFAULT_ICON
+			return "<img src='" + imgurl + "'>"
 
 
 	Template.tutorial.events
 		"click button.delete": ->
 			Tutorials.remove this._id
-		"click .uploadPanel .start" : ->
-			Session.set("uploading-tutorial-id", this.uploadContext.tutorial_id)
+
+
+	Template.upload.events
+		"submit .update-icon": (event, target) ->
+			console.log event
+			console.log target
+			file = event.target[0].files[0]
+			console.log(file)
+#			if (file)
+#				Icons.insert(file, ction (err, fileObj) {
+
+#			for file in files
+#				console.log file
 			return false
+#				Images.insert(files[i], (err, fileObj) ->
 
 	Template.step.helpers video_embedded: ->
+		console.log("video-embedded-called")
 		if this.video_url
-			"<iframe width=\"420\" height=\"315\" src=\"" + this.video_url + "\" frameborder=\"0\" allowfullscreen></iframe>"
+			parseUrl = this.video_url.match(/(http|https):\/\/(?:www.)?(?:(vimeo).com\/(.*)|(youtube).com\/watch\?v=(.*?)$)/)
+			if parseUrl
+				if parseUrl[2] || parseUrl[3]
+					vimeoID = parseUrl[3]
+					embedUrl = '//player.vimeo.com/video/' + vimeoID
+					return '<div class="lazyYT" data-vimeo-id="' + vimeoID + '"></div>'
+				else
+					youtubeID = parseUrl[5]
+					embedUrl = '//www.youtube.com/embed/' + youtubeID
+					return '<div class="lazyYT" data-youtube-id="' + youtubeID + '"></div>'
+
+	Deps.autorun ->
+		steps_dep.depend()
+		$('.lazyYT').lazyYT()
 
 	Template.step.events
 		"click button.delete": ->
@@ -91,37 +132,22 @@ if Meteor.isClient
 		description = event.target.description.value
 		video_url = event.target.video_url.value
 		ordinal = event.target.ordinal.value
-		console.log event
-		console.log this
-		console.log this._id
-		upsertDict = 
-			tutorial_id: this.tutorial_id
-			description: description
-			video_url: video_url
-			ordinal: ordinal
-			createdAt: new Date() # current time
-		console.log(upsertDict)
-		Steps.insert
-			tutorial_id: this.tutorial_id
-			description: description
-			video_url: video_url
-			ordinal: ordinal
-			createdAt: new Date() # current time
-		###
-		Steps.upsert 
-			id: this._id
-			,
+		Steps.upsert this._id,
 			$set:  
-					tutorial_id: this.tutorial_id
-					description: description
-					video_url: video_url
-					ordinal: ordinal
-					createdAt: new Date() # current time
-		###
+				tutorial_id: this.tutorial_id
+				description: description
+				video_url: video_url
+				ordinal: ordinal
+				createdAt: new Date() # current time
 		if "new" in this
 			event.target.description.value = ""
 			event.target.video_url.value = ""
+		steps_dep.changed()
+		console.log "update-step"
 		return false
+
+
+
 
 	Template.sectiontree.helpers nodes: ->
 		if(Meteor.user())
@@ -129,7 +155,7 @@ if Meteor.isClient
 				sort:
 					createdAt: -1
 		else
-			Tutorials.find {'publishMode':'draft'},
+			Tutorials.find {'publishMode':'publish'},
 				sort:
 					createdAt: -1
 
@@ -152,6 +178,10 @@ if Meteor.isClient
 			console.log this
 			that = this
 
+			if this.draft_y != this.y or this.draft_x != this.x
+				console.log "DRAFDAS"
+				$(".node#" + this._id).addClass("draft-node")
+
 			jsPlumb.ready ->
 
 				if(Meteor.user())
@@ -169,11 +199,13 @@ if Meteor.isClient
 									draft_y: ui.position.top / GRID_MULTIPLIER
 				drawLinks that._id
 
+	Template.step.events "click .edit-button": ->
+		$(".step#" + this._id + " .edit").slideToggle(200);
+				
 
 	Template.node.events "click": ->
-		console.log this
-		$(".tutorial").fadeOut(100);
-		$(".tutorial#" + this._id).fadeIn(100);
+		$(".tutorial").fadeOut(50);
+		$(".tutorial#" + this._id).fadeIn(50);
 
 	Template.node.events "click .change-dep": ->
 		if(Meteor.user())
@@ -234,12 +266,18 @@ if Meteor.isClient
 			icon = Icons.findOne({tutorial_id:this._id})
 			console.log icon
 			if(icon)
-				return "<img src='/uploads/" + icon.filename + "'>"
+				imgurl = '/uploads/' + icon.filename
 			else
-				return ""
+				imgurl = DEFAULT_ICON
+			return "<img src='" + imgurl + "'>"
+				
+
+				
+
 
 	Template.node.rendered = ->
 		console.log "node renderd"
+		$('.lazyYT').lazyYT()
 
 	Template.body.helpers
 		allicons: ->
@@ -248,6 +286,7 @@ if Meteor.isClient
 		
 	Meteor.startup ->
 
+		###
 		Uploader.finished = (index, file) ->
 			Session.set("UploadedFile", file);
 			console.log "Fdsfdsafdsa"
@@ -257,13 +296,14 @@ if Meteor.isClient
 				tutorial_id: Session.get("uploading-tutorial-id")
 			Session.set("UploadedFile", null);
 			Session.set("uploading-tutorial-id", null)
+		###
 
 		$(document).ready ->
 			jsPlumb.ready ->
+			
 				endpointOptions = { isSource:true, isTarget:true }; 
 #				endpoint = jsPlumb.addEndpoint('elementId', endpointOptions);
 				console.log $(".node")
-
 
 	Accounts.ui.config
 		passwordSignupFields: "USERNAME_ONLY"
@@ -271,7 +311,4 @@ if Meteor.isClient
 
 if Meteor.isServer
 	Meteor.startup ->
-		UploadServer.init
-			tmpDir: process.env.PWD + '/public/uploads/tmp'
-			uploadDir: process.env.PWD + '/public/uploads/'
-#			imageVersions: {thumbnailSmall: {width: 200, height: 200}}
+		

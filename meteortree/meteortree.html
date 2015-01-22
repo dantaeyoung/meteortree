@@ -1,5 +1,6 @@
 <head>
   <title>meteortree</title>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -10,31 +11,35 @@
   <div class='section-logo'>
     <img class='logo' src='/img/site-logo.jpg' />
 {{> loginButtons}}
-	<div class="discard-draft button">DISCARD DRAFT</div>
-	<div class="save-draft button">SAVE DRAFT</div>
-{{ allicons }}
-  </div>
-
-	<div class="section-tree">
-		{{> sectiontree }}
-	</div>
-
-<div class="section-info">
-
   {{#if currentUser}}
-  <!-- add a form below the h1 -->
+  <div class="admin-buttons">
+{{ allicons }}
   <form class="new-tutorial">
     <input type="text" name="title" placeholder="Type to add new tutorials" />
     <input type="submit" />
   </form>
+	<div class="discard-draft button">DISCARD DRAFT</div>
+	<div class="save-draft button">SAVE DRAFT</div>
+  </div>
   {{/if}}
 
-<div class="tutorials">
-  {{#each tutorials}}
-	{{> tutorial}}
-  {{/each}}
-</div>
+  </div>
 
+	<div class="section-tree">
+		<div class="section-tree-inner">
+			{{> sectiontree }}
+			<div id="jsPlumbContainer"></div>
+		</div>
+	</div>
+
+<div class="section-tutorial">
+	<div class="section-tutorial-inner">
+		<div class="tutorials">
+		  {{#each tutorials}}
+			{{> tutorial}}
+		  {{/each}}
+		</div>
+	</div>
 </div>
 
 
@@ -42,7 +47,10 @@
 </body>
 
 <template name="upload">
- {{> upload_bootstrap contentType='images' fileTypes='.jpg' }}
+  <form class="update-icon">
+	<input type="file" id="icon">
+    <input type="submit" />
+  </form>
 </template>
 
 <template name="sectiontree">
@@ -53,48 +61,64 @@
 
 <template name="node">
 {{nodehelper}}
-<div class="node" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; " id={{_id}}>
-		{{ publishMode }}
-	<div class="node_icon">
-		{{ title }}
-		{{{ nodeIcon }}}
-	</div>
+<div class="node {{publishMode}}" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; " id={{_id}} >
+	<div class="icon">{{{ nodeIcon }}}</div>
+	<div class="title">{{ title }}</div>
 	<div class="change-dep"></div>
 </div>
 </template>
 
 <template name="step">
-<div class="step">
-	{{{ video_embedded }}}
-	<button class="delete">KILLME</button>
-  <form class="update-step">
-	UPDATE
-    <input type="text" name="description" placeholder="description" value="{{description}}">
-    <input type="text" name="video_url" placeholder="video_url" value="{{video_url}}">
-    <input type="text" name="ordinal" placeholder="ordinal" value="{{ordinal}}" >
-	{{ tutorial_id }}
-    <input type="submit" />
-  </form>
+<div class="step" id="{{_id}}">
+	<div class="step-inner">
+		<div class="step-description">
+			{{ description }}
+		</div>
+		{{{ video_embedded }}}
+		{{#if currentUser}}
+		<div class="edit-button button">EDIT ME</div>
+		<div class="edit">
+			<button class="delete">KILLME</button>
+			<form class="update-step">
+				UPDATE
+				<input type="text" name="description" placeholder="description" value="{{description}}">
+				<input type="text" name="video_url" placeholder="video_url" value="{{video_url}}">
+				<input type="text" name="ordinal" placeholder="ordinal" value="{{ordinal}}" >
+				{{ tutorial_id }}
+				<input type="submit" />
+			</form>
+		</div>
+		{{/if}}
+	</div>
 </div>
 </template>
 
 <template name="tutorial">
-  <div class="tutorial" id="{{ _id }}">
-	<h1>tutorial: {{ title }}</h1>
-		{{ isPublished }}
-		{{ createdAt }}
+	<div class="tutorial" id="{{ _id }}">
+		<div class="header">
+			<div class="header-inner">
+				<div class="icon">{{{ nodeIcon }}}</div>
+				<div class="title">{{ title }}</div>
+			</div>
+		</div>
+		<div class="steps">
 		{{#each steps}}
 			{{> step }}
 		{{/each}}
+		</div>
 		{{#if currentUser}}
-			{{draft_y}}
-			{{draft_x}}
+		<div class="edit">
 			{{ >upload tutorial_id = _id }}
 			<button class="delete">KILLME</button>
 						NEW
 			{{> step tutorial_id =  _id  new="true"}}
+		</div>
 		{{/if}}
-  </div>
+		<div class="debug">
+			{{ isPublished }}
+			{{ createdAt }}
+		</div>
+	</div>
 </template>
 
 
