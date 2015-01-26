@@ -14,77 +14,78 @@ if Meteor.isClient
 	jsPlumb.setContainer($("#jsPlumbContainer"))
 
 
-	Template.body.helpers tutorials: ->
-		if(Meteor.user())
-			Tutorials.find {},
-				sort:
-					createdAt: -1
-		else
-			Tutorials.find 
-				publishMode: "publish"
-			,
-				sort:
-					createdAt: -1
-
-	Template.body.events "click .save-draft": (event) ->
-		allTuts = Tutorials.find({}).fetch()
-		_.each allTuts, (t) ->
-			console.log t
-			Tutorials.update t._id,
-				$set:
-					x: t.draft_x
-					y: t.draft_y
-		$("body").removeClass "draft-mode"
-		$(".node").removeClass "draft-node"
-		Session.set "draft-mode", "False"
+	Template.body.helpers
+		tutorials: ->
+			if(Meteor.user())
+				Tutorials.find {},
+					sort:
+						createdAt: -1
+			else
+				Tutorials.find  {},
+					sort:
+						createdAt: -1
 	
-	Template.body.events "click .discard-draft": (event) ->
-		allTuts = Tutorials.find({}).fetch()
-		_.each allTuts, (t) ->
-			console.log t
-			Tutorials.update t._id,
-				$set:
-					draft_x: t.x
-					draft_y: t.y
-		$("body").removeClass "draft-mode"
-		$(".node").removeClass "draft-node"
-		Session.set "draft-mode", "False"
+
+
+	Template.body.events
+		"click .save-draft": (event) ->
+			allTuts = Tutorials.find({}).fetch()
+			_.each allTuts, (t) ->
+				console.log t
+				Tutorials.update t._id,
+					$set:
+						x: t.draft_x
+						y: t.draft_y
+			$("body").removeClass "draft-mode"
+			$(".node").removeClass "draft-node"
+			Session.set "draft-mode", "False"
 	
-	Template.body.events "submit .new-tutorial": (event) ->
-		
-		# This function is called when the new tutorial form is submitted
-		title = event.target.title.value
-		x = 15
-		y = 15
-		Tutorials.insert
-			title: title
-			publishMode: "draft"
-			draft_x: x
-			draft_y: y
-			x: x
-			y: y
-			createdAt: new Date() # current time
-			createdById: Meteor.userId()
-			createdByUsername: Meteor.user().username
-		# Clear form
-		event.target.title.value = ""
-		nodes_dep.changed
-		
-		# Prevent default form submit
-		return false
-
-
-	Template.body.events "submit .update-tutorial": ->
-		title = event.target.title.value
-		publishMode = event.target.publishMode.value
-		Tutorials.upsert this._id,
-			$set:  
+		"click .discard-draft": (event) ->
+			allTuts = Tutorials.find({}).fetch()
+			_.each allTuts, (t) ->
+				console.log t
+				Tutorials.update t._id,
+					$set:
+						draft_x: t.x
+						draft_y: t.y
+			$("body").removeClass "draft-mode"
+			$(".node").removeClass "draft-node"
+			Session.set "draft-mode", "False"
+	
+		"submit .new-tutorial": (event) ->
+			
+			# This function is called when the new tutorial form is submitted
+			title = event.target.title.value
+			x = 15
+			y = 15
+			Tutorials.insert
 				title: title
-				publishMode: publishMode
-				updatedAt: new Date() # current time
-				updatedById: Meteor.userId()
-				updatedByUsername: Meteor.user().username
-		return false
+				publishMode: "draft"
+				draft_x: x
+				draft_y: y
+				x: x
+				y: y
+				createdAt: new Date() # current time
+				createdById: Meteor.userId()
+				createdByUsername: Meteor.user().username
+			# Clear form
+			event.target.title.value = ""
+			nodes_dep.changed
+			
+			# Prevent default form submit
+			return false
+
+		"submit .update-tutorial": ->
+			title = event.target.title.value
+			publishMode = event.target.publishMode.value
+			Tutorials.upsert this._id,
+				$set:  
+					title: title
+					publishMode: publishMode
+					updatedAt: new Date() # current time
+					updatedById: Meteor.userId()
+					updatedByUsername: Meteor.user().username
+			return false
 
 
 	Template.tutorial.helpers
@@ -325,26 +326,14 @@ if Meteor.isClient
 			return _.map(Icons.find({}).fetch(), (i) -> return i.filename;)
 
 
+
 		
 	Meteor.startup ->
-
-		###
-		Uploader.finished = (index, file) ->
-			Session.set("UploadedFile", file);
-			console.log "Fdsfdsafdsa"
-			console.log Session.get("uploading-tutorial-id")
-			Icons.insert
-				filename: file.name
-				tutorial_id: Session.get("uploading-tutorial-id")
-			Session.set("UploadedFile", null);
-			Session.set("uploading-tutorial-id", null)
-		###
 
 		$(document).ready ->
 			jsPlumb.ready ->
 			
 				endpointOptions = { isSource:true, isTarget:true }; 
-#				endpoint = jsPlumb.addEndpoint('elementId', endpointOptions);
 				console.log $(".node")
 
 
