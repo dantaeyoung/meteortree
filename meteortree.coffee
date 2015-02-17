@@ -13,7 +13,6 @@ if Meteor.isClient
 	steps_dep = new Deps.Dependency()
 	jsPlumb.setContainer($("#jsPlumbContainer"))
 
-
 	Template.body.helpers
 		tutorials: ->
 			if(Meteor.user())
@@ -40,22 +39,24 @@ if Meteor.isClient
 			$(".node").removeClass "draft-node"
 			Session.set "draft-mode", "False"
 	
-		"click .discard-draft": (event) ->
-			allTuts = Tutorials.find({}).fetch()
-			_.each allTuts, (t) ->
-				console.log t
-				Tutorials.update t._id,
-					$set:
-						draft_x: t.x
-						draft_y: t.y
-			$("body").removeClass "draft-mode"
-			$(".node").removeClass "draft-node"
-			Session.set "draft-mode", "False"
-	
+		"click .discard-draft": ->
+			if(Meteor.user())
+				allTuts = Tutorials.find({}).fetch()
+				_.each allTuts, (t) ->
+					console.log t
+					Tutorials.update t._id,
+						$set:
+							draft_x: t.x
+							draft_y: t.y
+				$("body").removeClass "draft-mode"
+				$(".node").removeClass "draft-node"
+				Session.set "draft-mode", "False"
+
+		
 		"submit .new-tutorial": (event) ->
 			
 			# This function is called when the new tutorial form is submitted
-			title = event.target.title.value
+			title = "New Tutorial"
 			x = 15
 			y = 15
 			Tutorials.insert
@@ -76,8 +77,15 @@ if Meteor.isClient
 			return false
 
 		"submit .update-tutorial": ->
+			event.preventDefault();
+			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
 			title = event.target.title.value
-			publishMode = event.target.publishMode.value
+
+			if($(".tutorial#" + this._id + " input[name='publishMode']").is(":checked"))
+				publishMode = "publish"
+			else
+				publishMode = "draft"
+
 			Tutorials.upsert this._id,
 				$set:  
 					title: title
@@ -94,19 +102,26 @@ if Meteor.isClient
 				tutorial_id: this._id
 			,
 				sort:
-					ordinal: 1
+					ordinal: -1
 		nodeIcon: ->
-			console.log this
 			icon = Icons.findOne({tutorial_id:this._id})
-			console.log icon
 			if(icon)
 				imgurl = '/uploads/' + icon.filename
 			else
 				imgurl = DEFAULT_ICON
 			return "<img src='" + imgurl + "'>"
+
+		publishMode: ->
+			if this.publishMode == "publish"
+				return "publish"
+			else
+				return "draft"
+
 		publishChecked: ->
 			if this.publishMode == "publish"
-				return "checked='checked'"
+				return "checked"
+			else
+				return ""
 
 
 	Template.tutorial.events
@@ -115,13 +130,27 @@ if Meteor.isClient
 			if r == true 
 				Tutorials.remove this._id
 
+	Template.tutorial.rendered = ->	
+		$('.lazyYT').lazyYT()
+		$( ".sortable" ).sortable
+			handle: ".sorthandle"
+			start: (event, ui ) ->
+				$(this).addClass("sorting");
+			stop: (event, ui ) ->
+				$(this).removeClass("sorting");
+				$(this).children(".step").each (i) ->
+					Steps.update $(this).attr("id"),
+						$set:  
+							ordinal: i * 10
+							updatedAt: new Date() # current time
+						(error) -> 
+							console.log error
+						
+		
 
 	Template.upload.events
 		"submit .update-icon": (event, target) ->
-			console.log event
-			console.log target
 			file = event.target[0].files[0]
-			console.log(file)
 #			if (file)
 #				Icons.insert(file, ction (err, fileObj) {
 
@@ -157,6 +186,7 @@ if Meteor.isClient
 
 
 	Template.step.events "submit .update-step": ->
+		$(".step").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
 		description = event.target.description.value
 		video_url = event.target.video_url.value
 		Steps.upsert this._id,
@@ -174,6 +204,11 @@ if Meteor.isClient
 		return false
 
 
+	Template.step.rendered = ->
+		button = this.find('.button');
+		console.log(button);
+
+
 
 
 	Template.sectiontree.helpers nodes: ->
@@ -182,13 +217,16 @@ if Meteor.isClient
 				sort:
 					createdAt: -1
 		else
+			console.log("fuck");
 			Tutorials.find {'publishMode':'publish'},
 				sort:
 					createdAt: -1
 
 	Template.sectiontree.rendered = ->
-		console.log("secitiontreerendred");
-
+		if(!this._rendered)
+			this._rendered = true;
+			#template onload
+		
 	Template.node.helpers
 		xpos: ->
 			if(Meteor.user())
@@ -200,33 +238,17 @@ if Meteor.isClient
 				this.draft_y * GRID_MULTIPLIER
 			else
 				this.y * GRID_MULTIPLIER
-		nodehelper: ->
+		draftMode: ->
 			nodes_dep.depend()
-			console.log this
 			that = this
-
 			if this.draft_y != this.y or this.draft_x != this.x
-				$(".node#" + this._id).addClass("draft-node")
+				return "draft-node"
+#				$(".node#" + this._id).addClass("draft-node")
 
-			jsPlumb.ready ->
 
-				if(Meteor.user())
-					jsPlumb.draggable $(".node"),
-						grid: [ GRID_MULTIPLIER, GRID_MULTIPLIER ]
-						stop: (event, ui) -> # fired when an item is dropped
-							$("body").addClass "draft-mode"
-							Session.set "draft-mode", "True"
-							console.log ui
-							tut = Blaze.getData(ui.helper[0])
-							$(".node#" + tut._id).addClass("draft-node")
-							Tutorials.update tut._id,
-								$set:
-									draft_x: ui.position.left / GRID_MULTIPLIER
-									draft_y: ui.position.top / GRID_MULTIPLIER
-				drawLinks that._id
-
-	Template.body.events "click .edit-button": ->
-		$(event.srcElement.parentElement).children(".edit-form").toggle('slide', { 'direction': 'right'}, 300)
+	Template.body.events "click .button": ->
+		targetForm = $(event.target).closest(".step, .tutorial").find(".edit-form").first()
+			.toggle('slide', { 'direction': 'right'}, 300)
 				
 
 	Template.node.events "click": ->
@@ -278,21 +300,23 @@ if Meteor.isClient
 						createdAt: new Date() # current time
 					nodes_dep.changed
 					
+
+	
 	drawLinks = (from_id) ->
 		_.each Links.find({tutorial1: from_id}).fetch(), (d) ->
 			console.log d
+			"""
 			jsPlumb.connect
 				source: $('#' + d.tutorial1)
 				target: $('#' + d.tutorial2)
 				anchor: [ "Left", "Right" ]
+			"""
 
 
 
 	Template.node.helpers
 		nodeIcon: ->
-			console.log this
 			icon = Icons.findOne({tutorial_id:this._id})
-			console.log icon
 			if(icon)
 				imgurl = '/uploads/' + icon.filename
 			else
@@ -305,21 +329,22 @@ if Meteor.isClient
 
 	Template.node.rendered = ->
 		console.log "node renderd"
-		$('.lazyYT').lazyYT()
-		$( ".sortable" ).sortable
-			handle: ".sorthandle"
-			stop: (event, ui ) ->
-				console.log this
-				console.log $(this).children(".step").each (i) ->
-					console.log $(this).attr("id")
-					Steps.update $(this).attr("id"),
-						$set:  
-							ordinal: i * 10
-							updatedAt: new Date() # current time
-						(error) -> 
-							console.log error
-						
 
+#		drawLinks this.data._id
+
+		if(Meteor.user())
+			$(".node#" + this.data._id).draggable
+				grid: [ GRID_MULTIPLIER, GRID_MULTIPLIER ] 
+				stop: (event, ui) -> # fired when an item is dropped
+					$("body").addClass "draft-mode"
+					Session.set "draft-mode", "True"
+					tut = Blaze.getData(ui.helper[0])
+					$(".node#" + tut._id).addClass("draft-node")
+
+					Tutorials.update tut._id,
+						$set:
+							draft_x: ui.position.left / GRID_MULTIPLIER
+							draft_y: ui.position.top / GRID_MULTIPLIER
 
 	Template.body.helpers
 		allicons: ->
@@ -328,14 +353,6 @@ if Meteor.isClient
 
 
 		
-	Meteor.startup ->
-
-		$(document).ready ->
-			jsPlumb.ready ->
-			
-				endpointOptions = { isSource:true, isTarget:true }; 
-				console.log $(".node")
-
 
 	Accounts.ui.config
 		passwordSignupFields: "USERNAME_ONLY"

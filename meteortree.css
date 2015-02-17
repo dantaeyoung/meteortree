@@ -19,11 +19,8 @@ body.draft-mode .section-tree {
 }
 
 .button {
-	cursor:pointer;
-}
-
-.button {
-	background: #fc0452;
+  cursor:pointer;
+  background: #fc0452;
   color: white;
   padding: 5px 10px 5px 10px;
   text-decoration: none;
@@ -152,9 +149,8 @@ img::selection {
 
 .change-dep {
 	cursor: pointer;
-	width: 20px;
-	height: 20px;
-	background-color: green;
+	color: #fc0452;
+	display: inline-block;
 }
 
 .jqDropZone {
@@ -279,25 +275,30 @@ img::selection {
 }
 
 .new .edit-form { 
-	display: block !important;
+/*	display: block !important; */
 }
 
 .edit-form {
 position: absolute;
-right: 300px;
+	right: 323px;
     border-right: 3px solid #fc0452;
 	display: none;
 	background-color: #FFFAFA;
 	padding: 15px;
+	margin-top: -25px;
 }
 
 .sorthandle {
+	display: inline-block;
 	cursor: move;
 	cursor: -webkit-grab; 
 	cursor: -moz-grab;
+	background: #fc0452;
+	color: white;
+	padding: 5px 10px 5px 10px;
 }
 
-.sorthandle {
+.sorting .sorthandle {
 	cursor: move;
 	cursor: -webkit-grabbing; cursor: -moz-grabbing;
 }

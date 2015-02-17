@@ -130,13 +130,13 @@
 
         if(provider == "youtube") {
           $.getJSON('https://gdata.youtube.com/feeds/api/videos/' + id + '?v=2&alt=json', function (data) {
-              console.log(data);
+//              console.log(data);
               $el.find('#lazyYT-title-' + id).text(data.entry.title.$t);
           });
         }
         if(provider == "vimeo") {
           $.getJSON('http://vimeo.com/api/oembed.json?url=http%3A//vimeo.com/' + id, function (data) {
-              console.log(data);
+//              console.log(data);
               $el.find('#lazyYT-title-' + id).text(data.title);
           });
         }

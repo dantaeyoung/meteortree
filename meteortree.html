@@ -1,7 +1,7 @@
 <head>
   <title>meteortree</title>
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+  <!--	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'> -->
+  <!--	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" /> -->
 <!--	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script> -->
 </head>
@@ -17,8 +17,8 @@
   {{#if currentUser}}
   <div class="admin-buttons">
 {{ allicons }}
-  <form class="new-tutorial">
-    <input type="text" name="title" placeholder="Type to add new tutorials" />
+<form class="new-tutorial">
+	ADD NEW TUTORIAL
     <input type="submit" />
   </form>
 	<div class="discard-draft button">DISCARD DRAFT</div>
@@ -63,24 +63,30 @@
 </template> 
 
 <template name="node">
-{{nodehelper}}
-<div class="node {{publishMode}}" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; " id={{_id}} >
+<div class="node {{publishMode}} {{draftMode}}" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; " id={{_id}} >
 	<div class="icon">{{{ nodeIcon }}}</div>
 	<div class="title">{{ title }}</div>
-	<div class="change-dep"></div>
+	{{#if currentUser}}
+		<div class="change-dep"><i class="fa fa-arrows-h fa-2x"></i></div>
+	{{/if}}
 </div>
 </template>
 
 <template name="step">
 <div class="step {{new}}" id="{{_id}}">
-	<div class="sorthandle"><i class="fa fa-arrows fa-3x"></i></div>
+	{{#if currentUser}}
+	<div class="step-ui-menu">
+		{{#if new}}
+			<div class="new-button button"><i class="fa fa-plus-square fa-2x"></i> STEP</div>
+		{{else}}
+			<div class="sorthandle"><i class="fa fa-arrows fa-2x"></i></div>
+			<div class="edit-button button"><i class="fa fa-pencil-square fa-2x"></i></div>
+		{{/if}}
+	</div>
+	{{/if}}
+
 	<div class="step-inner">
 		{{#if currentUser}}
-		{{#if new}}
-		<div class="new-button button">NEW STEP</div>
-		{{else}}
-		<div class="edit-button button">EDIT STEP</div>
-		{{/if}}
 		<div class="edit-form">
 			<button class="delete">DELETE</button>
 			<form class="update-step">
@@ -104,7 +110,7 @@
 </template>
 
 <template name="tutorial">
-	<div class="tutorial {{ publishMode}}" id="{{ _id }}">
+	<div class="tutorial {{publishMode}}" id="{{ _id }}">
 		<div class="header">
 			<div class="draft-warning">DRAFT</div>
 			<div class="header-inner">
@@ -119,7 +125,7 @@
 			<button class="delete">DELETE</button>
 			<form class="update-tutorial">
 				Publish?
-				<input type="checkbox" name="publishMode" value="publish" {{publishChecked}} ><br>
+				<input type="checkbox" name="publishMode" value="publishMode" {{publishChecked}}><br>
 				UPDATE
 				<input type="text" name="title" placeholder="title" value="{{title}}">
 				<input type="submit" />
