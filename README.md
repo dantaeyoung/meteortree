@@ -2,7 +2,7 @@
 
 Meteor rewrite of Skilltree.
 
-Uses Meteor. Deployed with Dokku-alt.
+Uses Meteor. Deployed with [Dokku](https://github.com/progrium/dokku).
 
 **How to deploy:**
 
