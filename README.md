@@ -34,16 +34,12 @@ Uses Meteor. Deployed with [Dokku](https://github.com/progrium/dokku).
 
 `dokku mongodb:create meteortree meteortree-db`
 
-7) Set ROOT_URL and MONGODB_HOST env variables with (from server):
+7) Set VHOST file (on server):
+
+`echo "DOMAINNAMEOFAPPSERVER.com" > /home/dokku/VHOST`
+
+8) Set ROOT_URL and MONGODB_HOST env variables with (from server):
 
 `dokku config:set meteortree MONGODB_HOST=http://localhost`
 
 `dokku config:set meteortree ROOT_URL=http://meteortree.provolotapp.com`
-
-8) Set VHOST file (on server):
-
-`echo "DOMAINNAMEOFAPPSERVER.com" > /home/dokku/VHOST`
-
-9) Rebuild app (on server) - this may not always be necessary:
-
-`dokku ps:rebuild meteortree`
