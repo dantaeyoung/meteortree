@@ -1,6 +1,6 @@
 # meteortree
 
-Meteor rewrite of Skilltree.
+Meteor rewrite of GSAPP Skilltree.
 
 Uses Meteor. Deployed with [Dokku](https://github.com/progrium/dokku).
 
