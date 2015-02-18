@@ -43,3 +43,5 @@ Uses Meteor. Deployed with [Dokku](https://github.com/progrium/dokku).
 `dokku config:set meteortree MONGODB_HOST=http://localhost`
 
 `dokku config:set meteortree ROOT_URL=http://meteortree.provolotapp.com`
+
+9) Ta-da!
