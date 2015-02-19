@@ -30,7 +30,7 @@ Uses Meteor. Deployed with [Dokku](https://github.com/progrium/dokku).
 
 5) Setup Dokku deployment location into repo (from client) with
 
-`git remote add dokku dokku@DOMAINNAMEOFAPPSERVER.com:APPNAME`
+`git remote add dokku dokku@DOMAINNAMEOFAPPSERVER.com:meteortree` (assuming meteortree is the app name)
 
 6) Deploy dokku (from client) with
 
