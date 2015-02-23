@@ -6,8 +6,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script> -->
 </head>
 
-<body>
-<div class="container">
+<body> 
+<div class="container {{loggedin}}">
 
 
   <div class='section-logo'>
@@ -56,7 +56,7 @@
 </template> 
 
 <template name="node">
-<div class="node {{publishMode}} {{draftMode}}" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; " id={{_id}} >
+<div class="node {{publishMode}} {{draftMode}}" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; " id=node-{{_id}} >
 	<div class="icon">{{{ nodeIcon }}}</div>
 	<div class="title">{{ title }}</div>
 	{{#if currentUser}}
@@ -66,7 +66,7 @@
 </template>
 
 <template name="step">
-<div class="step {{new}}" id="{{_id}}">
+<div class="step {{new}}" id="step-{{_id}}">
 	{{#if currentUser}}
 	<div class="step-ui-menu">
 		{{#if new}}
@@ -103,7 +103,7 @@
 </template>
 
 <template name="tutorial">
-	<div class="tutorial {{publishMode}}" id="{{ _id }}">
+	<div class="tutorial {{publishMode}}" id="tutorial-{{ _id }}">
 		<div class="header">
 			<div class="draft-warning">DRAFT</div>
 			<div class="header-inner">

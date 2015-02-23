@@ -12,6 +12,9 @@ if Meteor.isClient
 	nodes_dep = new Deps.Dependency()
 	steps_dep = new Deps.Dependency()
 	jsPlumb.setContainer($("#jsPlumbContainer"))
+	jsPlumb.Defaults.Connector = [ "Bezier", { curviness: 50 } ]
+	jsPlumb.Defaults.PaintStyle = { strokeStyle:"gray", lineWidth:1 }
+	jsPlumb.Defaults.EndpointStyle = { radius:3, fillStyle:"gray" }
 
 	Template.body.helpers
 		tutorials: ->
@@ -24,21 +27,26 @@ if Meteor.isClient
 					sort:
 						createdAt: -1
 	
-
+		loggedin: ->
+			if(Meteor.user())
+				return "logged-in"
+			else
+				return "not-logged-in"
 
 	Template.body.events
 		"click .save-draft": (event) ->
-			allTuts = Tutorials.find({}).fetch()
-			_.each allTuts, (t) ->
-				console.log t
-				Tutorials.update t._id,
-					$set:
-						x: t.draft_x
-						y: t.draft_y
-			$("body").removeClass "draft-mode"
-			$(".node").removeClass "draft-node"
-			Session.set "draft-mode", "False"
-	
+			if(Meteor.user())
+				allTuts = Tutorials.find({}).fetch()
+				_.each allTuts, (t) ->
+					console.log t
+					Tutorials.update t._id,
+						$set:
+							x: t.draft_x
+							y: t.draft_y
+				$("body").removeClass "draft-mode"
+				$(".node").removeClass "draft-node"
+				Session.set "draft-mode", "False"
+		
 		"click .discard-draft": ->
 			if(Meteor.user())
 				allTuts = Tutorials.find({}).fetch()
@@ -85,7 +93,7 @@ if Meteor.isClient
 			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
 			title = event.target.title.value
 
-			if($(".tutorial#" + tut_id + " input[name='publishMode']").is(":checked"))
+			if($(".tutorial#tutorial-" + tut_id + " input[name='publishMode']").is(":checked"))
 				publishMode = "publish"
 			else
 				publishMode = "draft"
@@ -109,7 +117,6 @@ if Meteor.isClient
 				sort:
 					ordinal: -1
 		nodeIcon: ->
-			console.log this
 			icon = Icons.findOne({_id:this.icon_id})
 			if(icon)
 				imgurl = icon.url()
@@ -173,7 +180,6 @@ if Meteor.isClient
 		
 	Template.step.helpers
 		video_embedded: ->
-			console.log("video-embedded-called")
 			if this.video_url
 				parseUrl = this.video_url.match(/(http|https):\/\/(?:www.)?(?:(vimeo).com\/(.*)|(youtube).com\/watch\?v=(.*?)$)/)
 				if parseUrl
@@ -218,7 +224,6 @@ if Meteor.isClient
 
 	Template.step.rendered = ->
 		button = this.find('.button');
-		console.log(button);
 
 
 
@@ -229,7 +234,6 @@ if Meteor.isClient
 				sort:
 					createdAt: -1
 		else
-			console.log("fuck");
 			Tutorials.find {'publishMode':'publish'},
 				sort:
 					createdAt: -1
@@ -264,8 +268,10 @@ if Meteor.isClient
 				
 
 	Template.node.events "click": ->
+		console.log this
 		$(".tutorial").fadeOut(50);
-		$(".tutorial#" + this._id).fadeIn(50);
+		console.log ".tutorial#tutorial-" + this._id
+		$(".tutorial#tutorial-" + this._id).fadeIn(50);
 
 	Template.node.events "click .change-dep": ->
 		if(Meteor.user())
@@ -294,10 +300,9 @@ if Meteor.isClient
 				if existingLinks.length > 0
 					console.log "removing dep"
 
-
 					conns = jsPlumb.getConnections
-						source:tut1_id
-						target:tut2_id
+						source: "#tutorial-" + tut1_id
+						target: "#tutorial-" + tut2_id
 					_.each conns, (c) ->
 						jsPlumb.detach c
 					
@@ -317,18 +322,14 @@ if Meteor.isClient
 	drawLinks = (from_id) ->
 		_.each Links.find({tutorial1: from_id}).fetch(), (d) ->
 			console.log d
-			"""
 			jsPlumb.connect
-				source: $('#' + d.tutorial1)
-				target: $('#' + d.tutorial2)
-				anchor: [ "Left", "Right" ]
-			"""
-
+				source: $('#node-' + d.tutorial1)
+				target: $('#node-' + d.tutorial2)
+				anchor:[ "Left", "Right" ]
 
 
 	Template.node.helpers
 		nodeIcon: ->
-			console.log this
 			icon = Icons.findOne({_id:this.icon_id})
 			if(icon)
 				imgurl = icon.url()
@@ -341,23 +342,24 @@ if Meteor.isClient
 
 
 	Template.node.rendered = ->
-		console.log "node renderd"
 
-#		drawLinks this.data._id
+		drawLinks this.data._id
 
 		if(Meteor.user())
-			$(".node#" + this.data._id).draggable
+			$(".node#node-" + this.data._id).draggable
 				grid: [ GRID_MULTIPLIER, GRID_MULTIPLIER ] 
 				stop: (event, ui) -> # fired when an item is dropped
 					$("body").addClass "draft-mode"
 					Session.set "draft-mode", "True"
 					tut = Blaze.getData(ui.helper[0])
-					$(".node#" + tut._id).addClass("draft-node")
+					$(".node#node-" + tut._id).addClass("draft-node")
 
 					Tutorials.update tut._id,
 						$set:
 							draft_x: ui.position.left / GRID_MULTIPLIER
 							draft_y: ui.position.top / GRID_MULTIPLIER
+				drag: (event, ui) ->
+					jsPlumb.repaintEverything()
 
 	Template.body.helpers
 		allicons: ->
