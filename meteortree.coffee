@@ -95,15 +95,19 @@ if Meteor.isClient
 
 			window.windowthis = this
 			window.windowevent = event
+			window.windowui = ui
 			tut_id = ui._id
+			console.log tut_id
 
 			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
 			title = event.target.title.value
 
+			console.log $("#tutorial-" + tut_id + " form.update-tutorial :checkbox:checked").length > 0
+
 			console.log $("#tutorial-" + tut_id + " input[name='publishMode']")
 			console.log $("#tutorial-" + tut_id + " input[name='publishMode']").is(":checked")
 
-			if($("#tutorial-" + tut_id + " input[name='publishMode']").is(":checked"))
+			if $("#tutorial-" + tut_id + " form.update-tutorial :checkbox:checked").length > 0
 				publishMode = "publish"
 			else
 				publishMode = "unpublish"
