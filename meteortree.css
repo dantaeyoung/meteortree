@@ -163,7 +163,7 @@ body.draft-mode .logged-in .section-tree {
 }
 
 
-.draft-node {
+.logged-in.draft-node {
 	opacity: 0.5;
 	border: 5px dotted #333;
 }

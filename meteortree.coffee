@@ -11,6 +11,8 @@ if Meteor.isClient
 	
 	window.Courses = Courses
 	window.Weeks = Weeks
+	window.Icons = Icons
+
 	Session.set "dep-mode", "False"
 	nodes_dep = new Deps.Dependency()
 	steps_dep = new Deps.Dependency()
