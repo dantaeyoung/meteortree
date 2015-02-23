@@ -93,6 +93,8 @@ if Meteor.isClient
 		"change .update-tutorial": (event, ui) ->
 			event.preventDefault();
 
+			window.windowthis = this
+			window.windowevent = event
 			tut_id = ui._id
 
 			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
@@ -103,6 +105,8 @@ if Meteor.isClient
 			else
 				publishMode = "unpublish"
 
+
+			console.log publishMode
 
 			Tutorials.update tut_id,
 				$set:  
