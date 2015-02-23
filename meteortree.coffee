@@ -96,8 +96,9 @@ if Meteor.isClient
 			window.windowthis = this
 			window.windowevent = event
 			window.windowui = ui
-			tut_id = ui._id
-			console.log tut_id
+
+			tut_id = this._id
+			tut_id ?= ui._id
 
 			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
 			title = event.target.title.value
