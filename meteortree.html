@@ -48,12 +48,6 @@
 </div>
 </body>
 
-<template name="upload">
-  <form class="update-icon">
-	<input type="file" id="icon">
-    <input type="submit" />
-  </form>
-</template>
 
 <template name="sectiontree">
   {{#each nodes}}
@@ -120,15 +114,12 @@
 		{{#if currentUser}}
 		<div class="edit-button button">EDIT TUTORIAL</div>
 		<div class="edit-form">
-			{{ >upload tutorial_id = _id }}
-			<button class="delete">DELETE</button>
+			<input type="file" class="iconInput" />
 			<form class="update-tutorial">
 				Publish?
 				<input type="checkbox" name="publishMode" value="publishMode" {{publishChecked}}><br>
-				UPDATE
-				<input type="text" name="title" placeholder="title" value="{{title}}">
-				<input type="submit" />
 			</form>
+			<div class="tutorial-delete"><button class="delete">DELETE</button></div>
 		</div>
 		{{/if}}
 		<div class="steps sortable">

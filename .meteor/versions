@@ -6,6 +6,7 @@ application-configuration@1.0.4
 autopublish@1.0.2
 autoupdate@1.1.5
 babrahams:editable-text@0.7.11
+babrahams:transactions@0.6.14
 base64@1.0.2
 binary-heap@1.0.2
 blaze@2.0.4

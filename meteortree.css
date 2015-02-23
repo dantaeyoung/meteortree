@@ -1,3 +1,6 @@
+/* @override 
+	http://localhost:3000/7dbe98865c80f2a7485e46b6dedcadf961d8575d.css */
+
 html, body{
    height: 100%;
    width: 100%;
@@ -108,6 +111,11 @@ img::selection {
 	border: 1px solid black;
 }
 
+.node.draft  {
+  opacity: 0.3;
+  fill: #b2a31f;
+}
+
 .node {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -117,21 +125,24 @@ img::selection {
     user-select: none;
 }
 
+.node .title {
+	text-transform: uppercase;
+	font-weight: bold;
+	letter-spacing: 0.1em;
+	font-size: 0.9em;
+}
+
+.icon {
+	width: 60px;
+	height: 60px;
+}
+
+.icon img {
+	max-width: 100%;
+	max-height: 100%;
+}
 
 
-.tutorials {
-	position: relative;
-	width: 380px;
-}
-.tutorial {
-	position: absolute;
-	top: 0px;
-	margin-left: 0px;
-	margin: 20px;
-	padding: 20px;
-	width: 300px;
-	display: none;
-}
 
 .ui-draggable {
 	cursor: move;
@@ -214,11 +225,12 @@ img::selection {
 	width: 100%;
 
 }
-.section-tutorial .header-inner .title {
+.section-tutorial .header-inner .title,
+.section-tutorial .title input {
 	text-transform: uppercase;
 	font-weight: bold;
 	letter-spacing: 0.1em;
-	font-size: 2em;
+	font-size: 20px;
 }
 
 .section-tutorial .header-edit .label {
@@ -248,6 +260,25 @@ img::selection {
 	color: #bfb029;
 }
 
+.tutorials {
+	position: relative;
+	width: 380px;
+}
+.tutorial {
+	position: absolute;
+	top: 0px;
+	margin-left: 0px;
+	margin: 20px;
+	padding: 20px;
+	width: 300px;
+	display: none;
+}
+
+.tutorial-delete {
+	text-align:right;
+	width: 100%;
+}
+
 .tutorial.draft  {
 	background: url(
 	data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==
@@ -255,10 +286,6 @@ img::selection {
 }
 
 
-.node.draft  {
-  opacity: 0.3;
-  fill: #b2a31f;
-}
 
 /***** TUTORIAL STEP STYLES *****/
 

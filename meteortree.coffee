@@ -76,17 +76,22 @@ if Meteor.isClient
 			# Prevent default form submit
 			return false
 
-		"submit .update-tutorial": ->
+		"change .update-tutorial": (event) ->
 			event.preventDefault();
+
+			tut_id = Blaze.getData(this)._id
+			console.log tut_id
+
 			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
 			title = event.target.title.value
 
-			if($(".tutorial#" + this._id + " input[name='publishMode']").is(":checked"))
+			if($(".tutorial#" + tut_id + " input[name='publishMode']").is(":checked"))
 				publishMode = "publish"
 			else
 				publishMode = "draft"
 
-			Tutorials.upsert this._id,
+
+			Tutorials.update tut_id,
 				$set:  
 					title: title
 					publishMode: publishMode
@@ -104,12 +109,15 @@ if Meteor.isClient
 				sort:
 					ordinal: -1
 		nodeIcon: ->
-			icon = Icons.findOne({tutorial_id:this._id})
+			console.log this
+			icon = Icons.findOne({_id:this.icon_id})
 			if(icon)
-				imgurl = '/uploads/' + icon.filename
+				imgurl = icon.url()
 			else
 				imgurl = DEFAULT_ICON
 			return "<img src='" + imgurl + "'>"
+				
+
 
 		publishMode: ->
 			if this.publishMode == "publish"
@@ -130,35 +138,39 @@ if Meteor.isClient
 			if r == true 
 				Tutorials.remove this._id
 
+		"change .iconInput": (event, target) ->
+			thistut = this._id
+			FS.Utility.eachFile event, (file) ->
+				Icons.insert file, (err, fileObj) ->
+					Tutorials.update thistut,
+						$set:
+							icon_id: fileObj._id
+			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
+
+
+
 	Template.tutorial.rendered = ->	
-		$('.lazyYT').lazyYT()
-		$( ".sortable" ).sortable
-			handle: ".sorthandle"
-			start: (event, ui ) ->
-				$(this).addClass("sorting");
-			stop: (event, ui ) ->
-				$(this).removeClass("sorting");
-				$(this).children(".step").each (i) ->
-					Steps.update $(this).attr("id"),
-						$set:  
-							ordinal: i * 10
-							updatedAt: new Date() # current time
-						(error) -> 
-							console.log error
-						
+		if(!this._rendered)
+			this._rendered = true;
+
+			$('.lazyYT').lazyYT()
+			if(Meteor.user())
+				$( ".sortable" ).sortable
+					handle: ".sorthandle"
+					start: (event, ui ) ->
+						$(this).addClass("sorting");
+					stop: (event, ui ) ->
+						$(this).removeClass("sorting");
+						$(this).children(".step").each (i) ->
+							Steps.update $(this).attr("id"),
+								$set:  
+									ordinal: i * 10
+									updatedAt: new Date() # current time
+								(error) -> 
+									console.log error
+			
+
 		
-
-	Template.upload.events
-		"submit .update-icon": (event, target) ->
-			file = event.target[0].files[0]
-#			if (file)
-#				Icons.insert(file, ction (err, fileObj) {
-
-#			for file in files
-#				console.log file
-			return false
-#				Images.insert(files[i], (err, fileObj) ->
-
 	Template.step.helpers
 		video_embedded: ->
 			console.log("video-embedded-called")
@@ -316,9 +328,10 @@ if Meteor.isClient
 
 	Template.node.helpers
 		nodeIcon: ->
-			icon = Icons.findOne({tutorial_id:this._id})
+			console.log this
+			icon = Icons.findOne({_id:this.icon_id})
 			if(icon)
-				imgurl = '/uploads/' + icon.filename
+				imgurl = icon.url()
 			else
 				imgurl = DEFAULT_ICON
 			return "<img src='" + imgurl + "'>"
