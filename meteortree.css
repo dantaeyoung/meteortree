@@ -1,5 +1,8 @@
 /* @override 
-	http://localhost:3000/7dbe98865c80f2a7485e46b6dedcadf961d8575d.css */
+	http://localhost:3000/7dbe98865c80f2a7485e46b6dedcadf961d8575d.css
+	http://localhost:3000/d721341743a7be0b3d8714577ac0db43731ffe3f.css
+	http://localhost:3000/a3bbc6c832d6b825efe73f139eb77d3cbc47a067.css
+	http://localhost:3000/812d8ca07664b880ca0d3e169faf281d6194be80.css */
 
 html, body{
    height: 100%;
@@ -41,6 +44,24 @@ body.draft-mode .logged-in .section-tree {
 }
 
 
+.button-small {
+  cursor:pointer;
+  padding: 1px 2px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.button-small:hover {
+  color: #fc0452;
+
+/*  background-image: -webkit-linear-gradient(top, #f5c4d4, #e6a6ba);
+  background-image: -moz-linear-gradient(top, #f5c4d4, #e6a6ba);
+  background-image: -ms-linear-gradient(top, #f5c4d4, #e6a6ba);
+  background-image: -o-linear-gradient(top, #f5c4d4, #e6a6ba);
+  background-image: linear-gradient(to bottom, #f5c4d4, #e6a6ba);*/
+  text-decoration: none;
+}
+
 
 .container {
 	position: relative;
@@ -52,7 +73,7 @@ body.draft-mode .logged-in .section-tree {
 }
 
 .not-logged-in .login-link-text {
-	/*display: none;*/
+	display: none;
 }
 
 
@@ -109,23 +130,6 @@ img::selection {
 	height: 100%;
 	overflow-y: scroll;
 	font-size: 0.8em;
-}
-
-.section-courses {
-	position: absolute;
-	width: 1000px;
-	left: 380px;
-	top: 30px;
-	font-size: 0.85em;
-}
-
-.course .week, .course .button .course .title {
-display: inline-block;
-margin-right: 20px;
-}
-
-.weeks {
-	display: inline-block;
 }
 
 .node-image {
@@ -199,7 +203,7 @@ body.draft-mode .logged-in .section-tree {
 	text-align:center;
 }
 
-.node.courseHighlight {
+.node.courseHighlight, .node.weekmodeHighlight {
 	border: 6px solid #fc0452;
 	margin: -6px;
 }
@@ -402,7 +406,7 @@ position: absolute;
 	margin-top: -25px;
 }
 
-.sorthandle {
+.step .sorthandle {
 	display: inline-block;
 	cursor: move;
 	cursor: -webkit-grab; 
@@ -434,11 +438,170 @@ position: absolute;
 	max-width: 100%;
 }
 
+
+/*** COURSES ***/
+
+.week-mode {
+	cursor: cell;
+}
+.week-mode .node {
+	cursor: crosshair;
+}
+
+.section-courses {
+	position: absolute;
+	left: 30px;
+	top: 160px;
+	font-size: 0.85em;
+	width: 100%;
+}
+
+.section-courses .label {
+	margin-bottom: 5px;
+}
+
+.week {
+  cursor: pointer;
+	padding-right: 4px;
+}
+
+.course .weeks, .new-course {
+	/*clear: both;*/
+}
+
+
+.course .course-title {
+	font-weight: bold;
+	margin-right: 10px;
+	float: left;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.delete-course-button {
+}
+
+.course .week {
+	float: left;
+	margin-right: 1px;
+}
+
+.week.weekHighlight  {
+		color: 	#fc0452;
+}
+
+.course.courseHighlight .course-title {	
+		color: 	#fc0452;
+		
+}
+
+.not-logged-in .course .week .title::after {
+}
+
+
+.course .publishMode {
+	cursor: pointer;
+	margin-right: 10px;
+	float: left;
+	font-size: 1.2em;
+}
+
+.course .publishMode .publish {
+	color: 	#fc0452;
+}
+
+.week .sorthandle {
+	float: left;
+	cursor: move;
+	cursor: -webkit-grab; 
+	cursor: -moz-grab;
+	color: black;
+}
+
+.ui-sortable-helper .sorthandle {
+	color: 	#fc0452;
+}
+
+.week i {
+	font-size: 1.5em;
+}
+.week .ui-sortable-helper {
+	display: none;
+
+}
+.week .ui-sortable-placeholder {
+	/*display: none;*/
+	/*height: 10px;*/
+}
+.weeks.sortable.sorting {
+}
+
+.week {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.week .week-title {
+	clear: both;
+	display: block;
+	text-decoration: underline;
+}
+
+.edit-bar div {
+	display: inline-block;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.course {
+	overflow: hidden;
+	clear: both;
+	margin-bottom: 5px;
+}
+.weeks {
+	/*overflow: hidden;*/
+	/*float: left;*/
+}
+
+.weeks .delete, .weeks .edit {
+	display: inline-block;
+}
+
+.weekfrom {
+  color: #fc0452;
+}
+
+
+
 /*** TREE SVG */
 
 ._jsPlumb_connector path {
 	stroke-width: 2px;
 	stroke-dasharray: 4px 2px;
+}
+
+
+.admin-buttons {
+	position:absolute;
+	font-size: 0.5em;
+	bottom: 30px;
+	left: 10px;
+}
+
+
+.login-shortcut {
+	position:absolute;
+	font-size: 0.5em;
+	opacity: 0.3;
+	bottom: 10px;
+	left: 10px;
 }
 
 

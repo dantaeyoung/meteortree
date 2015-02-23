@@ -2,6 +2,7 @@ Tutorials = new Mongo.Collection("tutorials")
 Steps = new Mongo.Collection("steps")
 Links = new Mongo.Collection("deps")
 Courses = new Mongo.Collection("courses")
+Weeks = new Mongo.Collection("weeks")
 Icons = new FS.Collection("icons", {
   stores: [new FS.Store.FileSystem("icons")]
 });
@@ -9,6 +10,7 @@ Icons = new FS.Collection("icons", {
 if Meteor.isClient
 	
 	window.Courses = Courses
+	window.Weeks = Weeks
 	Session.set "dep-mode", "False"
 	nodes_dep = new Deps.Dependency()
 	steps_dep = new Deps.Dependency()
@@ -166,7 +168,7 @@ if Meteor.isClient
 
 			$('.lazyYT').lazyYT()
 			if(Meteor.user())
-				$( ".sortable" ).sortable
+				$( ".steps.sortable" ).sortable
 					handle: ".sorthandle"
 					start: (event, ui ) ->
 						$(this).addClass("sorting");
@@ -261,58 +263,125 @@ if Meteor.isClient
 
 	Template.sectioncourses.events 
 
-		"submit .new-course": ->
+		"submit form.new-course": ->
 			event.preventDefault()
 			Courses.insert
 				title: 'course title'
-				description: 'course description'
 				publishMode: "unpublish"
-				weekData: [{ description: 'class1', nodes: ['ws3EKSbAqjp7vysiX']}]
 				createdAt: new Date() # current time
 				createdById: Meteor.userId()
 				createdByUsername: Meteor.user().username
 				# Clear form
 
 	Template.course.events
-		"click .add-course-button": (event) ->
+		"click .add-week-button": (event) ->
 			event.preventDefault()
 
-			this.weekData.push  {description: 'class2', nodes: ['7mywapdpdxtLC24h4'] }
-			Courses.update this._id,
-				$set:
-					weekData: this.weekData
-			console.log this.weekData
+			Weeks.insert
+				title: "new week"
+				ordinal: 99999
+				nodes: []
+				course_id:  this._id
+				createdAt: new Date() # current time
 
 		"click .delete-course-button": (event) ->
 			r = confirm("Delete this course? This cannot be undone.")
 			if r == true 
 				Courses.remove this._id
 
+		"mouseover .course-title": (event) ->
+			$(".courseHighlight").removeClass("courseHighlight");
+			$("#course-" + this._id).addClass("courseHighlight");
+			_.each $("#course-" + this._id).find(".week"), (d) ->
+				_.each Blaze.getData(d).nodes, (n) ->
+					$("#node-" + n).addClass "courseHighlight" 
+
+		"mouseout .course-title": (event) ->
+			$(".courseHighlight").removeClass("courseHighlight");
+
+
 		"mouseover .week": (event) ->
-			_.each this.nodes, (n) ->
-				$("#node-" + n).addClass "courseHighlight" 
+			$(".weekHighlight").removeClass("weekHighlight");
+			$("#week-" + this._id).addClass("weekHighlight");
+			unless Session.get("week-mode") is "True" 
+				console.log this
+				_.each this.nodes, (n) ->
+					$("#node-" + n).addClass "weekmodeHighlight" 
 
 		"mouseout .week": (event) ->
-			$(".courseHighlight").removeClass "courseHighlight"
+			$(".weekHighlight").removeClass("weekHighlight");
+			unless Session.get("week-mode") is "True" 
+				$(".weekmodeHighlight").removeClass "weekmodeHighlight"
+
+		"click .week": (event) ->
+			if(Meteor.user())
+				if Session.get("week-mode-from") == this._id
+					Session.set "week-mode", "False" 
+					Session.set "week-mode-from", ""
+					$(".weekfrom").removeClass("weekfrom")
+					$("body").removeClass "week-mode"
+				else
+					Session.set "week-mode", "True" 
+					Session.set "week-mode-from", this._id
+
+					$(".weekmodeHighlight").removeClass "weekmodeHighlight"
+					$(".weekfrom").removeClass("weekfrom")
+
+					$("body").addClass "week-mode"
+					$(event.target).addClass("weekfrom")
+
+					_.each this.nodes, (n) ->
+						$("#node-" + n).addClass "weekmodeHighlight" 
+
+		"click .publishMode": (event) ->
+			if this.publishMode == "publish"
+				Courses.update this._id,
+					$set:  
+						publishMode: "unpublish"
+						updatedAt: new Date() # current time
+			else
+				Courses.update this._id,
+					$set:  
+						publishMode: "publish"
+						updatedAt: new Date() # current time
+
+
+
+	Template.week.events
+		"click .week .delete": (event) ->
+			r = confirm("Delete this week? This cannot be undone.")
+			if r == true 
+				Weeks.remove this._id
 
 
 	Template.course.helpers
 		weeks: ->
-			console.log Courses.findOne({_id: this._id}).weekData
-			return Courses.findOne({_id: this._id}).weekData
-			console.log weekdatas
-			return weekdatas
-			return this.weekData
-			s = ""
-			_.each this.weekData, (c) ->
-				s += """
-				<div class='class'>
-					<div class='classname'>#{c.description}</div>
-				</div>
-				"""
-			console.log s
-			console.log this.weekData
-			return s
+			return Weeks.find {course_id: this._id},
+				sort:
+					ordinal: 1
+		publishModeIcon: ->
+			if this.publishMode == "publish"
+				return '<i class="fa fa-eye publish"></i>'
+			else
+				return '<i class="fa fa-eye-slash unpublish"></i>'
+
+
+	Template.course.rendered = ->
+		if(Meteor.user())
+			$( ".weeks.sortable" ).sortable
+				handle: ".sorthandle"
+				start: (event, ui ) ->
+					$(this).addClass("sorting");
+				stop: (event, ui ) ->
+					$(this).removeClass("sorting");
+					$(this).children(".week").each (i, d) ->
+						Weeks.update Blaze.getData(d)._id,
+							$set:  
+								ordinal: i * 10
+								updatedAt: new Date() # current time
+							(error) -> 
+								console.log error
+		
 
 
 		
@@ -341,11 +410,25 @@ if Meteor.isClient
 			.toggle('slide', { 'direction': 'right'}, 300)
 				
 
-	Template.node.events "click": ->
-		console.log this
-		$(".tutorial").fadeOut(50);
-		console.log ".tutorial#tutorial-" + this._id
-		$(".tutorial#tutorial-" + this._id).fadeIn(50);
+	Template.node.events "click": (event) ->
+		tutid = this._id
+		unless Session.get("week-mode") is "True" 
+			console.log this
+			$(".tutorial").fadeOut(50);
+			console.log ".tutorial#tutorial-" + tutid
+			$(".tutorial#tutorial-" + tutid).fadeIn(50);
+		else
+			weekfrom = Session.get("week-mode-from")
+			weeksnodes = Weeks.findOne(_id: weekfrom).nodes
+			if(tutid in weeksnodes)
+				$("#node-" + tutid).removeClass "courseHighlight" 
+				weeksnodes = _.without(weeksnodes, tutid)
+			else 
+				$("#node-" + tutid).addClass "courseHighlight" 
+				weeksnodes.push(tutid)
+			Weeks.update weekfrom,
+				$set:
+					nodes: weeksnodes
 
 	Template.node.events "click .change-dep": ->
 		if(Meteor.user())
@@ -443,11 +526,12 @@ if Meteor.isClient
 					jsPlumb.repaintEverything()
 
 
-
-		
-
 	Accounts.ui.config
 		passwordSignupFields: "USERNAME_ONLY"
+
+	$ ->
+		$(".login-shortcut").click ->
+			$("#login-sign-in-link").click()
 
 
 if Meteor.isServer
