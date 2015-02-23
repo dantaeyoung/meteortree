@@ -100,7 +100,10 @@ if Meteor.isClient
 			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
 			title = event.target.title.value
 
-			if($(".tutorial#tutorial-" + tut_id + " input[name='publishMode']").is(":checked"))
+			console.log $("#tutorial-" + tut_id + " input[name='publishMode']")
+			console.log $("#tutorial-" + tut_id + " input[name='publishMode']").is(":checked")
+
+			if($("#tutorial-" + tut_id + " input[name='publishMode']").is(":checked"))
 				publishMode = "publish"
 			else
 				publishMode = "unpublish"
@@ -418,8 +421,8 @@ if Meteor.isClient
 		unless Session.get("week-mode") is "True" 
 			console.log this
 			$(".tutorial").fadeOut(50);
-			console.log ".tutorial#tutorial-" + tutid
-			$(".tutorial#tutorial-" + tutid).fadeIn(50);
+			console.log "#tutorial-" + tutid
+			$("#tutorial-" + tutid).fadeIn(50);
 		else
 			weekfrom = Session.get("week-mode-from")
 			weeksnodes = Weeks.findOne(_id: weekfrom).nodes
