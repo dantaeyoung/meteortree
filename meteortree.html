@@ -114,7 +114,7 @@
 			<div class="draft-warning">DRAFT</div>
 			<div class="header-inner">
 				<div class="icon">{{{ nodeIcon }}}</div>
-				<div class="title">{{ title }}</div>
+				<div class="title">{{> editableText collection="tutorials" field="title" }}</div>
 			</div>
 		</div>
 		{{#if currentUser}}
