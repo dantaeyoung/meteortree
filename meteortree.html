@@ -54,6 +54,7 @@
 
 
 <template name="sectiontree">
+  <div id="draft-sign">DRAFT</div>
   {{#each nodes}}
 	{{> node}}
   {{/each}}
@@ -85,7 +86,7 @@
 
 <template name="course">
 <div class="course {{publishMode}}" id=course-{{_id}} >
-	<div class="title">{{ title }}</div>
+	<div class="title">{{> editableText collection="courses" field="title" }}</div>
 </div>
 </template>
 
@@ -135,9 +136,9 @@
 			<div class="header-inner">
 				<div class="icon">{{{ nodeIcon }}}</div>
 				<div class="title">{{> editableText collection="tutorials" field="title" }}</div>
-				<div class="description">{{> editableText collection="tutorials" field="description" }}</div>
 			</div>
 		</div>
+		<div class="description">{{> editableText collection="tutorials" field="description" }}</div>
 		{{#if currentUser}}
 		<div class="edit-button button">EDIT TUTORIAL</div>
 		<div class="edit-form">

@@ -61,6 +61,7 @@ if Meteor.isClient
 				$("body").removeClass "draft-mode"
 				$(".node").removeClass "draft-node"
 				Session.set "draft-mode", "False"
+				jsPlumb.repaintEverything()
 
 		
 		"submit .new-tutorial": (event) ->
@@ -69,12 +70,12 @@ if Meteor.isClient
 			# This function is called when the new tutorial form is submitted
 			title = "New Tutorial"
 			description = "New Tutorial Description"
-			x = 15
-			y = 15
+			x = 5
+			y = 5
 			Tutorials.insert
 				title: title
 				description: description
-				publishMode: "draft"
+				publishMode: "unpublish"
 				draft_x: x
 				draft_y: y
 				x: x
@@ -99,7 +100,7 @@ if Meteor.isClient
 			if($(".tutorial#tutorial-" + tut_id + " input[name='publishMode']").is(":checked"))
 				publishMode = "publish"
 			else
-				publishMode = "draft"
+				publishMode = "unpublish"
 
 
 			Tutorials.update tut_id,
@@ -133,7 +134,7 @@ if Meteor.isClient
 			if this.publishMode == "publish"
 				return "publish"
 			else
-				return "draft"
+				return "unpublish"
 
 		publishChecked: ->
 			if this.publishMode == "publish"
@@ -262,7 +263,7 @@ if Meteor.isClient
 		Courses.insert
 			title: 'course title'
 			description: 'course description'
-			publishMode: "draft"
+			publishMode: "unpublish"
 			stepData: []
 			createdAt: new Date() # current time
 			createdById: Meteor.userId()
@@ -285,6 +286,7 @@ if Meteor.isClient
 			nodes_dep.depend()
 			that = this
 			if this.draft_y != this.y or this.draft_x != this.x
+				$("body").addClass "draft-mode"
 				return "draft-node"
 #				$(".node#" + this._id).addClass("draft-node")
 
@@ -352,8 +354,11 @@ if Meteor.isClient
 	
 	drawLinks = (from_id) ->
 
+		tut1PublishMode = Tutorials.findOne({_id: from_id}).publishMode
+
 		_.each Links.find({tutorial1: from_id}).fetch(), (d) ->
-			console.log d
+			tut2PublishMode = Tutorials.findOne({_id: d.tutorial2}).publishMode
+
 			jsPlumb.connect
 				source: $('#node-' + d.tutorial1)
 				target: $('#node-' + d.tutorial2)

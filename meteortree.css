@@ -17,8 +17,9 @@ color: #333;
 body.dep-mode {
 	background-color: pink;
 }
+
 body.draft-mode .logged-in .section-tree {
-	background-color: #ccc;
+	/*background-color: #ccc;*/
 }
 
 .button {
@@ -39,9 +40,7 @@ body.draft-mode .logged-in .section-tree {
   text-decoration: none;
 }
 
-.logged-in .draft-node {
-	opacity: 0.3;
-}
+
 
 .container {
 	position: relative;
@@ -112,6 +111,13 @@ img::selection {
 	font-size: 0.8em;
 }
 
+.section-courses {
+	position: absolute;
+	left: 380px;
+	top: 30px;
+	font-size: 0.8em;
+}
+
 
 .node-image {
 	height: 60px;
@@ -119,21 +125,61 @@ img::selection {
 	border: 1px solid black;
 }
 
-.logged-in .node.draft  {
+#draft-sign {
+	display:  none;
+}
+body.draft-mode .logged-in #draft-sign {
+	display: block;
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	font-size: 20em;
+	font-weight: bold;
+	padding: 10px 15px;
+	opacity: 0.1;
+	pointer-events: none;
+	/*content:  "boo";*/
+}
+
+
+
+body.draft-mode .logged-in .section-tree {
+	background: url(
+	data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==
+	   ) repeat #f4e69c;
+}
+
+
+.draft-node {
+	opacity: 0.5;
+	border: 5px dotted #333;
+}
+
+
+.logged-in .node.unpublish  {
   opacity: 0.3;
-  fill: #b2a31f;
+}
+
+.logged-in .node.unpublish::before {
+   content:    "UNPUBLISHED";
+   color:      #fc0452;
+   font-weight: bold;
+   font-size: 0.8em;
+   border-bottom: 2px solid #fc0452;
 }
 
 .node {
-    /*-webkit-touch-callout: none;
+    -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    */
+    
     width: 60px;
+    height: 60px;
     cursor: pointer;
+    z-index: 10;;
 }
 
 .node .title {
@@ -214,7 +260,6 @@ img::selection {
 
 
 
-
 .section-tutorial-inner {
 	pointer-events: all;
 	padding-left: 400px;
@@ -223,7 +268,7 @@ img::selection {
 
 .section-tutorial .header-inner {
 	display: table;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 	width: 100%;
 }
 
@@ -296,13 +341,24 @@ img::selection {
 
 }
 
-.logged-in .tutorial.draft  {
+.logged-in .tutorial.unpublish::before  {
+	content:  "UNPUBLISHED";
+	color:      #fc0452;
+	font-weight: bold;
+	font-size: 1.8em;
+	border-bottom: 2px solid #fc0452;
+	
+}
+.logged-in .tutorial.unpublish  {
 	background: url(
 	data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==
 	   ) repeat #f4e69c;
 }
 
 
+.tutorial .description {
+	margin-bottom: 10px;
+}
 
 /***** TUTORIAL STEP STYLES *****/
 
