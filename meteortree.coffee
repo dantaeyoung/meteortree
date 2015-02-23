@@ -1,6 +1,7 @@
 Tutorials = new Mongo.Collection("tutorials")
 Steps = new Mongo.Collection("steps")
 Links = new Mongo.Collection("deps")
+Courses = new Mongo.Collection("courses")
 Icons = new FS.Collection("icons", {
   stores: [new FS.Store.FileSystem("icons")]
 });
@@ -12,9 +13,10 @@ if Meteor.isClient
 	nodes_dep = new Deps.Dependency()
 	steps_dep = new Deps.Dependency()
 	jsPlumb.setContainer($("#jsPlumbContainer"))
-	jsPlumb.Defaults.Connector = [ "Bezier", { curviness: 50 } ]
+	jsPlumb.Defaults.Connector = [ "Bezier", { curviness: 40 } ]
 	jsPlumb.Defaults.PaintStyle = { strokeStyle:"gray", lineWidth:1 }
 	jsPlumb.Defaults.EndpointStyle = { radius:3, fillStyle:"gray" }
+	jsPlumb.Defaults.Anchor = [ "Left", "Right" ]
 
 	Template.body.helpers
 		tutorials: ->
@@ -62,13 +64,16 @@ if Meteor.isClient
 
 		
 		"submit .new-tutorial": (event) ->
+			event.preventDefault()
 			
 			# This function is called when the new tutorial form is submitted
 			title = "New Tutorial"
+			description = "New Tutorial Description"
 			x = 15
 			y = 15
 			Tutorials.insert
 				title: title
+				description: description
 				publishMode: "draft"
 				draft_x: x
 				draft_y: y
@@ -81,8 +86,6 @@ if Meteor.isClient
 			event.target.title.value = ""
 			nodes_dep.changed
 			
-			# Prevent default form submit
-			return false
 
 		"change .update-tutorial": (event) ->
 			event.preventDefault();
@@ -242,18 +245,42 @@ if Meteor.isClient
 		if(!this._rendered)
 			this._rendered = true;
 			#template onload
+
+
+	Template.sectioncourses.helpers courses: ->
+		if(Meteor.user())
+			Courses.find {},
+				sort:
+					createdAt: -1
+		else
+			Courses.find {'publishMode':'publish'},
+				sort:
+					createdAt: -1
+
+	Template.sectioncourses.events "submit .new-course": ->
+		event.preventDefault()
+		Courses.insert
+			title: 'course title'
+			description: 'course description'
+			publishMode: "draft"
+			stepData: []
+			createdAt: new Date() # current time
+			createdById: Meteor.userId()
+			createdByUsername: Meteor.user().username
+			# Clear form
+	
 		
 	Template.node.helpers
 		xpos: ->
 			if(Meteor.user())
-				this.draft_x * GRID_MULTIPLIER
+				this.draft_x * GRID_MULTIPLIER_X
 			else
-				this.x * GRID_MULTIPLIER
+				this.x * GRID_MULTIPLIER_X
 		ypos: ->
 			if(Meteor.user())
-				this.draft_y * GRID_MULTIPLIER
+				this.draft_y * GRID_MULTIPLIER_Y
 			else
-				this.y * GRID_MULTIPLIER
+				this.y * GRID_MULTIPLIER_Y
 		draftMode: ->
 			nodes_dep.depend()
 			that = this
@@ -275,12 +302,14 @@ if Meteor.isClient
 
 	Template.node.events "click .change-dep": ->
 		if(Meteor.user())
+
+			console.log this
 			unless Session.get("dep-mode") is "True"
 				$("body").addClass "dep-mode"
 				Session.set "dep-mode", "True"
 				Session.set "dep-from", this._id
-				Session.set "mouseX", this.draft_x * GRID_MULTIPLIER
-				Session.set "mouseY", this.draft_y * GRID_MULTIPLIER
+				Session.set "mouseX", this.draft_x * GRID_MULTIPLIER_X
+				Session.set "mouseY", this.draft_y * GRID_MULTIPLIER_Y
 				$(".section-tree").bind "mousemove", (e) ->
 					$(".section-tree").line Session.get('mouseX'),Session.get('mouseY'),e.pageX, e.pageY, {id: 'depline'}
 
@@ -301,13 +330,14 @@ if Meteor.isClient
 					console.log "removing dep"
 
 					conns = jsPlumb.getConnections
-						source: "#tutorial-" + tut1_id
-						target: "#tutorial-" + tut2_id
+						source: $("#node-" + tut1_id)
+						target: $("#node-" + tut2_id)
 					_.each conns, (c) ->
 						jsPlumb.detach c
 					
 					_.each existingLinks, (d) ->
 						Links.remove d._id
+
 
 				else if tut1_id != tut2_id
 					console.log "adding dep " + tut1_id + "-->" + tut2_id
@@ -317,15 +347,16 @@ if Meteor.isClient
 						createdAt: new Date() # current time
 					nodes_dep.changed
 					
+					drawLinks tut1_id
 
 	
 	drawLinks = (from_id) ->
+
 		_.each Links.find({tutorial1: from_id}).fetch(), (d) ->
 			console.log d
 			jsPlumb.connect
 				source: $('#node-' + d.tutorial1)
 				target: $('#node-' + d.tutorial2)
-				anchor:[ "Left", "Right" ]
 
 
 	Template.node.helpers
@@ -347,7 +378,7 @@ if Meteor.isClient
 
 		if(Meteor.user())
 			$(".node#node-" + this.data._id).draggable
-				grid: [ GRID_MULTIPLIER, GRID_MULTIPLIER ] 
+				grid: [ GRID_MULTIPLIER_X, GRID_MULTIPLIER_Y ] 
 				stop: (event, ui) -> # fired when an item is dropped
 					$("body").addClass "draft-mode"
 					Session.set "draft-mode", "True"
@@ -356,14 +387,10 @@ if Meteor.isClient
 
 					Tutorials.update tut._id,
 						$set:
-							draft_x: ui.position.left / GRID_MULTIPLIER
-							draft_y: ui.position.top / GRID_MULTIPLIER
+							draft_x: ui.position.left / GRID_MULTIPLIER_X
+							draft_y: ui.position.top / GRID_MULTIPLIER_Y
 				drag: (event, ui) ->
 					jsPlumb.repaintEverything()
-
-	Template.body.helpers
-		allicons: ->
-			return _.map(Icons.find({}).fetch(), (i) -> return i.filename;)
 
 
 

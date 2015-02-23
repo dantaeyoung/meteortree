@@ -17,7 +17,7 @@ color: #333;
 body.dep-mode {
 	background-color: pink;
 }
-body.draft-mode .section-tree {
+body.draft-mode .logged-in .section-tree {
 	background-color: #ccc;
 }
 
@@ -39,13 +39,21 @@ body.draft-mode .section-tree {
   text-decoration: none;
 }
 
-.draft-node {
+.logged-in .draft-node {
 	opacity: 0.3;
 }
 
 .container {
 	position: relative;
 	height: 100%;
+}
+
+#login-buttons {
+	display: block;
+}
+
+.not-logged-in .login-link-text {
+	/*display: none;*/
 }
 
 
@@ -111,30 +119,35 @@ img::selection {
 	border: 1px solid black;
 }
 
-.node.draft  {
+.logged-in .node.draft  {
   opacity: 0.3;
   fill: #b2a31f;
 }
 
 .node {
-    -webkit-touch-callout: none;
+    /*-webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    */
+    width: 60px;
+    cursor: pointer;
 }
 
 .node .title {
 	text-transform: uppercase;
 	font-weight: bold;
 	letter-spacing: 0.1em;
-	font-size: 0.9em;
+	font-size: 0.85em;
+	text-align:center;
 }
 
 .icon {
 	width: 60px;
 	height: 60px;
+	text-align: center;
 }
 
 .icon img {
@@ -143,6 +156,9 @@ img::selection {
 }
 
 
+.editable-text {
+	cursor:text;
+}
 
 .ui-draggable {
 	cursor: move;
@@ -277,9 +293,10 @@ img::selection {
 .tutorial-delete {
 	text-align:right;
 	width: 100%;
+
 }
 
-.tutorial.draft  {
+.logged-in .tutorial.draft  {
 	background: url(
 	data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==
 	   ) repeat #f4e69c;

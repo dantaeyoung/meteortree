@@ -10,12 +10,11 @@
 <div class="container {{loggedin}}">
 
 
-  <div class='section-logo'>
+<div class='section-logo'>
     <img class='logo' src='/img/site-logo.jpg' />
-{{> loginButtons}}
+	{{> loginButtons}}
   {{#if currentUser}}
   <div class="admin-buttons">
-{{ allicons }}
 <form class="new-tutorial">
 	ADD NEW TUTORIAL
     <input type="submit" />
@@ -24,15 +23,20 @@
 	<div class="save-draft button">SAVE DRAFT</div>
   </div>
   {{/if}}
+</div>
 
-  </div>
-
-	<div class="section-tree">
-		<div class="section-tree-inner">
-			{{> sectiontree }}
-			<div id="jsPlumbContainer"></div>
-		</div>
+<div class="section-courses">
+	<div class="section-courses-inner">
+		{{> sectioncourses }}
 	</div>
+</div>
+
+<div class="section-tree">
+	<div class="section-tree-inner">
+		{{> sectiontree }}
+		<div id="jsPlumbContainer"></div>
+	</div>
+</div>
 
 <div class="section-tutorial">
 	<div class="section-tutorial-inner">
@@ -64,6 +68,28 @@
 	{{/if}}
 </div>
 </template>
+
+<template name="sectioncourses">
+  {{#each courses}}
+	{{> course}}
+  {{/each}}
+
+
+<form class="new-course">
+	ADD NEW COURSE 
+    <input type="submit" />
+  </form>
+
+</template> 
+
+
+<template name="course">
+<div class="course {{publishMode}}" id=course-{{_id}} >
+	<div class="title">{{ title }}</div>
+</div>
+</template>
+
+
 
 <template name="step">
 <div class="step {{new}}" id="step-{{_id}}">
@@ -109,6 +135,7 @@
 			<div class="header-inner">
 				<div class="icon">{{{ nodeIcon }}}</div>
 				<div class="title">{{> editableText collection="tutorials" field="title" }}</div>
+				<div class="description">{{> editableText collection="tutorials" field="description" }}</div>
 			</div>
 		</div>
 		{{#if currentUser}}
