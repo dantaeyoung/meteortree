@@ -90,11 +90,10 @@ if Meteor.isClient
 			nodes_dep.changed
 			
 
-		"change .update-tutorial": (event) ->
+		"change .update-tutorial": (event, ui) ->
 			event.preventDefault();
 
-			console.log this
-			tut_id = Blaze.getData(this)._id
+			tut_id = ui._id
 
 			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
 			title = event.target.title.value
