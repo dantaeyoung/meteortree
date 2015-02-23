@@ -85,11 +85,24 @@
 
 
 <template name="course">
-<div class="course {{publishMode}}" id=course-{{_id}} >
+<div class="course" id=course-{{_id}} >
 	<div class="title">{{> editableText collection="courses" field="title" }}</div>
+	<div class="weeks">
+	{{#each weeks}}
+		{{> week}}
+	{{/each}}
+	</div>
+
+	|
+	<div class="add-course-button button">( + )</div>
+	<div class="delete-course-button button">( - )</div>
 </div>
 </template>
 
+
+<template name="week">
+<div class='week' data-nodes={{nodes}}>{{ description }}</div>
+</template>
 
 
 <template name="step">

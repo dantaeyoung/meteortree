@@ -113,11 +113,20 @@ img::selection {
 
 .section-courses {
 	position: absolute;
+	width: 1000px;
 	left: 380px;
 	top: 30px;
-	font-size: 0.8em;
+	font-size: 0.85em;
 }
 
+.course .week, .course .button .course .title {
+display: inline-block;
+margin-right: 20px;
+}
+
+.weeks {
+	display: inline-block;
+}
 
 .node-image {
 	height: 60px;
@@ -188,6 +197,11 @@ body.draft-mode .logged-in .section-tree {
 	letter-spacing: 0.1em;
 	font-size: 0.85em;
 	text-align:center;
+}
+
+.node.courseHighlight {
+	border: 6px solid #fc0452;
+	margin: -6px;
 }
 
 .icon {

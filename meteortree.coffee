@@ -8,7 +8,7 @@ Icons = new FS.Collection("icons", {
 
 if Meteor.isClient
 	
-	# counter starts at 0
+	window.Courses = Courses
 	Session.set "dep-mode", "False"
 	nodes_dep = new Deps.Dependency()
 	steps_dep = new Deps.Dependency()
@@ -248,28 +248,73 @@ if Meteor.isClient
 			#template onload
 
 
-	Template.sectioncourses.helpers courses: ->
-		if(Meteor.user())
-			Courses.find {},
-				sort:
-					createdAt: -1
-		else
-			Courses.find {'publishMode':'publish'},
-				sort:
-					createdAt: -1
+	Template.sectioncourses.helpers
+		courses: ->
+			if(Meteor.user())
+				Courses.find {},
+					sort:
+						createdAt: -1
+			else
+				Courses.find {'publishMode':'publish'},
+					sort:
+						createdAt: -1
 
-	Template.sectioncourses.events "submit .new-course": ->
-		event.preventDefault()
-		Courses.insert
-			title: 'course title'
-			description: 'course description'
-			publishMode: "unpublish"
-			stepData: []
-			createdAt: new Date() # current time
-			createdById: Meteor.userId()
-			createdByUsername: Meteor.user().username
-			# Clear form
-	
+	Template.sectioncourses.events 
+
+		"submit .new-course": ->
+			event.preventDefault()
+			Courses.insert
+				title: 'course title'
+				description: 'course description'
+				publishMode: "unpublish"
+				weekData: [{ description: 'class1', nodes: ['ws3EKSbAqjp7vysiX']}]
+				createdAt: new Date() # current time
+				createdById: Meteor.userId()
+				createdByUsername: Meteor.user().username
+				# Clear form
+
+	Template.course.events
+		"click .add-course-button": (event) ->
+			event.preventDefault()
+
+			this.weekData.push  {description: 'class2', nodes: ['7mywapdpdxtLC24h4'] }
+			Courses.update this._id,
+				$set:
+					weekData: this.weekData
+			console.log this.weekData
+
+		"click .delete-course-button": (event) ->
+			r = confirm("Delete this course? This cannot be undone.")
+			if r == true 
+				Courses.remove this._id
+
+		"mouseover .week": (event) ->
+			_.each this.nodes, (n) ->
+				$("#node-" + n).addClass "courseHighlight" 
+
+		"mouseout .week": (event) ->
+			$(".courseHighlight").removeClass "courseHighlight"
+
+
+	Template.course.helpers
+		weeks: ->
+			console.log Courses.findOne({_id: this._id}).weekData
+			return Courses.findOne({_id: this._id}).weekData
+			console.log weekdatas
+			return weekdatas
+			return this.weekData
+			s = ""
+			_.each this.weekData, (c) ->
+				s += """
+				<div class='class'>
+					<div class='classname'>#{c.description}</div>
+				</div>
+				"""
+			console.log s
+			console.log this.weekData
+			return s
+
+
 		
 	Template.node.helpers
 		xpos: ->
