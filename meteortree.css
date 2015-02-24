@@ -378,6 +378,10 @@ body.draft-mode .logged-in .section-tree {
 	margin-bottom: 10px;
 }
 
+.update-tutorial {
+	font-size: 2em;
+}
+
 /***** TUTORIAL STEP STYLES *****/
 
 .step-description, .step-description .input {
@@ -397,13 +401,13 @@ body.draft-mode .logged-in .section-tree {
 }
 
 .edit-form {
-position: absolute;
+/*position: absolute;*/
 	right: 323px;
     border-right: 3px solid #fc0452;
-	display: none;
+	/*display: none;*/
 	background-color: #FFFAFA;
 	padding: 15px;
-	margin-top: -25px;
+	/*margin-top: -25px;*/
 }
 
 .step .sorthandle {
