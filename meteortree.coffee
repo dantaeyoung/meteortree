@@ -548,7 +548,6 @@ if Meteor.isClient
 						$set:
 							draft_x: ui.position.left / GRID_MULTIPLIER_X
 							draft_y: ui.position.top / GRID_MULTIPLIER_Y
-				drag: (event, ui) ->
 					jsPlumb.repaintEverything()
 
 
