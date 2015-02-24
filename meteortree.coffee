@@ -560,14 +560,13 @@ if Meteor.isClient
 
 if Meteor.isServer
 	Meteor.startup ->
+
+		"""
 		S3.config = {
 			key: 'AKIAIYQNMKZKLA3Q6WTQ'
 			secret: '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',
 			bucket: 'meteortree'
 		};
-
-
-		"""
 		imageStore = new FS.Store.S3("images", {
 #			region: "us-east-1" #optional in most cases
 			accessKeyId: 'AKIAIYQNMKZKLA3Q6WTQ'
