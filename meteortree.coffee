@@ -25,6 +25,37 @@ if Meteor.isClient
 	jsPlumb.Defaults.EndpointStyle = { radius:3, fillStyle:"gray" }
 	jsPlumb.Defaults.Anchor = [ "Left", "Right" ]
 
+	endDepMode = (end_id) ->
+		$("body").removeClass "dep-mode"
+		$(".section-tree").unbind "mousemove"
+		$("#depline").remove()
+		Session.set "dep-mode", "False"
+		tut1_id = [ end_id, Session.get("dep-from") ].sort()[0]
+		tut2_id = [ end_id, Session.get("dep-from") ].sort()[1]
+		Session.set "dep-from", ""
+		existingLinks = Links.find(
+			tutorial1: tut1_id
+			tutorial2: tut2_id
+		).fetch()
+		
+		if existingLinks.length > 0
+			console.log "removing dep"
+			conns = jsPlumb.getConnections
+				source: $("#node-" + tut1_id)
+				target: $("#node-" + tut2_id)
+			_.each conns, (c) ->
+				jsPlumb.detach c
+			_.each existingLinks, (d) ->
+				Links.remove d._id
+		else if tut1_id != tut2_id
+			console.log "adding dep " + tut1_id + "-->" + tut2_id
+			Links.insert
+				tutorial1: tut1_id
+				tutorial2: tut2_id
+				createdAt: new Date() # current time
+			nodes_dep.changed
+		drawLinks(tut1_id)
+
 	Template.body.helpers
 		tutorials: ->
 			if(Meteor.user())
@@ -423,23 +454,26 @@ if Meteor.isClient
 
 	Template.node.events "click": (event) ->
 		tutid = this._id
-		unless Session.get("week-mode") is "True" 
-			console.log this
-			$(".tutorial").fadeOut(50);
-			console.log "#tutorial-" + tutid
-			$("#tutorial-" + tutid).fadeIn(50);
-		else
-			weekfrom = Session.get("week-mode-from")
-			weeksnodes = Weeks.findOne(_id: weekfrom).nodes
-			if(tutid in weeksnodes)
-				$("#node-" + tutid).removeClass "courseHighlight" 
-				weeksnodes = _.without(weeksnodes, tutid)
-			else 
-				$("#node-" + tutid).addClass "courseHighlight" 
-				weeksnodes.push(tutid)
-			Weeks.update weekfrom,
-				$set:
-					nodes: weeksnodes
+		if Session.get("dep-mode") is "True" 
+			endDepMode(this._id)
+		else 
+			unless Session.get("week-mode") is "True" 
+				console.log this
+				$(".tutorial").fadeOut(50);
+				console.log "#tutorial-" + tutid
+				$("#tutorial-" + tutid).fadeIn(50);
+			else
+				weekfrom = Session.get("week-mode-from")
+				weeksnodes = Weeks.findOne(_id: weekfrom).nodes
+				if(tutid in weeksnodes)
+					$("#node-" + tutid).removeClass "courseHighlight" 
+					weeksnodes = _.without(weeksnodes, tutid)
+				else 
+					$("#node-" + tutid).addClass "courseHighlight" 
+					weeksnodes.push(tutid)
+				Weeks.update weekfrom,
+					$set:
+						nodes: weeksnodes
 
 	Template.node.events "click .change-dep": ->
 		if(Meteor.user())
@@ -453,41 +487,9 @@ if Meteor.isClient
 				Session.set "mouseY", this.draft_y * GRID_MULTIPLIER_Y
 				$(".section-tree").bind "mousemove", (e) ->
 					$(".section-tree").line Session.get('mouseX'),Session.get('mouseY'),e.pageX, e.pageY, {id: 'depline'}
-
 			else
-				$("body").removeClass "dep-mode"
-				$(".section-tree").unbind "mousemove"
-				$("#depline").remove()
-				Session.set "dep-mode", "False"
-				tut1_id = [ this._id, Session.get("dep-from") ].sort()[0]
-				tut2_id = [ this._id, Session.get("dep-from") ].sort()[1]
-				Session.set "dep-from", ""
-				existingLinks = Links.find(
-					tutorial1: tut1_id
-					tutorial2: tut2_id
-				).fetch()
-				
-				if existingLinks.length > 0
-					console.log "removing dep"
-
-					conns = jsPlumb.getConnections
-						source: $("#node-" + tut1_id)
-						target: $("#node-" + tut2_id)
-					_.each conns, (c) ->
-						jsPlumb.detach c
+				endDepMode(this._id)
 					
-					_.each existingLinks, (d) ->
-						Links.remove d._id
-
-
-				else if tut1_id != tut2_id
-					console.log "adding dep " + tut1_id + "-->" + tut2_id
-					Links.insert
-						tutorial1: tut1_id
-						tutorial2: tut2_id
-						createdAt: new Date() # current time
-					nodes_dep.changed
-			
 
 	
 	drawLinks = (from_id) ->
@@ -561,19 +563,4 @@ if Meteor.isClient
 if Meteor.isServer
 	Meteor.startup ->
 
-		"""
-		S3.config = {
-			key: 'AKIAIYQNMKZKLA3Q6WTQ'
-			secret: '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',
-			bucket: 'meteortree'
-		};
-		imageStore = new FS.Store.S3("images", {
-			region: "us-east-1" #optional in most cases
-			accessKeyId: 'AKIAIYQNMKZKLA3Q6WTQ'
-			secretAccessKey: '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'
-			bucket: "meteortree"
-			folder: icons #optional, which folder (key prefix) in the bucket to use 
-		});
-		"""
-
-			
+					
