@@ -9,11 +9,6 @@ Icons = new FS.Collection("icons", {
 
 
 if Meteor.isClient
-	
-	window.Courses = Courses
-	window.Weeks = Weeks
-	window.Icons = Icons
-	window.Tutorials = Tutorials
 
 	Session.set "dep-mode", "False"
 	Session.set "nodes-rendered", 0
