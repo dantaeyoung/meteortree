@@ -15,5 +15,5 @@ fortawesome:fontawesome
 meteorhacks:kadira
 babrahams:editable-text
 babrahams:transactions
-cfs:s3
 cfs:filesystem
+cfs:gridfs

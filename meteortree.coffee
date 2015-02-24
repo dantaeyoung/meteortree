@@ -4,8 +4,9 @@ Links = new Mongo.Collection("deps")
 Courses = new Mongo.Collection("courses")
 Weeks = new Mongo.Collection("weeks")
 Icons = new FS.Collection("icons", {
-  stores: [new FS.Store.FileSystem("icons")]
+  stores: [new FS.Store.GridFS("icons")]
 });
+
 
 if Meteor.isClient
 	
@@ -174,7 +175,6 @@ if Meteor.isClient
 						$set:
 							icon_id: fileObj._id
 			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
-
 
 
 	Template.tutorial.rendered = ->	
@@ -560,4 +560,21 @@ if Meteor.isClient
 
 if Meteor.isServer
 	Meteor.startup ->
-		
+		S3.config = {
+			key: 'AKIAIYQNMKZKLA3Q6WTQ'
+			secret: '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',
+			bucket: 'meteortree'
+		};
+
+
+		"""
+		imageStore = new FS.Store.S3("images", {
+#			region: "us-east-1" #optional in most cases
+			accessKeyId: 'AKIAIYQNMKZKLA3Q6WTQ'
+			secretAccessKey: '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'
+			bucket: "meteortree"
+			folder: icons #optional, which folder (key prefix) in the bucket to use 
+		});
+		"""
+
+			
