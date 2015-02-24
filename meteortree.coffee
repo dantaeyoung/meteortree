@@ -20,7 +20,7 @@ if Meteor.isClient
 	nodes_dep = new Deps.Dependency()
 	steps_dep = new Deps.Dependency()
 	jsPlumb.setContainer($("#jsPlumbContainer"))
-	jsPlumb.Defaults.Connector = [ "Bezier", { curviness: 20 } ]
+	jsPlumb.Defaults.Connector = [ "Bezier", { curviness: 35 } ]
 	jsPlumb.Defaults.PaintStyle = { strokeStyle:"gray", lineWidth:1 }
 	jsPlumb.Defaults.EndpointStyle = { radius:3, fillStyle:"gray" }
 	jsPlumb.Defaults.Anchor = [ "Left", "Right" ]
@@ -486,7 +486,7 @@ if Meteor.isClient
 				Session.set "mouseX", this.draft_x * GRID_MULTIPLIER_X
 				Session.set "mouseY", this.draft_y * GRID_MULTIPLIER_Y
 				$(".section-tree").bind "mousemove", (e) ->
-					$(".section-tree").line Session.get('mouseX'),Session.get('mouseY'),e.pageX, e.pageY, {id: 'depline'}
+					$(".section-tree").line Session.get('mouseX'),Session.get('mouseY'),e.offsetnX, e.offsetY, {id: 'depline'}
 			else
 				endDepMode(this._id)
 					
