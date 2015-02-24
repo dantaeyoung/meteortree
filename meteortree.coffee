@@ -568,7 +568,7 @@ if Meteor.isServer
 			bucket: 'meteortree'
 		};
 		imageStore = new FS.Store.S3("images", {
-#			region: "us-east-1" #optional in most cases
+			region: "us-east-1" #optional in most cases
 			accessKeyId: 'AKIAIYQNMKZKLA3Q6WTQ'
 			secretAccessKey: '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'
 			bucket: "meteortree"
