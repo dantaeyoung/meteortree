@@ -12,8 +12,10 @@ if Meteor.isClient
 	window.Courses = Courses
 	window.Weeks = Weeks
 	window.Icons = Icons
+	window.Tutorials = Tutorials
 
 	Session.set "dep-mode", "False"
+	Session.set "nodes-rendered", 0
 	nodes_dep = new Deps.Dependency()
 	steps_dep = new Deps.Dependency()
 	jsPlumb.setContainer($("#jsPlumbContainer"))
@@ -176,8 +178,8 @@ if Meteor.isClient
 
 
 	Template.tutorial.rendered = ->	
-		if(!this._rendered)
-			this._rendered = true;
+		if(!window.tutrendered)
+			window.tutrendered = true;
 
 			$('.lazyYT').lazyYT()
 			if(Meteor.user())
@@ -260,7 +262,6 @@ if Meteor.isClient
 	Template.sectiontree.rendered = ->
 		if(!this._rendered)
 			this._rendered = true;
-			#template onload
 
 
 	Template.sectioncourses.helpers
@@ -489,8 +490,7 @@ if Meteor.isClient
 						tutorial2: tut2_id
 						createdAt: new Date() # current time
 					nodes_dep.changed
-					
-					drawLinks tut1_id
+			
 
 	
 	drawLinks = (from_id) ->
@@ -520,7 +520,21 @@ if Meteor.isClient
 
 	Template.node.rendered = ->
 
-		drawLinks this.data._id
+		Session.set("nodes-rendered", Session.get("nodes-rendered") + 1)
+
+		if(Meteor.user())
+			tuts = Tutorials.find {},
+				sort:
+					createdAt: -1
+		else
+			tuts = Tutorials.find {'publishMode':'publish'},
+				sort:
+					createdAt: -1
+		tutcount = tuts.count()
+		if(Session.get("nodes-rendered") == tutcount)
+			_.each tuts.fetch(), (t) ->
+				drawLinks t._id
+
 
 		if(Meteor.user())
 			$(".node#node-" + this.data._id).draggable
