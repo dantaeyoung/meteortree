@@ -178,25 +178,22 @@ if Meteor.isClient
 
 
 	Template.tutorial.rendered = ->	
-		if(!window.tutrendered)
-			window.tutrendered = true;
-
-			$('.lazyYT').lazyYT()
-			if(Meteor.user())
-				$( ".steps.sortable" ).sortable
-					handle: ".sorthandle"
-					start: (event, ui ) ->
-						$(this).addClass("sorting");
-					stop: (event, ui ) ->
-						$(this).removeClass("sorting");
-						$(this).children(".step").each (i) ->
-							Steps.update $(this).attr("id"),
-								$set:  
-									ordinal: i * 10
-									updatedAt: new Date() # current time
-								(error) -> 
-									console.log error
-			
+		$('.lazyYT').lazyYT()
+		if(Meteor.user())
+			$( ".steps.sortable" ).sortable
+				handle: ".sorthandle"
+				start: (event, ui ) ->
+					$(this).addClass("sorting");
+				stop: (event, ui ) ->
+					$(this).removeClass("sorting");
+					$(this).children(".step").each (i) ->
+						Steps.update $(this).attr("id"),
+							$set:  
+								ordinal: i * 10
+								updatedAt: new Date() # current time
+							(error) -> 
+								console.log error
+		
 
 		
 	Template.step.helpers
