@@ -20,7 +20,7 @@ if Meteor.isClient
 	nodes_dep = new Deps.Dependency()
 	steps_dep = new Deps.Dependency()
 	jsPlumb.setContainer($("#jsPlumbContainer"))
-	jsPlumb.Defaults.Connector = [ "Bezier", { curviness: 40 } ]
+	jsPlumb.Defaults.Connector = [ "Bezier", { curviness: 20 } ]
 	jsPlumb.Defaults.PaintStyle = { strokeStyle:"gray", lineWidth:1 }
 	jsPlumb.Defaults.EndpointStyle = { radius:3, fillStyle:"gray" }
 	jsPlumb.Defaults.Anchor = [ "Left", "Right" ]
