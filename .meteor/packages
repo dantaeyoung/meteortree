@@ -17,3 +17,4 @@ babrahams:editable-text
 babrahams:transactions
 cfs:filesystem
 cfs:gridfs
+d3js:d3

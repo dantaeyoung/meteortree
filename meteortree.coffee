@@ -10,12 +10,37 @@ Icons = new FS.Collection("icons", {
 
 if Meteor.isClient
 
+	SkillTreeBezier = ->
+		_super =  jsPlumb.Connectors.AbstractConnector.apply(this, arguments);
+
+		this.type = "SkillTreeBezier" 
+		this._compute = (paintInfo) ->
+
+			x1=paintInfo.sx
+			y1=paintInfo.sy
+			x2=paintInfo.tx
+			y2=paintInfo.ty
+
+			#segment to end point
+			_super.addSegment this, "Bezier",
+				x1:x1
+				y1:y1
+				x2:x2
+				y2:y2
+				cp1x: ((x2 + x1) / 2 - (Math.sqrt(y1 + y2) / 2)) 
+				cp1y: y1,
+				cp2x: ((x2 + x1) / 2 + (Math.sqrt(y1 + y2) / 2))
+				cp2y: y2
+	jsPlumbUtil.extend(SkillTreeBezier, jsPlumb.Connectors.AbstractConnector);
+	jsPlumb.registerConnectorType(SkillTreeBezier, "SkillTreeBezier");
+
+
 	Session.set "dep-mode", "False"
 	Session.set "nodes-rendered", 0
 	nodes_dep = new Deps.Dependency()
 	steps_dep = new Deps.Dependency()
 	jsPlumb.setContainer($("#jsPlumbContainer"))
-	jsPlumb.Defaults.Connector = [ "Bezier", { curviness: 35 } ]
+	jsPlumb.Defaults.Connector = [ "SkillTreeBezier", { curviness: 35, cornerRadius: 30 } ]
 	jsPlumb.Defaults.PaintStyle = { strokeStyle:"gray", lineWidth:1 }
 	jsPlumb.Defaults.EndpointStyle = { radius:3, fillStyle:"gray" }
 	jsPlumb.Defaults.Anchor = [ "Left", "Right" ]
@@ -282,10 +307,50 @@ if Meteor.isClient
 				sort:
 					createdAt: -1
 
+
+	bezFromTutorials = (tut1, tut2) ->
+		x1 = tut1.x * GRID_MULTIPLIER_X
+		x2 = tut2.x * GRID_MULTIPLIER_X
+		y1 = tut1.y * GRID_MULTIPLIER_Y
+		y2 = tut2.y * GRID_MULTIPLIER_Y
+
+		return "M" + x1 + "," + y1 + " C" + ((x2 + x1) / 2 - (Math.sqrt(y1 + y2) / 2)) + "," + y1 + " " + ((x2 + x1) / 2 + (Math.sqrt(y1 + y2) / 2)) + "," + y2 + " " + x2 + "," + y2;
+
+	drawLines = ->
+		allLinks = Links.find({}).fetch()
+		console.log allLinks
+		allLines = d3.select("svg#LinkLines").selectAll("path.dependency").data allLinks
+		
+		oldLines = allLines.exit().remove();
+		
+		newLines = allLines.enter().append("path");
+		
+		console.log allLines.enter()
+
+		
+		newLines
+			.attr "class", (d) ->
+				classes	= "dependency source-of-" + d.tutorial1 + " target-of-" + d.tutorial2;
+
+		allLines
+			.attr "d", (d) ->
+				tut1 =  Tutorials.findOne({_id: d.tutorial1})
+				tut2 =  Tutorials.findOne({_id: d.tutorial2})
+				return bezFromTutorials(tut1, tut2)
+		
+
+#				if(d.source.publish == "Draft" or d.target.publish == "Draft") 
+#					classes += " draft";
+#				return classes;
+
+#		allLines.attr("d", bezPath)
+
+
+
+
 	Template.sectiontree.rendered = ->
 		if(!this._rendered)
-			this._rendered = true;
-
+			this._rendered = true
 
 	Template.sectioncourses.helpers
 		courses: ->
@@ -514,6 +579,8 @@ if Meteor.isClient
 
 	Template.node.rendered = ->
 
+		drawLines()
+
 		Session.set("nodes-rendered", Session.get("nodes-rendered") + 1)
 
 		if(Meteor.user())
@@ -546,6 +613,7 @@ if Meteor.isClient
 					jsPlumb.repaintEverything()
 
 
+
 	Accounts.ui.config
 		passwordSignupFields: "USERNAME_ONLY"
 
@@ -556,5 +624,4 @@ if Meteor.isClient
 
 if Meteor.isServer
 	Meteor.startup ->
-
 					
