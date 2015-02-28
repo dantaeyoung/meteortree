@@ -582,5 +582,13 @@ if Meteor.isClient
 
 
 if Meteor.isServer
+
+	Meteor.publish "linksBetween", (tut1, tut2) ->
+		return Links.find(
+			tutorial1: tut1_id
+			tutorial2: tut2_id
+		)
+	
 	Meteor.startup ->
+		
 					
