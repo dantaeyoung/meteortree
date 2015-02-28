@@ -308,46 +308,6 @@ if Meteor.isClient
 					createdAt: -1
 
 
-	bezFromTutorials = (tut1, tut2) ->
-		x1 = tut1.x * GRID_MULTIPLIER_X
-		x2 = tut2.x * GRID_MULTIPLIER_X
-		y1 = tut1.y * GRID_MULTIPLIER_Y
-		y2 = tut2.y * GRID_MULTIPLIER_Y
-
-		return "M" + x1 + "," + y1 + " C" + ((x2 + x1) / 2 - (Math.sqrt(y1 + y2) / 2)) + "," + y1 + " " + ((x2 + x1) / 2 + (Math.sqrt(y1 + y2) / 2)) + "," + y2 + " " + x2 + "," + y2;
-
-	drawLines = ->
-		allLinks = Links.find({}).fetch()
-		console.log allLinks
-		allLines = d3.select("svg#LinkLines").selectAll("path.dependency").data allLinks
-		
-		oldLines = allLines.exit().remove();
-		
-		newLines = allLines.enter().append("path");
-		
-		console.log allLines.enter()
-
-		
-		newLines
-			.attr "class", (d) ->
-				classes	= "dependency source-of-" + d.tutorial1 + " target-of-" + d.tutorial2;
-
-		allLines
-			.attr "d", (d) ->
-				tut1 =  Tutorials.findOne({_id: d.tutorial1})
-				tut2 =  Tutorials.findOne({_id: d.tutorial2})
-				return bezFromTutorials(tut1, tut2)
-		
-
-#				if(d.source.publish == "Draft" or d.target.publish == "Draft") 
-#					classes += " draft";
-#				return classes;
-
-#		allLines.attr("d", bezPath)
-
-
-
-
 	Template.sectiontree.rendered = ->
 		if(!this._rendered)
 			this._rendered = true
@@ -504,7 +464,6 @@ if Meteor.isClient
 			if this.draft_y != this.y or this.draft_x != this.x
 				$("body").addClass "draft-mode"
 				return "draft-node"
-#				$(".node#" + this._id).addClass("draft-node")
 
 
 	Template.body.events "click .button": ->
