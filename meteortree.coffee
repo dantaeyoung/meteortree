@@ -546,8 +546,8 @@ if Meteor.isClient
 
 if Meteor.isServer
 
-	port = process.env.PORT || 8080
-	db = process.env.MONGO_URL 
+	#	port = process.env.PORT || 8080
+	#	db = process.env.MONGO_URL 
 
 
 	Meteor.publish "tutorials", () ->
