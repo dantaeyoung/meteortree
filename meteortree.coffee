@@ -10,6 +10,7 @@ Icons = new FS.Collection("icons", {
 
 if Meteor.isClient
 
+	window.steps = Steps
 	SkillTreeBezier = ->
 		_super =  jsPlumb.Connectors.AbstractConnector.apply(this, arguments);
 
@@ -53,6 +54,7 @@ if Meteor.isClient
 		tut1_id = [ end_id, Session.get("dep-from") ].sort()[0]
 		tut2_id = [ end_id, Session.get("dep-from") ].sort()[1]
 		Session.set "dep-from", ""
+		Meteor.subscribe("links")
 		existingLinks = Links.find(
 			tutorial1: tut1_id
 			tutorial2: tut2_id
@@ -78,14 +80,10 @@ if Meteor.isClient
 
 	Template.body.helpers
 		tutorials: ->
-			if(Meteor.user())
-				Tutorials.find {},
-					sort:
-						createdAt: -1
-			else
-				Tutorials.find  {},
-					sort:
-						createdAt: -1
+			Meteor.subscribe('tutorials');
+			return Tutorials.find {},
+				sort:
+					createdAt: -1
 	
 		loggedin: ->
 			if(Meteor.user())
@@ -98,11 +96,7 @@ if Meteor.isClient
 			if(Meteor.user())
 				allTuts = Tutorials.find({}).fetch()
 				_.each allTuts, (t) ->
-					console.log t
-					Tutorials.update t._id,
-						$set:
-							x: t.draft_x
-							y: t.draft_y
+					Meteor.call("saveTutorialLocation", t, "save")
 				$("body").removeClass "draft-mode"
 				$(".node").removeClass "draft-node"
 				Session.set "draft-mode", "False"
@@ -111,11 +105,7 @@ if Meteor.isClient
 			if(Meteor.user())
 				allTuts = Tutorials.find({}).fetch()
 				_.each allTuts, (t) ->
-					console.log t
-					Tutorials.update t._id,
-						$set:
-							draft_x: t.x
-							draft_y: t.y
+					Meteor.call("saveTutorialLocation", t, "discard")
 				$("body").removeClass "draft-mode"
 				$(".node").removeClass "draft-node"
 				Session.set "draft-mode", "False"
@@ -124,23 +114,8 @@ if Meteor.isClient
 		
 		"submit .new-tutorial": (event) ->
 			event.preventDefault()
-			
-			# This function is called when the new tutorial form is submitted
-			title = "New Tutorial"
-			description = "New Tutorial Description"
-			x = 5
-			y = 5
-			Tutorials.insert
-				title: title
-				description: description
-				publishMode: "unpublish"
-				draft_x: x
-				draft_y: y
-				x: x
-				y: y
-				createdAt: new Date() # current time
-				createdById: Meteor.userId()
-				createdByUsername: Meteor.user().username
+
+			Meteor.call "addTutorial" 
 			# Clear form
 			event.target.title.value = ""
 			nodes_dep.changed
@@ -156,7 +131,7 @@ if Meteor.isClient
 			tut_id = this._id
 			tut_id ?= ui._id
 
-			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
+#			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
 			title = event.target.title.value
 
 			console.log $("#tutorial-" + tut_id + " form.update-tutorial :checkbox:checked").length > 0
@@ -171,25 +146,18 @@ if Meteor.isClient
 
 
 			console.log publishMode
-
-			Tutorials.update tut_id,
-				$set:  
-					title: title
-					publishMode: publishMode
-					updatedAt: new Date() # current time
-					updatedById: Meteor.userId()
-					updatedByUsername: Meteor.user().username
+			Meteor.call("updateTutorial", tut_id, title, publishMode)
 			return false
 
 
 	Template.tutorial.helpers
 		steps: ->
-			Steps.find
-				tutorial_id: this._id
-			,
+#			Meteor.subscribe "steps"
+			Steps.find { tutorial_id: this._id },
 				sort:
-					ordinal: -1
+					ordinal: 1
 		nodeIcon: ->
+			Meteor.subscribe "icons"
 			icon = Icons.findOne({_id:this.icon_id})
 			if(icon)
 				imgurl = icon.url()
@@ -225,10 +193,11 @@ if Meteor.isClient
 					Tutorials.update thistut,
 						$set:
 							icon_id: fileObj._id
-			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
+#			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
 
 
 	Template.tutorial.rendered = ->	
+		console.log("rendered")
 		$('.lazyYT').lazyYT()
 		if(Meteor.user())
 			$( ".steps.sortable" ).sortable
@@ -237,13 +206,8 @@ if Meteor.isClient
 					$(this).addClass("sorting");
 				stop: (event, ui ) ->
 					$(this).removeClass("sorting");
-					$(this).children(".step").each (i) ->
-						Steps.update $(this).attr("id"),
-							$set:  
-								ordinal: i * 10
-								updatedAt: new Date() # current time
-							(error) -> 
-								console.log error
+					$(this).children(".step").each (i, d) ->
+						Meteor.call("updateStep", Blaze.getData(d)._id, i * 10)
 		
 
 		
@@ -273,7 +237,7 @@ if Meteor.isClient
 
 
 	Template.step.events "submit .update-step": ->
-		$(".step").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
+#		$(".step").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
 		description = event.target.description.value
 		video_url = event.target.video_url.value
 		Steps.upsert this._id,
@@ -298,15 +262,10 @@ if Meteor.isClient
 
 
 	Template.sectiontree.helpers nodes: ->
-		if(Meteor.user())
-			Tutorials.find {},
-				sort:
-					createdAt: -1
-		else
-			Tutorials.find {'publishMode':'publish'},
-				sort:
-					createdAt: -1
-
+		Meteor.subscribe("tutorials")
+		return Tutorials.find {},
+			sort:
+				createdAt: -1
 
 	Template.sectiontree.rendered = ->
 		if(!this._rendered)
@@ -314,14 +273,10 @@ if Meteor.isClient
 
 	Template.sectioncourses.helpers
 		courses: ->
-			if(Meteor.user())
-				Courses.find {},
-					sort:
-						createdAt: -1
-			else
-				Courses.find {'publishMode':'publish'},
-					sort:
-						createdAt: -1
+			Meteor.subscribe("courses")
+			return Courses.find {},
+				sort:
+					createdAt: -1
 
 	Template.sectioncourses.events 
 
@@ -418,6 +373,7 @@ if Meteor.isClient
 
 	Template.course.helpers
 		weeks: ->
+			Meteor.subscribe "weeks"
 			return Weeks.find {course_id: this._id},
 				sort:
 					ordinal: 1
@@ -481,6 +437,7 @@ if Meteor.isClient
 				$(".tutorial").fadeOut(50);
 				console.log "#tutorial-" + tutid
 				$("#tutorial-" + tutid).fadeIn(50);
+#				window.location.hash = tutid
 			else
 				weekfrom = Session.get("week-mode-from")
 				weeksnodes = Weeks.findOne(_id: weekfrom).nodes
@@ -512,10 +469,20 @@ if Meteor.isClient
 
 	
 	drawLinks = (from_id) ->
+		Meteor.subscribe "links"
+		Meteor.subscribe "tutorials"
+
+		console.log "drawLinks"
 
 		tut1PublishMode = Tutorials.findOne({_id: from_id}).publishMode
 
+		console.log tut1PublishMode
+
+		console.log Links.find({}).fetch()
+
 		_.each Links.find({tutorial1: from_id}).fetch(), (d) ->
+			console.log "yeah!"
+			console.log d
 			tut2PublishMode = Tutorials.findOne({_id: d.tutorial2}).publishMode
 
 			jsPlumb.connect
@@ -538,18 +505,14 @@ if Meteor.isClient
 
 	Template.node.rendered = ->
 
-		drawLines()
-
 		Session.set("nodes-rendered", Session.get("nodes-rendered") + 1)
 
-		if(Meteor.user())
-			tuts = Tutorials.find {},
-				sort:
-					createdAt: -1
-		else
-			tuts = Tutorials.find {'publishMode':'publish'},
-				sort:
-					createdAt: -1
+		Meteor.subscribe "tutorials"
+		Meteor.subscribe "links"
+
+		tuts = Tutorials.find {},
+			sort:
+				createdAt: -1
 		tutcount = tuts.count()
 		if(Session.get("nodes-rendered") == tutcount)
 			_.each tuts.fetch(), (t) ->
@@ -565,10 +528,8 @@ if Meteor.isClient
 					tut = Blaze.getData(ui.helper[0])
 					$(".node#node-" + tut._id).addClass("draft-node")
 
-					Tutorials.update tut._id,
-						$set:
-							draft_x: ui.position.left / GRID_MULTIPLIER_X
-							draft_y: ui.position.top / GRID_MULTIPLIER_Y
+					Meteor.call("moveTutorial", tut, ui.position.left / GRID_MULTIPLIER_X, ui.position.top / GRID_MULTIPLIER_Y)
+
 					jsPlumb.repaintEverything()
 
 
@@ -581,14 +542,96 @@ if Meteor.isClient
 			$("#login-sign-in-link").click()
 
 
+
 if Meteor.isServer
 
-	Meteor.publish "linksBetween", (tut1, tut2) ->
-		return Links.find(
-			tutorial1: tut1_id
-			tutorial2: tut2_id
-		)
-	
-	Meteor.startup ->
-		
-					
+	Meteor.publish "tutorials", () ->
+		if(this.userId)
+			return Tutorials.find {}
+		else
+			return Tutorials.find {'publishMode':'publish'}
+
+	Meteor.publish "icons", () ->
+		return Icons.find {}
+
+	Meteor.publish "links", () ->
+		return Links.find {} 
+
+#	Meteor.publish "steps", () ->
+#		return Steps.find {}
+
+	Meteor.publish "courses", () ->
+		if(this.userId)
+			return Courses.find {}
+		else
+			return Courses.find {'publishMode':'publish'}
+
+	Meteor.publish "weeks", () ->
+		return Courses.find {}
+
+Meteor.methods
+	addTutorial: () ->
+		# Make sure the user is logged in before inserting a task
+		if !Meteor.userId()
+			throw new (Meteor.Error)('not-authorized')
+			# This function is called when the new tutorial form is submitted
+
+		title = "New Tutorial"
+		description = "New Tutorial Description"
+		x = 5
+		y = 5
+		Tutorials.insert
+			title: title
+			description: description
+			publishMode: "unpublish"
+			draft_x: x
+			draft_y: y
+			x: x
+			y: y
+			createdAt: new Date() # current time
+			createdById: Meteor.userId()
+			createdByUsername: Meteor.user().username
+		return
+
+	saveTutorialLocation: (t, action) ->
+		if !Meteor.userId()
+			throw new (Meteor.Error)('not-authorized')
+			# This function is called when the new tutorial form is submitted
+		if action == "save"
+			Tutorials.update t._id,
+				$set:
+					x: t.draft_x
+					y: t.draft_y
+		else
+			Tutorials.update t._id,
+				$set:
+					draft_x: t.x
+					draft_y: t.y
+
+	updateTutorial: (tut_id, title, publishMode) ->
+		if !Meteor.userId()
+			throw new (Meteor.Error)('not-authorized')
+		Tutorials.update tut_id,
+			$set:  
+				title: title
+				publishMode: publishMode
+				updatedAt: new Date() # current time
+				updatedById: Meteor.userId()
+				updatedByUsername: Meteor.user().username
+
+	moveTutorial: (tut, draft_x, draft_y) ->
+		if !Meteor.userId()
+			throw new (Meteor.Error)('not-authorized')
+		Tutorials.update tut._id,
+			$set:
+				draft_x: draft_x
+				draft_y: draft_y
+
+	updateStep: (step_id, ordinal) ->
+		if !Meteor.userId()
+			throw new (Meteor.Error)('not-authorized')
+		Steps.update step_id,
+			$set:  
+				ordinal: ordinal
+				updatedAt: new Date() # current time
+
