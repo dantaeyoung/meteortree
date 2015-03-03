@@ -612,4 +612,11 @@ body.draft-mode .logged-in .section-tree {
 	left: 10px;
 }
 
+#login-dropdown-list {
+	position: fixed;
+	top: 20px;
+	left: 20px;
+}
+
+
 

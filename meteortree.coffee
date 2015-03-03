@@ -7,6 +7,8 @@ Icons = new FS.Collection("icons", {
   stores: [new FS.Store.GridFS("icons")]
 });
 
+Accounts.config({forbidClientAccountCreation: true})
+
 
 if Meteor.isClient
 
