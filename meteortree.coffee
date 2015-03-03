@@ -9,7 +9,6 @@ Icons = new FS.Collection("icons", {
 
 Accounts.config({forbidClientAccountCreation: true})
 
-
 if Meteor.isClient
 
 	window.steps = Steps
