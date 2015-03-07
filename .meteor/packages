@@ -19,3 +19,4 @@ d3js:d3
 meteorhacks:kadira-profiler
 autopublish
 insecure
+cfs:s3

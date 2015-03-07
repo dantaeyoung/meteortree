@@ -3,8 +3,18 @@ Steps = new Mongo.Collection("steps")
 Links = new Mongo.Collection("deps")
 Courses = new Mongo.Collection("courses")
 Weeks = new Mongo.Collection("weeks")
-Icons = new FS.Collection("icons", {
-  stores: [new FS.Store.GridFS("icons")]
+
+imageStore = new FS.Store.S3("images", {
+	accessKeyId: "AKIAIKNNAPERKQ5UIKDQ",
+	# WHAT WHY IS THIS PUBLIC
+	# I'll DEAL WITH MAKING THIS SECURE LATER
+	secretAccessKey: "XaBS40xMpc8EqOotZ2zTJEC8HMMLEKYBiDCUbVav",
+	bucket: "meteortree", #required
+	folder: "icons", #optional, which folder (key prefix) in the bucket to use 
+});
+
+Icons = new FS.Collection("images", {
+  stores: [imageStore]
 });
 
 Accounts.config({forbidClientAccountCreation: true})
