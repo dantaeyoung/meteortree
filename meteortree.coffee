@@ -142,8 +142,7 @@ if Meteor.isClient
 			tut_id = this._id
 			tut_id ?= ui._id
 
-#			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
-			title = event.target.title.value
+			title = ui.title
 
 			console.log $("#tutorial-" + tut_id + " form.update-tutorial :checkbox:checked").length > 0
 
@@ -189,6 +188,9 @@ if Meteor.isClient
 				return "checked"
 			else
 				return ""
+		title: ->
+			return "booyeah"
+
 
 
 	Template.tutorial.events
@@ -432,7 +434,6 @@ if Meteor.isClient
 				$("body").addClass "draft-mode"
 				return "draft-node"
 
-
 	Template.body.events "click .button": ->
 		targetForm = $(event.target).closest(".step, .tutorial").find(".edit-form").first()
 			.toggle('slide', { 'direction': 'right'}, 300)
@@ -559,7 +560,6 @@ if Meteor.isServer
 	#	port = process.env.PORT || 8080
 	#	db = process.env.MONGO_URL 
 
-
 	Meteor.publish "tutorials", () ->
 		if(this.userId)
 			return Tutorials.find {}
@@ -622,6 +622,16 @@ Meteor.methods
 				$set:
 					draft_x: t.x
 					draft_y: t.y
+
+	publishTutorial: (tut_id, doPublish) ->
+		if doPublish == true
+			Tutorials.update tut_id,
+				$set:  
+					publishMode: "publish"
+		else
+			Tutorials.update tut_id,
+				$set:  
+					publishMode: "unpublish"
 
 	updateTutorial: (tut_id, title, publishMode) ->
 		if !Meteor.userId()
