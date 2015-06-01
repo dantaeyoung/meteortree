@@ -1,8 +1,3 @@
-/* @override 
-	http://localhost:3000/7dbe98865c80f2a7485e46b6dedcadf961d8575d.css
-	http://localhost:3000/d721341743a7be0b3d8714577ac0db43731ffe3f.css
-	http://localhost:3000/a3bbc6c832d6b825efe73f139eb77d3cbc47a067.css
-	http://localhost:3000/812d8ca07664b880ca0d3e169faf281d6194be80.css */
 
 html, body{
    height: 100%;
@@ -157,9 +152,7 @@ body.draft-mode .logged-in #draft-sign {
 
 
 body.draft-mode .logged-in .section-tree {
-	background: url(
-	data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==
-	   ) repeat #f4e69c;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==) repeat #f4e69c;
 }
 
 
@@ -174,11 +167,13 @@ body.draft-mode .logged-in .section-tree {
 }
 
 .logged-in .node.unpublish::before {
-   content:    "UNPUBLISHED";
+   content:    "UNPUB";
    color:      #fc0452;
    font-weight: bold;
-   font-size: 0.8em;
+   font-size: 0.6em;
    border-bottom: 2px solid #fc0452;
+   margin-left: 65px;
+   margin-bottom: -65px;
 }
 
 .node {
@@ -368,9 +363,7 @@ body.draft-mode .logged-in .section-tree {
 	
 }
 .logged-in .tutorial.unpublish  {
-	background: url(
-	data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==
-	   ) repeat #f4e69c;
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==) repeat #f4e69c;
 }
 
 

@@ -593,12 +593,12 @@ Meteor.methods
 
 		title = "New Tutorial"
 		description = "New Tutorial Description"
-		x = 5
-		y = 5
+		x = 30 
+		y = 25
 		Tutorials.insert
 			title: title
 			description: description
-			publishMode: "unpublish"
+			publishMode: "publish"
 			draft_x: x
 			draft_y: y
 			x: x
