@@ -1,0 +1,6 @@
+{
+  "awsBucket": "bucketname",
+  "awsAccessKeyId": "ABCDEFGH",
+  "awsSecretKey": "IJKLMNOPQRS123"
+}
+
