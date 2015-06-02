@@ -1,0 +1,6 @@
+MONGO_URL=mongodb://username:password@host:port/db \
+MONGO_OPLOG_URL=mongodb://username-oplog:password@host:port/db \
+awsSecretKey=SECRETKEYSECRETKEY \
+awsAccessKeyId=ACCESSKEYACCESSKEY \
+meteor run
+

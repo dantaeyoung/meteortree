@@ -5,10 +5,8 @@ Courses = new Mongo.Collection("courses")
 Weeks = new Mongo.Collection("weeks")
 
 imageStore = new FS.Store.S3("images", {
-	accessKeyId: Meteor.settings.awsAccessKeyId,
-	secretAccessKey: Meteor.settings.awsSecretKey,
-	bucket: Meteor.settings.awsBucket,
-	folder: "icons", #optional, which folder (key prefix) in the bucket to use 
+	bucket: "meteortree"
+	folder: "icons"
 });
 
 Icons = new FS.Collection("images", {
