@@ -166,6 +166,7 @@ if Meteor.isClient
 			Meteor.subscribe "icons"
 			icon = Icons.findOne({_id:this.icon_id})
 			if(icon)
+				console.log icon
 				imgurl = icon.url()
 			else
 				imgurl = DEFAULT_ICON
@@ -184,8 +185,6 @@ if Meteor.isClient
 				return "checked"
 			else
 				return ""
-		title: ->
-			return "booyeah"
 
 
 
@@ -480,17 +479,9 @@ if Meteor.isClient
 		Meteor.subscribe "links"
 		Meteor.subscribe "tutorials"
 
-		console.log "drawLinks"
-
 		tut1PublishMode = Tutorials.findOne({_id: from_id}).publishMode
 
-		console.log tut1PublishMode
-
-		console.log Links.find({}).fetch()
-
 		_.each Links.find({tutorial1: from_id}).fetch(), (d) ->
-			console.log "yeah!"
-			console.log d
 			tut2PublishMode = Tutorials.findOne({_id: d.tutorial2}).publishMode
 
 			jsPlumb.connect

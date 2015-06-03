@@ -2,3 +2,4 @@
 .meteor/local
 public/uploads
 mup.json
+run.sh
