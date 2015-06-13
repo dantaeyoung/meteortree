@@ -1,0 +1,72 @@
+<template name="tutorial">
+	<div class="tutorial {{publishMode}}" id="tutorial-{{ _id }}">
+		<div class="header">
+			<div class="draft-warning">DRAFT</div>
+			<div class="header-inner">
+				<div class="icon">{{{ nodeIcon }}}</div>
+				<div class="title editable-text-trigger">{{> editableText collection="tutorials" field="title" }}</div>
+			</div>
+		</div>
+		<div class="description">{{> editableText collection="tutorials" field="description" }}</div>
+		{{#if currentUser}}
+		<div class="edit-button button">EDIT TUTORIAL</div>
+		<div class="edit-form">
+			<input type="file" class="iconInput" />
+			<form class="update-tutorial">
+				Publish?
+				<input type="checkbox" name="publishMode" value="publishMode" {{publishChecked}}><br>
+			</form>
+			<div class="tutorial-delete"><button class="delete">DELETE</button></div>
+		</div>
+		{{/if}}
+		<div class="steps sortable">
+		{{#each steps}}
+			{{> step }}
+		{{/each}}
+		</div>
+		{{> step tutorial_id =  _id  new="new"}}
+		<div class="debug">
+			{{ isPublished }}
+			{{ createdAt }}
+		</div>
+	</div>
+</template>
+
+
+<template name="step">
+<div class="step {{new}}" id="step-{{_id}}">
+	{{#if currentUser}}
+	<div class="step-ui-menu">
+		{{#if new}}
+			<div class="new-button button"><i class="fa fa-plus-square fa-2x"></i> STEP</div>
+		{{else}}
+			<div class="sorthandle"><i class="fa fa-arrows fa-2x"></i></div>
+			<div class="edit-button button"><i class="fa fa-pencil-square fa-2x"></i></div>
+		{{/if}}
+	</div>
+	{{/if}}
+
+	<div class="step-inner">
+		{{#if currentUser}}
+		<div class="edit-form">
+			<button class="delete">DELETE</button>
+			<form class="update-step">
+				Description
+				<input type="text" name="description" placeholder="description" value="{{description}}">
+				Video URL
+				<input type="text" name="video_url" placeholder="video_url" value="{{video_url}}">
+				{{ tutorial_id }}
+				<input type="submit" />
+			</form>
+		</div>
+		{{/if}}
+		<div class="step-description">
+			{{ description }}
+		</div>
+		<div class="step-video">
+			{{{ video_embedded }}}
+		</div>
+	</div>
+</div>
+</template>
+
