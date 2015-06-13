@@ -1,0 +1,61 @@
+<template name="sectioncourses">
+ <div class="courses">
+  {{#each courses}}
+	{{> course}}
+  {{/each}}
+ </div>
+{{#if currentUser}}
+ <div class="new-course">
+	<form class="new-course">
+	ADD NEW COURSE 
+    <input type="submit" />
+  </form>
+ </div>
+ {{/if}}
+</template> 
+
+
+<template name="course">
+<div class="course" id=course-{{_id}} >
+	{{#if currentUser}}
+		<div class="menu">
+			<div class="course-title">{{> editableText collection="courses" field="title" }}</div>
+			<div class="publishMode">{{{publishModeIcon}}} </div>
+			<div class="delete-course-button button-small"><i class="fa fa-trash-o"></i></div>
+		</div>
+		<div class="weeks sortable">
+		{{#each weeks}}
+			{{> week}}
+		{{/each}}
+		</div>
+		|
+		<div class="add-week-button button"><i class="fa fa-plus-square"></i> Add Week</div>
+	{{else}}
+	<div class="course-title">{{title}}: </div>
+	<div class="weeks">
+	{{#each weeks}}
+		{{> week}}
+	{{/each}}
+	</div>
+	{{/if}}
+</div>
+</template>
+
+<template name="week">
+<div class='week' id=week-{{_id}} data-nodes={{nodes}}>
+	{{#if currentUser}}
+		<div class="title-bar">
+			<div class="week-title">{{> editableText collection="weeks" field="title" }}</div>
+		</div>
+		<div class="edit-bar">
+			<div class="sorthandle"><i class="fa fa-arrows"></i></div>
+			<div class="edit button-small"><i class="fa fa-pencil-square"></i></div>
+			<div class="delete button-small"><i class="fa fa-trash-o"></i></div>
+		</div>
+	{{else}}
+		<div class="week-title">{{ title }} </div>
+	{{/if}}
+</div> 
+</template>
+
+
