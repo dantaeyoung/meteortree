@@ -23,5 +23,6 @@ See mup.json.example file and make sure any environment variables (such as Mongo
 From the meteor source folder:
 
 `mupx setup`
+
 `mupx deploy`
 
