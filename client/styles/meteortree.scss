@@ -1,3 +1,4 @@
+/** HTML AND BODY **/ 
 
 html, body{
    height: 100%;
@@ -10,15 +11,23 @@ body {
 font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 color: #333;
 	font-size: 0.8em;
+
+	.dep-mode {
+		background-color: pink;
+	}
+
+	.draft-mode .logged-in .section-tree {
+		/*background-color: #ccc;*/
+	}
+
 }
 
-body.dep-mode {
-	background-color: pink;
+.container {
+	position: relative;
+	height: 100%;
 }
-
-body.draft-mode .logged-in .section-tree {
-	/*background-color: #ccc;*/
-}
+/** GENERAL OBJECT TYPES **/
+/** e.g. links, buttons, etc **/
 
 .button {
   cursor:pointer;
@@ -27,41 +36,37 @@ body.draft-mode .logged-in .section-tree {
   padding: 5px 10px 5px 10px;
   text-decoration: none;
   display: inline-block;
-}
 
-.button:hover {
-  background-image: -webkit-linear-gradient(top, #f5c4d4, #e6a6ba);
-  background-image: -moz-linear-gradient(top, #f5c4d4, #e6a6ba);
-  background-image: -ms-linear-gradient(top, #f5c4d4, #e6a6ba);
-  background-image: -o-linear-gradient(top, #f5c4d4, #e6a6ba);
-  background-image: linear-gradient(to bottom, #f5c4d4, #e6a6ba);
-  text-decoration: none;
-}
+	&:hover {
+	  background-image: -webkit-linear-gradient(top, #f5c4d4, #e6a6ba);
+	  background-image: -moz-linear-gradient(top, #f5c4d4, #e6a6ba);
+	  background-image: -ms-linear-gradient(top, #f5c4d4, #e6a6ba);
+	  background-image: -o-linear-gradient(top, #f5c4d4, #e6a6ba);
+	  background-image: linear-gradient(to bottom, #f5c4d4, #e6a6ba);
+	  text-decoration: none;
+	}
 
+}
 
 .button-small {
   cursor:pointer;
   padding: 1px 2px;
   text-decoration: none;
   display: inline-block;
+
+	 &:hover {
+	  color: #fc0452;
+
+	/*  background-image: -webkit-linear-gradient(top, #f5c4d4, #e6a6ba);
+	  background-image: -moz-linear-gradient(top, #f5c4d4, #e6a6ba);
+	  background-image: -ms-linear-gradient(top, #f5c4d4, #e6a6ba);
+	  background-image: -o-linear-gradient(top, #f5c4d4, #e6a6ba);
+	  background-image: linear-gradient(to bottom, #f5c4d4, #e6a6ba);*/
+	  text-decoration: none;
+	}
+
 }
 
-.button-small:hover {
-  color: #fc0452;
-
-/*  background-image: -webkit-linear-gradient(top, #f5c4d4, #e6a6ba);
-  background-image: -moz-linear-gradient(top, #f5c4d4, #e6a6ba);
-  background-image: -ms-linear-gradient(top, #f5c4d4, #e6a6ba);
-  background-image: -o-linear-gradient(top, #f5c4d4, #e6a6ba);
-  background-image: linear-gradient(to bottom, #f5c4d4, #e6a6ba);*/
-  text-decoration: none;
-}
-
-
-.container {
-	position: relative;
-	height: 100%;
-}
 
 #login-buttons {
 	display: block;
@@ -70,6 +75,7 @@ body.draft-mode .logged-in .section-tree {
 .not-logged-in .login-link-text {
 	display: none;
 }
+
 
 
 
@@ -91,7 +97,7 @@ img::selection {
 ::-webkit-scrollbar-thumb:horizontal { background-color: #fc0452; height:10px !important;}
 ::-webkit-scrollbar { height:10px; width:7px; background-color:#fcfeff; }
 
-/*** **/
+/*** SECTIONS  **/
 
 .section-logo {
 	position: absolute;
@@ -136,6 +142,7 @@ img::selection {
 #draft-sign {
 	display:  none;
 }
+
 body.draft-mode .logged-in #draft-sign {
 	display: block;
 	position: absolute;

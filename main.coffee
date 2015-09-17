@@ -4,7 +4,7 @@ Accounts.config({forbidClientAccountCreation: true})
 if Meteor.isClient
 
 	Template.body.helpers
-		loggedin: ->
+		loginStatus: ->
 			if(Meteor.user())
 				return "logged-in"
 			else
@@ -15,7 +15,10 @@ if Meteor.isClient
 
 	$ ->
 		$(".login-shortcut").click ->
-			$("#login-sign-in-link").click()
+			if(Meteor.user())
+				Meteor.logout()
+			else
+				$("#login-sign-in-link").click()
 
 
 

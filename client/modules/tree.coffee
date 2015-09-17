@@ -68,7 +68,6 @@
 	Session.set "dep-mode", "False"
 	Session.set "nodes-rendered", 0
 	nodes_dep = new Deps.Dependency()
-	steps_dep = new Deps.Dependency()
 
 	endDepMode = (end_id) ->
 		$("body").removeClass "dep-mode"

@@ -1,3 +1,5 @@
+steps_dep = new Deps.Dependency()
+
 Template.body.helpers
 	tutorials: ->
 		Meteor.subscribe('tutorials');
