@@ -7,38 +7,34 @@
 </head>
 
 <body> 
-<div class="container {{loginStatus}}">
+<div id="container {{loginStatus}}">
 
 
-<div class='section-logo'>
+<div id='section-logo'>
     <img class='logo' src='/img/site-logo.jpg' />
 </div>
 
-<div class="section-courses">
+<div id="section-courses">
 	<div class="label">Courses</div>
-	<div class="section-courses-inner">
-		{{> sectioncourses }}
-	</div>
+	{{> sectioncourses }}
 </div>
 
-<div class="section-tree">
-	<div class="section-tree-inner">
+<div id="section-tree">
+	<div id="tree-graph">
 		{{> sectiontree }}
-		<div id="jsPlumbContainer"></div>
+	</div>
+	<div id="jsPlumbContainer"></div>
+</div>
+
+<div id="section-tutorial">
+	<div class="tutorials">
+	  {{#each tutorials}}
+		{{> tutorial}}
+	  {{/each}}
 	</div>
 </div>
 
-<div class="section-tutorial">
-	<div class="section-tutorial-inner">
-		<div class="tutorials">
-		  {{#each tutorials}}
-			{{> tutorial}}
-		  {{/each}}
-		</div>
-	</div>
-</div>
-
-<div class="login-shortcut"><a href="#">
+<div id="login-shortcut"><a href="#">
 	{{#if currentUser}}
 		logout
 	{{else}}
