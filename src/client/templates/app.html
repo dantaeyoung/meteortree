@@ -7,7 +7,7 @@
 </head>
 
 <body> 
-<div class="container {{loggedin}}">
+<div class="container {{loginStatus}}">
 
 
 <div class='section-logo'>
@@ -38,7 +38,13 @@
 	</div>
 </div>
 
-<div class="login-shortcut">login</div>
+<div class="login-shortcut"><a href="#">
+	{{#if currentUser}}
+		logout
+	{{else}}
+		login
+	{{/if}}
+</a></div>
 
 	{{> loginButtons}}
   {{#if currentUser}}
