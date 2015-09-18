@@ -231,3 +231,5 @@
 	Template.tree.rendered = ->
 		if(!this._rendered)
 			this._rendered = true
+			$('#column-navtree').dragScroll({});
+
