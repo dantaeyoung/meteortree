@@ -16,10 +16,7 @@
 				</div>
 
 				<div id="section-tree">
-					<div id="tree-graph">
-						{{> sectiontree }}
-					</div>
-					<div id="jsPlumbContainer"></div>
+					{{> tree }}
 				</div>
 
 				<div id="login-shortcut"><a href="#">
@@ -32,7 +29,7 @@
 
 				{{> loginButtons}}
 
-				<div class="admin-buttons">
+				<div id="admin-buttons">
 					{{#if currentUser}}
 					<form class="new-tutorial">
 						ADD NEW TUTORIAL
