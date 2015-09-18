@@ -3,6 +3,7 @@
 #########
 #
 #
+
 	Template.body.events
 		"click .save-draft": (event) ->
 			if(Meteor.user())
@@ -57,7 +58,6 @@
 	jsPlumbUtil.extend(SkillTreeBezier, jsPlumb.Connectors.AbstractConnector);
 	jsPlumb.registerConnectorType(SkillTreeBezier, "SkillTreeBezier");
 
-	jsPlumb.setContainer($("#jsPlumbContainer"))
 	jsPlumb.Defaults.Connector = [ "SkillTreeBezier", { curviness: 35, cornerRadius: 30 } ]
 	jsPlumb.Defaults.PaintStyle = { strokeStyle:"gray", lineWidth:1 }
 	jsPlumb.Defaults.EndpointStyle = { radius:3, fillStyle:"gray" }
@@ -71,7 +71,7 @@
 
 	endDepMode = (end_id) ->
 		$("body").removeClass "dep-mode"
-		$(".section-tree").unbind "mousemove"
+		$("#section-tree").unbind "mousemove"
 		$("#depline").remove()
 		Session.set "dep-mode", "False"
 		tut1_id = [ end_id, Session.get("dep-from") ].sort()[0]
@@ -169,8 +169,8 @@
 				Session.set "dep-from", this._id
 				Session.set "mouseX", this.draft_x * GRID_MULTIPLIER_X
 				Session.set "mouseY", this.draft_y * GRID_MULTIPLIER_Y
-				$(".section-tree").bind "mousemove", (e) ->
-					$(".section-tree").line Session.get('mouseX'),Session.get('mouseY'),e.offsetnX, e.offsetY, {id: 'depline'}
+				$("#section-tree").bind "mousemove", (e) ->
+					$("#section-tree").line Session.get('mouseX'),Session.get('mouseY'),e.offsetnX, e.offsetY, {id: 'depline'}
 			else
 				endDepMode(this._id)
 
@@ -215,18 +215,19 @@
 		_.each Links.find({tutorial1: from_id}).fetch(), (d) ->
 			tut2PublishMode = Tutorials.findOne({_id: d.tutorial2}).publishMode
 
+			jsPlumb.setContainer("tree-links")
 			jsPlumb.connect
 				source: $('#node-' + d.tutorial1)
 				target: $('#node-' + d.tutorial2)
 
 
 
-	Template.sectiontree.helpers nodes: ->
+	Template.tree.helpers nodes: ->
 		Meteor.subscribe("tutorials")
 		return Tutorials.find {},
 			sort:
 				createdAt: -1
 
-	Template.sectiontree.rendered = ->
+	Template.tree.rendered = ->
 		if(!this._rendered)
 			this._rendered = true

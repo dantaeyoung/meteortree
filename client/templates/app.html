@@ -1,64 +1,61 @@
 <head>
 	<title>GSAPP METEORTREE</title>
-  <!--	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'> -->
-  <!--	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" /> -->
-<!--	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 
+	<!--	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css"> -->
+	<!--	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" /> -->
+	<!--	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script> 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script> -->
 </head>
 
 <body> 
-<div class="container {{loginStatus}}">
+	<div id="container" class="{{loginStatus}}"><div id="content">
 
+			<div id="column-navtree">
 
-<div class='section-logo'>
-    <img class='logo' src='/img/site-logo.jpg' />
-</div>
+				<div id="section-logo">
+					<img class="logo" src="/img/site-logo.jpg" />
+				</div>
 
-<div class="section-courses">
-	<div class="label">Courses</div>
-	<div class="section-courses-inner">
-		{{> sectioncourses }}
-	</div>
-</div>
+				<div id="section-tree">
+					{{> tree }}
+				</div>
 
-<div class="section-tree">
-	<div class="section-tree-inner">
-		{{> sectiontree }}
-		<div id="jsPlumbContainer"></div>
-	</div>
-</div>
+				<div id="login-shortcut"><a href="#">
+						{{#if currentUser}}
+						logout
+						{{else}}
+						login
+						{{/if}}
+				</a></div>
 
-<div class="section-tutorial">
-	<div class="section-tutorial-inner">
-		<div class="tutorials">
-		  {{#each tutorials}}
-			{{> tutorial}}
-		  {{/each}}
-		</div>
-	</div>
-</div>
+				{{> loginButtons}}
 
-<div class="login-shortcut"><a href="#">
-	{{#if currentUser}}
-		logout
-	{{else}}
-		login
-	{{/if}}
-</a></div>
+				<div id="admin-buttons">
+					{{#if currentUser}}
+					<form class="new-tutorial">
+						ADD NEW TUTORIAL
+						<input type="submit" />
+					</form>
+					<div class="discard-draft button">DISCARD DRAFT</div>
+					<div class="save-draft button">SAVE DRAFT</div>
+					{{/if}}
+				</div>
 
-	{{> loginButtons}}
-  {{#if currentUser}}
-  <div class="admin-buttons">
-<form class="new-tutorial">
-	ADD NEW TUTORIAL
-    <input type="submit" />
-  </form>
-	<div class="discard-draft button">DISCARD DRAFT</div>
-	<div class="save-draft button">SAVE DRAFT</div>
-  </div>
-  {{/if}}
+				<div id="section-courses">
+					<div class="label">Courses</div>
+					{{> sectioncourses }}
+				</div>
+			</div>
 
-</div>
+			<div id="column-content">
+				<div id="section-tutorial">
+					<div class="tutorials">
+						{{#each tutorials}}
+						{{> tutorial}}
+						{{/each}}
+					</div>
+				</div>
+			</div>
+	</div></div>
 </body>
 
 
