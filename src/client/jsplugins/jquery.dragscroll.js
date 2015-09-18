@@ -24,6 +24,7 @@
 			y = e.pageY;
 			top = $(this).scrollTop();
 			left = $(this).scrollLeft();
+			$('html').css('cursor', 'move');
 		});
 		$($scrollArea).mouseleave(function (e) {
 			down = false;
@@ -34,7 +35,6 @@
 				var newY = e.pageY;
 				$($scrollArea).scrollTop(top - newY + y);
 				$($scrollArea).scrollLeft(left - newX + x);
-				$('html').css('cursor', 'move');
 			}
 		});
 		$("body").mouseup(function (e) { 
