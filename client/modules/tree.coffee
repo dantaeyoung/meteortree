@@ -3,6 +3,7 @@
 ######### 
 #
 #
+
 	Template.body.events
 		"click .save-draft": (event) ->
 			if(Meteor.user())
@@ -57,7 +58,6 @@
 	jsPlumbUtil.extend(SkillTreeBezier, jsPlumb.Connectors.AbstractConnector);
 	jsPlumb.registerConnectorType(SkillTreeBezier, "SkillTreeBezier");
 
-	jsPlumb.setContainer($("#jsPlumbContainer"))
 	jsPlumb.Defaults.Connector = [ "SkillTreeBezier", { curviness: 35, cornerRadius: 30 } ]
 	jsPlumb.Defaults.PaintStyle = { strokeStyle:"gray", lineWidth:1 }
 	jsPlumb.Defaults.EndpointStyle = { radius:3, fillStyle:"gray" }
@@ -210,6 +210,7 @@
 		_.each Links.find({tutorial1: from_id}).fetch(), (d) ->
 			tut2PublishMode = Tutorials.findOne({_id: d.tutorial2}).publishMode
 
+			jsPlumb.setContainer("jsPlumbContainer")
 			jsPlumb.connect
 				source: $('#node-' + d.tutorial1)
 				target: $('#node-' + d.tutorial2)
