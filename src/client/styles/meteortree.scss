@@ -8,8 +8,8 @@ html, body{
 body {
 	margin: 0px;
 	padding: 0px;
-font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-color: #333;
+	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+	color: #333;
 	font-size: 0.8em;
 
 	.dep-mode {
@@ -96,11 +96,33 @@ img::selection {
 
 /*** SECTIONS  **/
 
-.container {
+
+#container {
 	/*position: relative;*/
 	height: 100%;
 	display: flex;
+	flex-direction: row;
+}
 
+#content {
+	flex: 1;
+	display: flex;
+}
+
+#column-navtree, #column-content  {
+	flex: 1;
+	overflow: scroll;
+}
+
+#column-navtree {
+	order: -1;
+	background-color: #EAEAEA;
+	overflow: hidden;
+}
+
+#column-content {
+	z-index: 100;
+	background-color: white;
 }
 
 #section-logo {
@@ -113,26 +135,26 @@ img::selection {
 		width: 120px;
 		height: 120px;
 	}
+}
 
+#section-courses {
+	position: absolute;
+	z-index: 1000;
+	top:  230px;
+	left: 30px;
 }
 
 #section-tree {
-	background-color: #EAEAEA;
 	/*margin-right: 400px;*/
 	/*height: 100%;*/
-	flex: 1 0 200px;
-	overflow-y: scroll;
+	/*overflow-y: scroll;*/
 }
 
 
 #section-tutorial {
 	pointer-events: none;
-	/*position: absolute;*/
-	/*right: 0px;*/
-	/*top: 0px;*/
-	flex: 1 0 200px;
-	/*height: 100%;*/
-	overflow-y: scroll;
+	padding: 20px;
+	/*overflow-y: scroll;*/
 	font-size: 0.8em;
 }
 
