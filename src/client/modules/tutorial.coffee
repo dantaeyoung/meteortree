@@ -39,26 +39,26 @@ Template.body.helpers
 Template.body.events "click .button": ->
 	targetForm = $(event.target).closest(".step, .tutorial").find(".edit-form").first()
 		.toggle('slide', { 'direction': 'right'}, 300)
-			
+
 
 
 Template.tutorial.events
 	"click button.delete": ->
 		r = confirm("Delete this tutorial? This cannot be undone.")
-		if r == true 
+		if r == true
 			Tutorials.remove this._id
 
 	"change .iconInput": (event, target) ->
 		thistut = this._id
 		FS.Utility.eachFile event, (file) ->
-			Icons.insert file, (err, fileObj) ->
+			s3Icons.insert file, (err, fileObj) ->
 				Tutorials.update thistut,
 					$set:
 						icon_id: fileObj._id
 #			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
 
 
-Template.tutorial.rendered = ->	
+Template.tutorial.rendered = ->
 	console.log("rendered")
 	$('.lazyYT').lazyYT()
 	if(Meteor.user())
@@ -81,11 +81,14 @@ Template.tutorial.helpers
 			sort:
 				ordinal: 1
 	nodeIcon: ->
-		Meteor.subscribe "icons"
-		icon = Icons.findOne({_id:this.icon_id})
-		if(icon)
-			console.log icon
-			imgurl = icon.url()
+		icon_id = this.icon_id
+		icon = s3Icons.findOne({ _id: icon_id })
+
+		s3url = (id, name) ->
+			return (BUCKET_URL + 'icons/images/' + id + '-' + name)
+
+		if (icon)
+			imgurl = s3url(icon._id, icon.original.name)
 		else
 			imgurl = DEFAULT_ICON
 		return "<img src='" + imgurl + "'>"
@@ -101,9 +104,9 @@ Template.tutorial.helpers
 			return ""
 
 
-	
 
-	
+
+
 Template.step.helpers
 	video_embedded: ->
 		if this.video_url
@@ -125,7 +128,7 @@ Deps.autorun ->
 Template.step.events
 	"click button.delete": ->
 		r = confirm("Delete this step? This cannot be undone.")
-		if r == true 
+		if r == true
 			Steps.remove this._id
 
 
@@ -134,7 +137,7 @@ Template.step.events "submit .update-step": ->
 	description = event.target.description.value
 	video_url = event.target.video_url.value
 	Steps.upsert this._id,
-		$set:  
+		$set:
 			tutorial_id: this.tutorial_id
 			description: description
 			video_url: video_url
@@ -150,6 +153,3 @@ Template.step.events "submit .update-step": ->
 
 Template.step.rendered = ->
 	button = this.find('.button');
-
-
-

@@ -17,3 +17,11 @@
   stores: [fsiconStore]
 });
 
+@s3Icons = new FS.Collection('images', {
+	stores: [s3imageStore]
+})
+
+s3Icons.allow({
+	"insert": () ->
+		return true
+})
