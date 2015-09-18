@@ -73,6 +73,12 @@ body {
 	display: none;
 }
 
+#admin-buttons {
+	position: fixed;
+	bottom: 20px;
+	left: 20px;
+}
+
 
 
 
@@ -117,7 +123,6 @@ img::selection {
 #column-navtree {
 	order: -1;
 	background-color: #EAEAEA;
-	overflow: hidden;
 }
 
 #column-content {
@@ -206,6 +211,10 @@ body.draft-mode .logged-in #section-tree {
    border-bottom: 2px solid #fc0452;
    margin-left: 65px;
    margin-bottom: -65px;
+}
+
+#section-tree {
+	position: relative;
 }
 
 .node {

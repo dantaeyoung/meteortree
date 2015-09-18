@@ -1,8 +1,11 @@
-<template name="sectiontree">
-  <div id="draft-sign">DRAFT</div>
-  {{#each nodes}}
+<template name="tree">
+<div id="draft-sign">DRAFT</div>
+<div id="tree-nodes">
+	{{#each nodes}}
 	{{> node}}
-  {{/each}}
+	{{/each}}
+</div>
+<div id="tree-links"></div>
 </template> 
 
 <template name="node">
@@ -10,7 +13,7 @@
 	<div class="icon">{{{ nodeIcon }}}</div>
 	<div class="title">{{ title }}</div>
 	{{#if currentUser}}
-		<div class="change-dep"><i class="fa fa-arrows-h fa-2x"></i></div>
+	<div class="change-dep"><i class="fa fa-arrows-h fa-2x"></i></div>
 	{{/if}}
 </div>
 </template>
