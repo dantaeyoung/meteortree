@@ -1,6 +1,6 @@
-######### 
+#########
 # GRAPH #
-######### 
+#########
 #
 #
 	Template.body.events
@@ -12,7 +12,7 @@
 				$("body").removeClass "draft-mode"
 				$(".node").removeClass "draft-node"
 				Session.set "draft-mode", "False"
-		
+
 		"click .discard-draft": ->
 			if(Meteor.user())
 				allTuts = Tutorials.find({}).fetch()
@@ -23,20 +23,20 @@
 				Session.set "draft-mode", "False"
 				jsPlumb.repaintEverything()
 
-		
+
 		"submit .new-tutorial": (event) ->
 			event.preventDefault()
 
-			Meteor.call "addTutorial" 
+			Meteor.call "addTutorial"
 			# Clear form
 			event.target.title.value = ""
 			nodes_dep.changed
-			
+
 
 	SkillTreeBezier = ->
 		_super =  jsPlumb.Connectors.AbstractConnector.apply(this, arguments);
 
-		this.type = "SkillTreeBezier" 
+		this.type = "SkillTreeBezier"
 		this._compute = (paintInfo) ->
 
 			x1=paintInfo.sx
@@ -50,7 +50,7 @@
 				y1:y1
 				x2:x2
 				y2:y2
-				cp1x: ((x2 + x1) / 2 - (Math.sqrt(y1 + y2) / 2)) 
+				cp1x: ((x2 + x1) / 2 - (Math.sqrt(y1 + y2) / 2))
 				cp1y: y1,
 				cp2x: ((x2 + x1) / 2 + (Math.sqrt(y1 + y2) / 2))
 				cp2y: y2
@@ -82,7 +82,7 @@
 			tutorial1: tut1_id
 			tutorial2: tut2_id
 		).fetch()
-		
+
 		if existingLinks.length > 0
 			console.log "removing dep"
 			conns = jsPlumb.getConnections
@@ -121,21 +121,26 @@
 				$("body").addClass "draft-mode"
 				return "draft-node"
 		nodeIcon: ->
-			icon = Icons.findOne({_id:this.icon_id})
-			if(icon)
-				imgurl = icon.url()
+			icon_id = this.icon_id
+			icon = s3Icons.findOne({ _id: icon_id })
+
+			s3url = (id, name) ->
+				return (BUCKET_URL + 'icons/images/' + id + '-' + name)
+
+			if (icon)
+				imgurl = s3url(icon._id, icon.original.name)
 			else
 				imgurl = DEFAULT_ICON
 			return "<img src='" + imgurl + "'>"
-				
 
-				
+
+
 	Template.node.events "click": (event) ->
 		tutid = this._id
-		if Session.get("dep-mode") is "True" 
+		if Session.get("dep-mode") is "True"
 			endDepMode(this._id)
-		else 
-			unless Session.get("week-mode") is "True" 
+		else
+			unless Session.get("week-mode") is "True"
 				console.log this
 				$(".tutorial").fadeOut(50);
 				console.log "#tutorial-" + tutid
@@ -145,10 +150,10 @@
 				weekfrom = Session.get("week-mode-from")
 				weeksnodes = Weeks.findOne(_id: weekfrom).nodes
 				if(tutid in weeksnodes)
-					$("#node-" + tutid).removeClass "courseHighlight" 
+					$("#node-" + tutid).removeClass "courseHighlight"
 					weeksnodes = _.without(weeksnodes, tutid)
-				else 
-					$("#node-" + tutid).addClass "courseHighlight" 
+				else
+					$("#node-" + tutid).addClass "courseHighlight"
 					weeksnodes.push(tutid)
 				Weeks.update weekfrom,
 					$set:
@@ -168,7 +173,7 @@
 					$(".section-tree").line Session.get('mouseX'),Session.get('mouseY'),e.offsetnX, e.offsetY, {id: 'depline'}
 			else
 				endDepMode(this._id)
-				
+
 
 
 	Template.node.rendered = ->
@@ -189,7 +194,7 @@
 
 		if(Meteor.user())
 			$(".node#node-" + this.data._id).draggable
-				grid: [ GRID_MULTIPLIER_X, GRID_MULTIPLIER_Y ] 
+				grid: [ GRID_MULTIPLIER_X, GRID_MULTIPLIER_Y ]
 				stop: (event, ui) -> # fired when an item is dropped
 					$("body").addClass "draft-mode"
 					Session.set "draft-mode", "True"
@@ -200,7 +205,7 @@
 
 					jsPlumb.repaintEverything()
 
-	
+
 	drawLinks = (from_id) ->
 		Meteor.subscribe "links"
 		Meteor.subscribe "tutorials"
@@ -225,5 +230,3 @@
 	Template.sectiontree.rendered = ->
 		if(!this._rendered)
 			this._rendered = true
-
-
