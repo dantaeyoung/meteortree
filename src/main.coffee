@@ -14,13 +14,8 @@ if Meteor.isClient
 		passwordSignupFields: "USERNAME_ONLY"
 
 	$ ->
-		$(".login-shortcut").click ->
+		$("#login-shortcut").click ->
 			if(Meteor.user())
 				Meteor.logout()
 			else
 				$("#login-sign-in-link").click()
-
-
-
-
-

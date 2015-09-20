@@ -9,6 +9,10 @@
 	folder: "icons"
 });
 
+@s3fileStore = new FS.Store.S3('files', {
+	bucket: 'meteortree'
+})
+
 @fsiconStore = new FS.Store.FileSystem("icons", {
 	path: "~/public/icons"
 });
@@ -19,6 +23,10 @@
 
 @s3Icons = new FS.Collection('images', {
 	stores: [s3imageStore]
+})
+
+@s3Files = new FS.Collection('files', {
+	stores: [s3fileStore]
 })
 
 s3Icons.allow({

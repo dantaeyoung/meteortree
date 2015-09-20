@@ -1,4 +1,4 @@
-/** HTML AND BODY **/ 
+/** HTML AND BODY **/
 
 html, body{
    height: 100%;
@@ -93,8 +93,8 @@ img::selection {
 
 ::-moz-selection {
 	background: #fc0452;
-	color: #ffffff; 
-} 
+	color: #ffffff;
+}
 
 ::-webkit-scrollbar-thumb:vertical { background-color: #fc0452; height:200px;}
 ::-webkit-scrollbar-thumb:horizontal { background-color: #fc0452; height:10px !important;}
@@ -157,7 +157,6 @@ img::selection {
 
 
 #section-tutorial {
-	pointer-events: none;
 	padding: 20px;
 	/*overflow-y: scroll;*/
 	font-size: 0.8em;
@@ -224,11 +223,11 @@ body.draft-mode .logged-in #section-tree {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    
+
     width: 60px;
     height: 60px;
     cursor: pointer;
-    z-index: 10;;
+    z-index: 10;
 }
 
 .node .title {
@@ -262,7 +261,7 @@ body.draft-mode .logged-in #section-tree {
 
 .ui-draggable {
 	cursor: move;
-	cursor: -webkit-grab; 
+	cursor: -webkit-grab;
 	cursor: -moz-grab;
 }
 .ui-draggable-dragging {
@@ -370,7 +369,7 @@ body.draft-mode .logged-in #section-tree {
 	appearance:none;
 	display: block !important;
 	font-weight: bold;
-	font-size: 3em; 
+	font-size: 3em;
 	height:100%;
 	margin-bottom: -20px;
 	color: #bfb029;
@@ -399,7 +398,7 @@ body.draft-mode .logged-in #section-tree {
 	font-weight: bold;
 	font-size: 1.8em;
 	border-bottom: 2px solid #fc0452;
-	
+
 }
 .logged-in .tutorial.unpublish  {
 	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==) repeat #f4e69c;
@@ -421,4 +420,3 @@ body.draft-mode .logged-in #section-tree {
 	line-height: 18px !important;
 	letter-spacing: 0px !important;
 }
-
