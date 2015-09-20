@@ -60,10 +60,17 @@ Template.tutorial.events
 	"change .fileInput": (event, target) ->
 		thistut = this.tutorial_id
 		FS.Utility.eachFile event, (file) ->
-			s3Files.insert file, (err, fileObj) ->
-				Tutorials.update thistut,
-					$push:
-						file_ids: fileObj._id
+
+			fileType = file.name.split('.')
+			fileType = fileType[fileType.length - 1]
+
+			if ALLOWED_FILE_TYPES.indexOf(fileType) > -1
+				s3Files.insert file, (err, fileObj) ->
+					Tutorials.update thistut,
+						$push:
+							file_ids: fileObj._id
+			else
+				alert 'Only the following file types:\n-' + ALLOWED_FILE_TYPES.join('\n-') + '\nare allowed.' 
 
 
 Template.tutorial.rendered = ->
@@ -134,7 +141,7 @@ Template.tutorial.helpers
 			)
 			output += '<br>'
 		return output
-		
+
 	publishMode: ->
 		if this.publishMode == "publish"
 			return "publish"
