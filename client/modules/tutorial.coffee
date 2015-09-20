@@ -50,16 +50,23 @@ Template.tutorial.events
 
 	"change .iconInput": (event, target) ->
 		thistut = this._id
+		console.log(this)
 		FS.Utility.eachFile event, (file) ->
 			s3Icons.insert file, (err, fileObj) ->
 				Tutorials.update thistut,
 					$set:
 						icon_id: fileObj._id
 #			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
+	"change .fileInput": (event, target) ->
+		thistut = this.tutorial_id
+		FS.Utility.eachFile event, (file) ->
+			s3Files.insert file, (err, fileObj) ->
+				Tutorials.update thistut,
+					$push:
+						file_ids: fileObj._id
 
 
 Template.tutorial.rendered = ->
-	console.log("rendered")
 	$('.lazyYT').lazyYT()
 	if(Meteor.user())
 		$( ".steps.sortable" ).sortable
@@ -92,6 +99,42 @@ Template.tutorial.helpers
 		else
 			imgurl = DEFAULT_ICON
 		return "<img src='" + imgurl + "'>"
+
+	files: ->
+		# TODO: for better async handling, should file_ids be published server-side?
+		file_ids = this.file_ids || []
+		files = []
+		file_ids.forEach((id) ->
+			file = s3Files.findOne({ _id: id })
+			files.push(file)
+		)
+
+		s3 = (file) ->
+			# in the event this fires before .findOne has run,
+			# return false and check again below
+			if (!file)
+				return false
+			return {
+				url: BUCKET_URL + 'files/' + file._id + '-' + file.original.name
+				name: file.original.name
+			}
+
+		files = files.map(s3)
+
+		output = ''
+		if (files.length > 0)
+			output += 'Files:<br>'
+			files.forEach((file) ->
+				# TODO: download attribute doesn't set filename properly?
+				if (file)
+					output += '<a href="' + file.url + '" download="' + file.name + '">Download</a><br>'
+				# if file is false (see above s3 func), clear the output
+				else
+					output = ''
+			)
+			output += '<br>'
+		return output
+		
 	publishMode: ->
 		if this.publishMode == "publish"
 			return "publish"

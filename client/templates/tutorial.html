@@ -7,6 +7,7 @@
 				<div class="title editable-text-trigger">{{> editableText collection="tutorials" field="title" }}</div>
 			</div>
 		</div>
+		<div class="files">{{{ files }}}</div>
 		<div class="description">{{> editableText collection="tutorials" field="description" }}</div>
 		{{#if currentUser}}
 		<div class="edit-button button">EDIT TUTORIAL</div>
@@ -51,11 +52,12 @@
 		<div class="edit-form">
 			<button class="delete">DELETE</button>
 			<form class="update-step">
-				Description
-				<input type="text" name="description" placeholder="description" value="{{description}}">
-				Video URL
-				<input type="text" name="video_url" placeholder="video_url" value="{{video_url}}">
-				{{ tutorial_id }}
+				Description<br>
+				<textarea name="description" placeholder="description">{{description}}</textarea><br>
+				Video URL<br>
+				<input type="text" name="video_url" placeholder="video_url" value="{{video_url}}"><br>
+				{{ tutorial_id }}<br>
+				<input type="file" class="fileInput" style="background: yellow;" /><br>
 				<input type="submit" />
 			</form>
 		</div>
@@ -69,4 +71,3 @@
 	</div>
 </div>
 </template>
-
