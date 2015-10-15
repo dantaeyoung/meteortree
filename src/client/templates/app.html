@@ -47,13 +47,13 @@
 			</div>
 
 			<div id="column-content">
+				<div id="section-tutorial-preview">
+					{{!-- #each tutorials}}
+					{{> tutorialpreview}}
+					{{/each --}}
+				</div>
 				<div id="section-tutorial">
-						<div class="tutorial-preview">
-							{{!-- #each tutorials}}
-							{{> tutorialpreview}}
-							{{/each --}}
-						</div>
-						{{> yield "tutorial"}}
+					{{> yield "tutorial"}}
 				</div>
 			</div>
 	</div></div>
