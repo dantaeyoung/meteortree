@@ -146,9 +146,9 @@
 		else
 			unless Session.get("week-mode") is "True"
 				console.log this
-				$(".tutorial").fadeOut(50);
-				console.log "#tutorial-" + tutid
-				$("#tutorial-" + tutid).fadeIn(50);
+#				$(".tutorial").fadeOut(50);
+#				console.log "#tutorial-" + tutid
+#				$("#tutorial-" + tutid).fadeIn(50);
 #				window.location.hash = tutid
 			else
 				weekfrom = Session.get("week-mode-from")

@@ -1,6 +1,6 @@
 steps_dep = new Deps.Dependency()
 
-Template.body.helpers
+Template.mainLayout.helpers
 	tutorials: ->
 		Meteor.subscribe('tutorials');
 		return Tutorials.find {},
@@ -39,7 +39,6 @@ Template.body.helpers
 Template.body.events "click .button": ->
 	targetForm = $(event.target).closest(".step, .tutorial").find(".edit-form").first()
 		.toggle('slide', { 'direction': 'right'}, 300)
-
 
 
 Template.tutorial.events
@@ -94,6 +93,8 @@ Template.tutorial.helpers
 		Steps.find { tutorial_id: this._id },
 			sort:
 				ordinal: 1
+
+
 	nodeIcon: ->
 		icon_id = this.icon_id
 		icon = s3Icons.findOne({ _id: icon_id })
