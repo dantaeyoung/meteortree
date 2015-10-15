@@ -136,7 +136,11 @@
 
 
 	Template.node.events "click": (event) ->
+
 		tutid = this._id
+		$('.node').removeClass "courseHighlight"
+		$("#node-" + tutid).addClass "courseHighlight"
+
 		if Session.get("dep-mode") is "True"
 			endDepMode(this._id)
 		else
@@ -149,11 +153,11 @@
 			else
 				weekfrom = Session.get("week-mode-from")
 				weeksnodes = Weeks.findOne(_id: weekfrom).nodes
-				if(tutid in weeksnodes)
-					$("#node-" + tutid).removeClass "courseHighlight"
+				if (tutid in weeksnodes)
+					# $("#node-" + tutid).removeClass "courseHighlight"
 					weeksnodes = _.without(weeksnodes, tutid)
 				else
-					$("#node-" + tutid).addClass "courseHighlight"
+					# $("#node-" + tutid).addClass "courseHighlight"
 					weeksnodes.push(tutid)
 				Weeks.update weekfrom,
 					$set:
