@@ -1,3 +1,5 @@
+<template name="mainLayout">
+
 <head>
 	<title>GSAPP METEORTREE</title>
 </head>
@@ -9,6 +11,8 @@
 
 				<div id="section-logo">
 					<img class="logo" src="/img/site-logo.jpg" />
+					<a href="/tutorial/one">one</a>
+					<a href="/tutorial/two">two</a>
 				</div>
 
 				<div id="section-tree">
@@ -44,12 +48,17 @@
 
 			<div id="column-content">
 				<div id="section-tutorial">
-					<div class="tutorials">
-						{{#each tutorials}}
-						{{> tutorial}}
-						{{/each}}
-					</div>
+						<div class="tutorial-preview">
+							{{!-- #each tutorials}}
+							{{> tutorialpreview}}
+							{{/each --}}
+						</div>
+						{{> yield "tutorial"}}
 				</div>
 			</div>
 	</div></div>
 </body>
+
+</template>
+
+

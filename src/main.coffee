@@ -19,3 +19,13 @@ if Meteor.isClient
 				Meteor.logout()
 			else
 				$("#login-sign-in-link").click()
+
+Router.configure
+	layoutTemplate: 'mainLayout'
+
+Router.route '/tutorial/:_tutid', ->
+	this.render 'tutorial',
+		to: 'tutorial'
+		data: ->
+			return Tutorials.findOne({_id: this.params._tutid});
+

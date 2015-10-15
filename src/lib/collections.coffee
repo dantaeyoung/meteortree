@@ -1,4 +1,7 @@
 @Tutorials = new Mongo.Collection("tutorials")
+
+# Tutorials should have:
+
 @Steps = new Mongo.Collection("steps")
 @Links = new Mongo.Collection("deps")
 @Courses = new Mongo.Collection("courses")
