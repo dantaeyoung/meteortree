@@ -63,8 +63,6 @@
 	jsPlumb.Defaults.EndpointStyle = { radius:3, fillStyle:"gray" }
 	jsPlumb.Defaults.Anchor = [ "Left", "Right" ]
 
-
-
 	Session.set "dep-mode", "False"
 	Session.set "nodes-rendered", 0
 	nodes_dep = new Deps.Dependency()
@@ -101,15 +99,21 @@
 			nodes_dep.changed
 		drawLinks(tut1_id)
 
-
+	# this gets updated and passed into the minimap
+	containerWidth = 0
+	containerHeight = 0
 
 	Template.node.helpers
 		xpos: ->
+			if this.x * GRID_MULTIPLIER_X > containerWidth + 80
+				containerWidth = this.x * GRID_MULTIPLIER_X + 80
 			if(Meteor.user())
 				this.draft_x * GRID_MULTIPLIER_X
 			else
 				this.x * GRID_MULTIPLIER_X
 		ypos: ->
+			if this.y * GRID_MULTIPLIER_Y > containerHeight + 80
+				containerHeight = this.y * GRID_MULTIPLIER_Y + 80
 			if(Meteor.user())
 				this.draft_y * GRID_MULTIPLIER_Y
 			else
@@ -233,6 +237,8 @@
 				createdAt: -1
 
 	Template.tree.rendered = ->
+		map = Minimap $('#column-navtree'), $('.node'), containerWidth, containerHeight 
+		map.create()
 		if(!this._rendered)
 			this._rendered = true
 			$('#column-navtree').dragScroll({});
