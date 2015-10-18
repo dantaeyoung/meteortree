@@ -68,7 +68,8 @@ Minimap = ($container, nodes, width, height) ->
 		)
 
 	draw()
-	window.addEventListener('mousemove', draw)
+	window.addEventListener('mousemove', draw);
+	$container.on('scroll', draw);
 
 	mouse = {}
 
