@@ -131,9 +131,29 @@ img::selection {
 	background-color: #EAEAEA;
 }
 
+// going to turn this into #node-info, see below...
 #column-content {
 	z-index: 100;
 	background-color: white;
+}
+
+#node-info {
+	background: #fff;
+	box-shadow: 0 0 5px $red;
+	opacity: 0;
+	padding: 10px;
+	pointer-events: none;
+	position: absolute;
+	width: 240px;
+	transition: 0.2s opacity;
+	z-index: 100;
+
+	:first-child { margin-top: 0; }
+	:last-child { margin-bottom: 0; }
+
+	.node:hover ~ & {
+		opacity: 1;
+	}
 }
 
 #section-logo {
