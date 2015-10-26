@@ -63,8 +63,6 @@
 	jsPlumb.Defaults.EndpointStyle = { radius:3, fillStyle:"gray" }
 	jsPlumb.Defaults.Anchor = [ "Left", "Right" ]
 
-
-
 	Session.set "dep-mode", "False"
 	Session.set "nodes-rendered", 0
 	nodes_dep = new Deps.Dependency()
@@ -101,15 +99,21 @@
 			nodes_dep.changed
 		drawLinks(tut1_id)
 
-
+	# this gets updated and passed into the minimap
+	containerWidth = 0
+	containerHeight = 0
 
 	Template.node.helpers
 		xpos: ->
+			if this.x * GRID_MULTIPLIER_X > containerWidth + 80
+				containerWidth = this.x * GRID_MULTIPLIER_X + 80
 			if(Meteor.user())
 				this.draft_x * GRID_MULTIPLIER_X
 			else
 				this.x * GRID_MULTIPLIER_X
 		ypos: ->
+			if this.y * GRID_MULTIPLIER_Y > containerHeight + 80
+				containerHeight = this.y * GRID_MULTIPLIER_Y + 80
 			if(Meteor.user())
 				this.draft_y * GRID_MULTIPLIER_Y
 			else
@@ -135,48 +139,86 @@
 
 
 
-	Template.node.events "click": (event) ->
+	Template.node.events 
 
-		tutid = this._id
-		$('.node').removeClass "courseHighlight"
-		$("#node-" + tutid).addClass "courseHighlight"
+		"mouseenter": (event) ->
 
-		if Session.get("dep-mode") is "True"
-			endDepMode(this._id)
-		else
-			unless Session.get("week-mode") is "True"
-				console.log this
-#				$(".tutorial").fadeOut(50);
-#				console.log "#tutorial-" + tutid
-#				$("#tutorial-" + tutid).fadeIn(50);
-#				window.location.hash = tutid
-			else
-				weekfrom = Session.get("week-mode-from")
-				weeksnodes = Weeks.findOne(_id: weekfrom).nodes
-				if (tutid in weeksnodes)
-					# $("#node-" + tutid).removeClass "courseHighlight"
-					weeksnodes = _.without(weeksnodes, tutid)
-				else
-					# $("#node-" + tutid).addClass "courseHighlight"
-					weeksnodes.push(tutid)
-				Weeks.update weekfrom,
-					$set:
-						nodes: weeksnodes
-
-	Template.node.events "click .change-dep": ->
-		if(Meteor.user())
-
-			console.log this
-			unless Session.get("dep-mode") is "True"
-				$("body").addClass "dep-mode"
-				Session.set "dep-mode", "True"
-				Session.set "dep-from", this._id
-				Session.set "mouseX", this.draft_x * GRID_MULTIPLIER_X
-				Session.set "mouseY", this.draft_y * GRID_MULTIPLIER_Y
-				$("#section-tree").bind "mousemove", (e) ->
-					$("#section-tree").line Session.get('mouseX'),Session.get('mouseY'),e.offsetnX, e.offsetY, {id: 'depline'}
-			else
+			if Session.get("dep-mode") is "True"
 				endDepMode(this._id)
+			else
+				unless Session.get("week-mode") is "True"
+					console.log this
+					# $(".tutorial").fadeOut(50);
+					# console.log "#tutorial-" + tutid
+					# $("#tutorial-" + tutid).fadeIn(50);
+					# window.location.hash = tutid
+				else
+					weekfrom = Session.get("week-mode-from")
+					weeksnodes = Weeks.findOne(_id: weekfrom).nodes
+					if (tutid in weeksnodes)
+						# $("#node-" + tutid).removeClass "courseHighlight"
+						weeksnodes = _.without(weeksnodes, tutid)
+					else
+						# $("#node-" + tutid).addClass "courseHighlight"
+						weeksnodes.push(tutid)
+					Weeks.update weekfrom,
+						$set:
+							nodes: weeksnodes
+
+			# only "show" if not already showing...
+			node = $('#node-' + this._id)
+			$('#node-info')
+				.html('')
+				.css(
+					left: parseInt(node.css('left')) + parseInt(node.css('width'))
+					top: parseInt node.css('top')
+				)
+				.append('<h2>' + this.title + '</h2>')
+				.append('<p>' + this.description + '</p>')
+
+		"click": (event) ->
+
+			# TODO: transform tooltip into right col
+
+			tutid = this._id
+			$('.node').removeClass "courseHighlight"
+			$("#node-" + tutid).addClass "courseHighlight"
+
+			if Session.get("dep-mode") is "True"
+				endDepMode(this._id)
+			else
+				unless Session.get("week-mode") is "True"
+					console.log this
+					$(".tutorial").fadeOut(50);
+					console.log "#tutorial-" + tutid
+					$("#tutorial-" + tutid).fadeIn(50);
+				else
+					weekfrom = Session.get("week-mode-from")
+					weeksnodes = Weeks.findOne(_id: weekfrom).nodes
+					if (tutid in weeksnodes)
+						# $("#node-" + tutid).removeClass "courseHighlight"
+						weeksnodes = _.without(weeksnodes, tutid)
+					else
+						# $("#node-" + tutid).addClass "courseHighlight"
+						weeksnodes.push(tutid)
+					Weeks.update weekfrom,
+						$set:
+							nodes: weeksnodes
+
+		"click .change-dep": ->
+			if(Meteor.user())
+
+				console.log this
+				unless Session.get("dep-mode") is "True"
+					$("body").addClass "dep-mode"
+					Session.set "dep-mode", "True"
+					Session.set "dep-from", this._id
+					Session.set "mouseX", this.draft_x * GRID_MULTIPLIER_X
+					Session.set "mouseY", this.draft_y * GRID_MULTIPLIER_Y
+					$("#section-tree").bind "mousemove", (e) ->
+						$("#section-tree").line Session.get('mouseX'),Session.get('mouseY'),e.offsetnX, e.offsetY, {id: 'depline'}
+				else
+					endDepMode(this._id)
 
 
 
@@ -233,6 +275,8 @@
 				createdAt: -1
 
 	Template.tree.rendered = ->
+		map = Minimap $('#column-navtree'), $('.node'), containerWidth, containerHeight 
+		map.create()
 		if(!this._rendered)
 			this._rendered = true
 			$('#column-navtree').dragScroll({});
