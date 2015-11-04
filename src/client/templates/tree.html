@@ -1,11 +1,17 @@
 <template name="tree">
-<div id="draft-sign">DRAFT</div>
-<div id="tree-nodes">
-	{{#each nodes}}
-	{{> node}}
-	{{/each}}
-</div>
-<div id="tree-links"></div>
+	<div id="draft-sign">DRAFT</div>
+	<div id="tree-nodes">
+		{{#each nodes}}
+		{{> node}}
+		{{/each}}
+
+		{{!-- 
+			gets used as tooltip and right column.
+			uses CSS to show/hide
+		--}}
+		<div id="node-info"></div>
+	</div>
+	<div id="tree-links"></div>
 </template> 
 
 <template name="node">
@@ -17,8 +23,3 @@
 	<div class="change-dep"><i class="fa fa-arrows-h fa-2x"></i></div>
 	{{/if}}
 </div>
-</a>
-</template>
-
-
-
