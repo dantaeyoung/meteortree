@@ -7,8 +7,8 @@
 }
 
 html, body{
-   height: 100%;
-   width: 100%;
+	height: 100%;
+	width: 100%;
 }
 
 body {
@@ -28,44 +28,43 @@ body {
 
 }
 
-
 /** GENERAL OBJECT TYPES **/
 /** e.g. links, buttons, etc **/
 
 .button {
-  cursor:pointer;
-  background: $red;
-  color: white;
-  padding: 5px 10px 5px 10px;
-  text-decoration: none;
-  display: inline-block;
+	cursor:pointer;
+	background: $red;
+	color: white;
+	padding: 5px 10px 5px 10px;
+	text-decoration: none;
+	display: inline-block;
 
 	&:hover {
-	  background-image: -webkit-linear-gradient(top, #f5c4d4, #e6a6ba);
-	  background-image: -moz-linear-gradient(top, #f5c4d4, #e6a6ba);
-	  background-image: -ms-linear-gradient(top, #f5c4d4, #e6a6ba);
-	  background-image: -o-linear-gradient(top, #f5c4d4, #e6a6ba);
-	  background-image: linear-gradient(to bottom, #f5c4d4, #e6a6ba);
-	  text-decoration: none;
+		background-image: -webkit-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: -moz-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: -ms-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: -o-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: linear-gradient(to bottom, #f5c4d4, #e6a6ba);
+		text-decoration: none;
 	}
 
 }
 
 .button-small {
-  cursor:pointer;
-  padding: 1px 2px;
-  text-decoration: none;
-  display: inline-block;
+	cursor:pointer;
+	padding: 1px 2px;
+	text-decoration: none;
+	display: inline-block;
 
-	 &:hover {
-	  color: $red;
+	&:hover {
+		color: $red;
 
-	/*  background-image: -webkit-linear-gradient(top, #f5c4d4, #e6a6ba);
-	  background-image: -moz-linear-gradient(top, #f5c4d4, #e6a6ba);
-	  background-image: -ms-linear-gradient(top, #f5c4d4, #e6a6ba);
-	  background-image: -o-linear-gradient(top, #f5c4d4, #e6a6ba);
-	  background-image: linear-gradient(to bottom, #f5c4d4, #e6a6ba);*/
-	  text-decoration: none;
+		/*  background-image: -webkit-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: -moz-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: -ms-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: -o-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: linear-gradient(to bottom, #f5c4d4, #e6a6ba);*/
+text-decoration: none;
 	}
 
 }
@@ -225,17 +224,17 @@ body.draft-mode .logged-in #section-tree {
 
 
 .logged-in .node.unpublish  {
-  opacity: 0.3;
+	opacity: 0.3;
 }
 
 .logged-in .node.unpublish::before {
-   content:    "UNPUB";
-   color:      $red;
-   font-weight: bold;
-   font-size: 0.6em;
-   border-bottom: 2px solid $red;
-   margin-left: 65px;
-   margin-bottom: -65px;
+	content:    "UNPUB";
+	color:      $red;
+	font-weight: bold;
+	font-size: 0.6em;
+	border-bottom: 2px solid $red;
+	margin-left: 65px;
+	margin-bottom: -65px;
 }
 
 #section-tree {
@@ -245,17 +244,17 @@ body.draft-mode .logged-in #section-tree {
 .node {
 	border: 6px solid transparent;
 
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 
-    width: 80px;
-    cursor: pointer;
-    text-align: center;
-    z-index: 10;
+	width: 80px;
+	cursor: pointer;
+	text-align: center;
+	z-index: 10;
 }
 
 .node .title {
@@ -300,29 +299,29 @@ body.draft-mode .logged-in #section-tree {
 }
 
 .jqDropZone {
-    background: lightgrey;
-    width: 150px;
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    font-weight: bold;
+	background: lightgrey;
+	width: 150px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	font-weight: bold;
 }
 .jqDropZone.in {
-    width: 600px;
-    height: 200px;
-    line-height: 200px;
-    font-size: larger;
+	width: 600px;
+	height: 200px;
+	line-height: 200px;
+	font-size: larger;
 }
 .jqDropZone.hover {
-    background: lawngreen;
+	background: lawngreen;
 }
 .jqDropZone.fade {
-    -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -ms-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
-    opacity: 1;
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+	opacity: 1;
 }
 
 /** tutorial **/
@@ -363,7 +362,7 @@ body.draft-mode .logged-in #section-tree {
 		}
 	}
 
-	 & .header-edit {
+	& .header-edit {
 
 		& .label {
 			float: left;
@@ -435,8 +434,19 @@ body.draft-mode .logged-in #section-tree {
 
 /***** TUTORIAL STEP STYLES *****/
 
+.step {
+	padding: 10px;
+	margin: 10px;
+	border: 5px solid $red;
+
+	&.new {
+		border: 5px dashed $purple;
+	}
+}
+
 .step-description, .step-description .input {
 	font-size: 11px !important;
 	line-height: 18px !important;
 	letter-spacing: 0px !important;
 }
+

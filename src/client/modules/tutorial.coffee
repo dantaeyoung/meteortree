@@ -1,8 +1,7 @@
-steps_dep = new Deps.Dependency()
 
 Template.mainLayout.helpers
 	tutorials: ->
-		Meteor.subscribe('tutorials');
+		Meteor.subscribe('tutorials')
 		return Tutorials.find {},
 			sort:
 				createdAt: -1
@@ -158,49 +157,3 @@ Template.tutorial.helpers
 
 
 
-Template.step.helpers
-	video_embedded: ->
-		if this.video_url
-			parseUrl = this.video_url.match(/(http|https):\/\/(?:www.)?(?:(vimeo).com\/(.*)|(youtube).com\/watch\?v=(.*?)$)/)
-			if parseUrl
-				if parseUrl[2] || parseUrl[3]
-					vimeoID = parseUrl[3]
-					embedUrl = '//player.vimeo.com/video/' + vimeoID
-					return '<div class="lazyYT" data-vimeo-id="' + vimeoID + '"></div>'
-				else
-					youtubeID = parseUrl[5]
-					embedUrl = '//www.youtube.com/embed/' + youtubeID
-					return '<div class="lazyYT" data-youtube-id="' + youtubeID + '"></div>'
-
-Deps.autorun ->
-	steps_dep.depend()
-	$('.lazyYT').lazyYT()
-
-Template.step.events
-	"click button.delete": ->
-		r = confirm("Delete this step? This cannot be undone.")
-		if r == true
-			Steps.remove this._id
-
-
-Template.step.events "submit .update-step": ->
-#		$(".step").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
-	description = event.target.description.value
-	video_url = event.target.video_url.value
-	Steps.upsert this._id,
-		$set:
-			tutorial_id: this.tutorial_id
-			description: description
-			video_url: video_url
-			ordinal: 99999
-			updatedAt: new Date() # current time
-	if "new" in this
-		event.target.description.value = ""
-		event.target.video_url.value = ""
-	steps_dep.changed()
-	console.log "update-step"
-	return false
-
-
-Template.step.rendered = ->
-	button = this.find('.button');
