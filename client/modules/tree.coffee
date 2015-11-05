@@ -147,7 +147,7 @@
 				endDepMode(this._id)
 			else
 				unless Session.get("week-mode") is "True"
-					console.log this
+#					console.log this
 					# $(".tutorial").fadeOut(50);
 					# console.log "#tutorial-" + tutid
 					# $("#tutorial-" + tutid).fadeIn(50);
