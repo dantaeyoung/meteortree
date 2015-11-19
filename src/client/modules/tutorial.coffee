@@ -73,6 +73,7 @@ Template.tutorial.events
 
 Template.tutorial.rendered = ->
 	$('.lazyYT').lazyYT()
+	console.log("tutorial rendered")
 	if(Meteor.user())
 		$( ".steps.sortable" ).sortable
 			handle: ".sorthandle"
