@@ -36,3 +36,6 @@ s3Icons.allow({
 	"insert": () ->
 		return true
 })
+
+@CursoryGlances = new Mongo.Collection("cursoryglances")
+
