@@ -17,10 +17,20 @@
 		{{#if currentUser}}
 		<div class="edit-button button">EDIT TUTORIAL</div>
 		<div class="edit-form">
-			<input type="file" class="iconInput" />
+
 			<form class="update-tutorial">
-				Publish?
-				<input type="checkbox" name="publishMode" value="publishMode" {{publishChecked}}><br>
+				<div class="form-group">
+					<label for="iconInput">Add/change Tutorial icon:</label>
+					<input type="file" class="iconInput" id="iconInput" />
+				</div>
+				<div class="form-group">
+					<label for="fileInput" class="button-label">Add files</label>
+					<input type="file" id="fileInput" class="fileInput" style="display: none;" />
+				</div>
+				<div class="form-group">
+					<label for="publishMode">Publish?</label>
+					<input type="checkbox" id="publishMode" name="publishMode" value="publishMode" {{publishChecked}}><br>
+				</div>
 			</form>
 			<div class="tutorial-delete"><button class="delete">DELETE</button></div>
 		</div>
@@ -42,6 +52,7 @@
 <template name="step">
 <div class="step {{new}}" id="step-{{_id}}">
 	{{#if currentUser}}
+
 	<div class="step-ui-menu">
 		{{#if new}}
 			<div class="new-button button"><i class="fa fa-plus-square fa-2x"></i> STEP</div>
@@ -62,7 +73,6 @@
 				Video URL<br>
 				<input type="text" name="video_url" placeholder="video_url" value="{{video_url}}"><br>
 				{{ tutorial_id }}<br>
-				<input type="file" class="fileInput" style="background: yellow;" /><br>
 				<input type="submit" />
 			</form>
 		</div>
