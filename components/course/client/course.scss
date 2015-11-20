@@ -1,0 +1,19 @@
+$red: #fc0452;
+$purple: #be00c8;
+
+.node.courseHighlight, 
+.node.weekmodeHighlight {
+	box-shadow: 0 0 0 6px $purple;
+}
+
+
+.week {
+	cursor: pointer;
+}
+
+.weekHighlight {
+	background: $purple;
+	color: #fff;
+}
+
+

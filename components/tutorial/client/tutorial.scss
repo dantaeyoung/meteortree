@@ -1,0 +1,127 @@
+$red: #fc0452;
+$purple: #be00c8;
+
+//@import "{}/lib/vars"
+
+/**** TUTORIAL ****/
+
+
+
+
+#section-tutorial {
+
+	& .header-inner {
+		display: table;
+		margin-bottom: 10px;
+		width: 100%;
+
+		& > div {
+			border-top: 5px solid $red;
+			padding-top: 5px;
+			display: table-cell;
+			vertical-align:middle;
+			padding-right: 10px;
+		}
+
+
+		& textarea {
+			font-size: 1em !important;
+			width: 100%;
+		}
+
+		& .title, & .title input {
+			text-transform: uppercase;
+			font-weight: bold;
+			letter-spacing: 0.1em;
+			font-size: 20px;
+		}
+	}
+
+	& .header-edit {
+
+		& .label {
+			float: left;
+			width: 100px;
+			padding-top: 5px;
+			font-weight: bold;
+		}
+
+		&.submit {
+			margin: 20px 0px;
+		}
+
+	}
+}
+
+.draft-warning {
+	display: none;
+}
+
+
+#section-tutorial .draft .draft-warning {
+	-webkit-appearance:none;
+	-moz-appearance:none;
+	appearance:none;
+	display: block !important;
+	font-weight: bold;
+	font-size: 3em;
+	height:100%;
+	margin-bottom: -20px;
+	color: #bfb029;
+}
+
+
+.tutorial {
+	/*position: absolute;*/
+	/*top: 0px;*/
+	/*margin-left: 0px;*/
+	/*margin: 20px;*/
+	/*padding: 20px;*/
+	/*width: 300px;*/
+	/*display: none; */
+}
+
+.tutorial-delete {
+	text-align:right;
+	width: 100%;
+
+}
+
+.logged-in .tutorial.unpublish::before  {
+	content:  "UNPUBLISHED";
+	color:      $red;
+	font-weight: bold;
+	font-size: 1.8em;
+	border-bottom: 2px solid $red;
+
+}
+.logged-in .tutorial.unpublish  {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==) repeat #f4e69c;
+}
+
+
+.tutorial .description {
+	margin-bottom: 10px;
+}
+
+.update-tutorial {
+	font-size: 2em;
+}
+
+/***** TUTORIAL STEP STYLES *****/
+
+.step {
+	padding: 10px;
+	margin: 10px;
+	border: 5px solid $red;
+
+	&.new {
+		border: 5px dashed $purple;
+	}
+}
+
+.step-description, .step-description .input {
+	font-size: 11px !important;
+	line-height: 18px !important;
+	letter-spacing: 0px !important;
+}
