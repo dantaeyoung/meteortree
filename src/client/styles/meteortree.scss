@@ -32,7 +32,8 @@ body {
 /** GENERAL OBJECT TYPES **/
 /** e.g. links, buttons, etc **/
 
-.button {
+.button,
+.button-label {
   cursor:pointer;
   background: $red;
   color: white;
@@ -73,6 +74,12 @@ body {
 
 #login-buttons {
 	display: block;
+}
+
+#login-dropdown-list {
+	position: fixed;
+	top: 10px;
+	left: 15px;
 }
 
 .not-logged-in .login-link-text {
