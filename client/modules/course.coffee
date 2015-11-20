@@ -34,48 +34,52 @@
 				Courses.remove this._id
 
 		"mouseover .course-title": (event) ->
-			$(".courseHighlight").removeClass("courseHighlight");
-			$("#course-" + this._id).addClass("courseHighlight");
-			_.each $("#course-" + this._id).find(".week"), (d) ->
-				_.each Blaze.getData(d).nodes, (n) ->
-					$("#node-" + n).addClass "courseHighlight" 
+			unless Session.get("week-mode") is "True" 
+				$(".courseHighlight").removeClass("courseHighlight");
+				$("#course-" + this._id).addClass("courseHighlight");
+				_.each $("#course-" + this._id).find(".week"), (d) ->
+					_.each Blaze.getData(d).nodes, (n) ->
+						$("#node-" + n).addClass "courseHighlight" 
 
 		"mouseout .course-title": (event) ->
-			$(".courseHighlight").removeClass("courseHighlight");
+			unless Session.get("week-mode") is "True" 
+				$(".courseHighlight").removeClass("courseHighlight");
 
 
 		"mouseover .week": (event) ->
-			$(".weekHighlight").removeClass("weekHighlight");
-			$("#week-" + this._id).addClass("weekHighlight");
+			
 			unless Session.get("week-mode") is "True" 
-				console.log this
+				$(".weekHighlight").removeClass "weekHighlight"
+				$("#week-" + this._id).addClass "weekHighlight"
+
 				_.each this.nodes, (n) ->
 					$("#node-" + n).addClass "weekmodeHighlight" 
 
 		"mouseout .week": (event) ->
-			$(".weekHighlight").removeClass("weekHighlight");
+			
 			unless Session.get("week-mode") is "True" 
+				$("#week-" + this._id).removeClass "weekHighlight"
 				$(".weekmodeHighlight").removeClass "weekmodeHighlight"
 
 		"click .week": (event) ->
-			if(Meteor.user())
-				if Session.get("week-mode-from") == this._id
-					Session.set "week-mode", "False" 
-					Session.set "week-mode-from", ""
-					$(".weekfrom").removeClass("weekfrom")
-					$("body").removeClass "week-mode"
-				else
-					Session.set "week-mode", "True" 
-					Session.set "week-mode-from", this._id
+			if Session.get("week-mode-from") == this._id
+				Session.set "week-mode", "False"
+				Session.set "week-mode-from", ""
+				$(".weekfrom").removeClass("weekfrom")
+				$("body").removeClass "week-mode"
+			else
+				Session.set "week-mode", "True" 
+				Session.set "week-mode-from", this._id
 
-					$(".weekmodeHighlight").removeClass "weekmodeHighlight"
-					$(".weekfrom").removeClass("weekfrom")
+				$(".weekmodeHighlight").removeClass "weekmodeHighlight"
+				$(".weekHighlight").removeClass "weekHighlight"
+				$("#week-" + this._id).addClass "weekHighlight"
 
-					$("body").addClass "week-mode"
-					$(event.target).addClass("weekfrom")
+				$("body").addClass "week-mode"
+				$(event.target).addClass("weekfrom")
 
-					_.each this.nodes, (n) ->
-						$("#node-" + n).addClass "weekmodeHighlight" 
+				_.each this.nodes, (n) ->
+					$("#node-" + n).addClass "weekmodeHighlight" 
 
 		"click .publishMode": (event) ->
 			if this.publishMode == "publish"
@@ -112,6 +116,7 @@
 
 
 	Template.course.rendered = ->
+		Session.set "week-mode", "False"
 		if(Meteor.user())
 			$( ".weeks.sortable" ).sortable
 				handle: ".sorthandle"
