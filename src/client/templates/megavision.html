@@ -1,6 +1,15 @@
 <template name="megavision">
 	MEGAVISION 
 	{{ version }}
-	mousePOSITION:::: {{ mousePositionFromDB }}
+	{{#each cursoryGlances}}
+		{{ > cursoryglance }}
+	{{/each}}}
+</template> 
+
+<template name="cursoryglance">
+	<div class="cursoryglance" 
+		style="left: {{mousePosition.x}}px; top: {{ mousePosition.y}}px;">
+		{{userFingerprint}}
+	</div>
 </template> 
 
