@@ -31,7 +31,8 @@ body {
 /** GENERAL OBJECT TYPES **/
 /** e.g. links, buttons, etc **/
 
-.button {
+.button,
+.button-label {
 	cursor:pointer;
 	background: $red;
 	color: white;
@@ -72,6 +73,12 @@ text-decoration: none;
 
 #login-buttons {
 	display: block;
+}
+
+#login-dropdown-list {
+	position: fixed;
+	top: 10px;
+	left: 15px;
 }
 
 .not-logged-in .login-link-text {
@@ -173,6 +180,15 @@ img::selection {
 	top:  230px;
 	left: 30px;
 }
+
+	.week {
+		cursor: pointer;
+	}
+
+	.weekHighlight {
+		background: $purple;
+		color: #fff;
+	}
 
 #section-tree {
 	/*margin-right: 400px;*/
