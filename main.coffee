@@ -20,6 +20,12 @@ if Meteor.isClient
 			else
 				$("#login-sign-in-link").click()
 
+	Meteor.startup ->
+		new Fingerprint2().get (result) ->
+			console.log(result)
+
+		
+
 Router.configure
 	layoutTemplate: 'mainLayout'
 
