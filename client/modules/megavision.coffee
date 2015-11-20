@@ -4,7 +4,7 @@ Template.megavision.created = ->
 	$(document).bind 'mousemove', (e) ->
 		Session.set('mousePosition', {'x': e.pageX, 'y': e.pageY})
 
-	cursoryglanceInterval = Meteor.setInterval(trackCursoryglance, 100)
+	cursoryglanceInterval = Meteor.setInterval(trackCursoryGlance, 100)
 
 Template.megavision.destroyed = ->
 	Meteor.clearInterval(cursoryglanceInterval)
@@ -21,34 +21,41 @@ Template.megavision.helpers
 	cursoryGlances: ->
 		return CursoryGlances.find({})
 
-sameMousePositions = (p1, p2) ->
+mousePositionsDiffered = (p1, p2) ->
 	if typeof(p1) == 'undefined' or typeof(p2) == 'undefined'
-		return false
+		return true 
 	if p1.x == p2.x and p1.y == p2.y
-		return true
-	else
 		return false
+	else
+		return true
 
-trackCursoryglance = () ->
+trackCursoryGlance = () ->
 
-	if not sameMousePositions(Session.get('prevMousePosition'), Session.get('mousePosition')) and typeof(Session.get('userFingerprint')) != "undefined"
+	if mousePositionsDiffered(Session.get('prevMousePosition'), Session.get('mousePosition')) and Session.get('userFingerprint')
 
 		Session.set('prevMousePosition', Session.get('mousePosition'))
 
-		userFingerprint = Session.get('userFingerprint')
 		# there must be a better way to clean this up
-		cursoryGlance = CursoryGlances.findOne({ userFingerprint: userFingerprint })
+		console.log Session.get('userFingerprint')
+		cursoryGlance = CursoryGlances.findOne({ userFingerprint: Session.get('userFingerprint') })
 		cursoryGlanceId = ''
 		if typeof(cursoryGlance) == 'undefined'
+			alert "we're adding new"
+			console.log "$$$$$$$$$$$$$"
+			console.log "$$$$$$$$$$$$$"
+			console.log "$$$$$$$$$$$$$"
+			console.log typeof(cursoryGlance) == 'undefined'
+			console.log cursoryGlance
+			console.log CursoryGlances.findOne({ userFingerprint: Session.get('userFingerprint') })
 			CursoryGlances.insert
-				userFingerprint: userFingerprint
+				userFingerprint: Session.get('userFingerprint')
 				mousePosition: Session.get('mousePosition')
 				updatedAt: new Date() # current time
 		else
 			console.log cursoryGlance
-			CursoryGlances.update cursoryGlance['_id'],
+			CursoryGlances.update cursoryGlance._id ,
 				$set:
-					userFingerprint: userFingerprint
+					userFingerprint: Session.get('userFingerprint')
 					mousePosition: Session.get('mousePosition')
 					updatedAt: new Date() # current time
 
