@@ -1,4 +1,6 @@
-@import "vars";
+$red: #fc0452;
+$purple: #be00c8;
+// @import "vars"
 
 /** HTML AND BODY **/
 
@@ -181,32 +183,14 @@ img::selection {
 	left: 30px;
 }
 
-	.week {
-		cursor: pointer;
-	}
-
-	.weekHighlight {
-		background: $purple;
-		color: #fff;
-	}
-
 #section-tree {
-	/*margin-right: 400px;*/
-	/*height: 100%;*/
-	/*overflow-y: scroll;*/
+	position: relative;
 }
 
 
 #section-tutorial {
 	padding: 20px;
-	/*overflow-y: scroll;*/
 	font-size: 0.8em;
-}
-
-.node-image {
-	height: 60px;
-	width: 60px;
-	border: 1px solid black;
 }
 
 #draft-sign {
@@ -227,67 +211,6 @@ body.draft-mode .logged-in #draft-sign {
 }
 
 
-
-body.draft-mode .logged-in #section-tree {
-	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==) repeat #f4e69c;
-}
-
-
-.logged-in.draft-node {
-	opacity: 0.5;
-	border: 5px dotted #333;
-}
-
-
-.logged-in .node.unpublish  {
-	opacity: 0.3;
-}
-
-.logged-in .node.unpublish::before {
-	content:    "UNPUB";
-	color:      $red;
-	font-weight: bold;
-	font-size: 0.6em;
-	border-bottom: 2px solid $red;
-	margin-left: 65px;
-	margin-bottom: -65px;
-}
-
-#section-tree {
-	position: relative;
-}
-
-.node {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-
-	width: 60px;
-	cursor: pointer;
-	text-align: center;
-	z-index: 10;
-	transform: translateY(20px);
-}
-
-.node .title {
-	text-transform: uppercase;
-	font-weight: bold;
-	letter-spacing: 0.1em;
-	font-size: 0.85em;
-}
-
-.node.courseHighlight, 
-.node.weekmodeHighlight {
-	box-shadow: 0 0 0 6px $purple;
-}
-
-.icon > img {
-	max-width: 100%;
-	max-height: 100%;
-}
 
 
 .editable-text {
@@ -340,140 +263,5 @@ body.draft-mode .logged-in #section-tree {
 	opacity: 1;
 }
 
-/** tutorial **/
 
 
-
-/**** TUTORIAL ****/
-
-
-
-
-#section-tutorial {
-
-	& .header-inner {
-		display: table;
-		margin-bottom: 10px;
-		width: 100%;
-
-		& > div {
-			border-top: 5px solid $red;
-			padding-top: 5px;
-			display: table-cell;
-			vertical-align:middle;
-			padding-right: 10px;
-		}
-
-
-		& textarea {
-			font-size: 1em !important;
-			width: 100%;
-		}
-
-		& .title, & .title input {
-			text-transform: uppercase;
-			font-weight: bold;
-			letter-spacing: 0.1em;
-			font-size: 20px;
-		}
-	}
-
-	& .header-edit {
-
-		& .label {
-			float: left;
-			width: 100px;
-			padding-top: 5px;
-			font-weight: bold;
-		}
-
-		&.submit {
-			margin: 20px 0px;
-		}
-
-	}
-}
-
-.draft-warning {
-	display: none;
-}
-
-#section-tutorial .draft .draft-warning {
-	-webkit-appearance:none;
-	-moz-appearance:none;
-	appearance:none;
-	display: block !important;
-	font-weight: bold;
-	font-size: 3em;
-	height:100%;
-	margin-bottom: -20px;
-	color: #bfb029;
-}
-
-
-.tutorial {
-	/*position: absolute;*/
-	/*top: 0px;*/
-	/*margin-left: 0px;*/
-	/*margin: 20px;*/
-	/*padding: 20px;*/
-	/*width: 300px;*/
-	/*display: none; */
-}
-
-.tutorial-delete {
-	text-align:right;
-	width: 100%;
-
-}
-
-.logged-in .tutorial.unpublish::before  {
-	content:  "UNPUBLISHED";
-	color:      $red;
-	font-weight: bold;
-	font-size: 1.8em;
-	border-bottom: 2px solid $red;
-
-}
-.logged-in .tutorial.unpublish  {
-	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==) repeat #f4e69c;
-}
-
-
-.tutorial .description {
-	margin-bottom: 10px;
-}
-
-.update-tutorial {
-	font-size: 2em;
-}
-
-/***** TUTORIAL STEP STYLES *****/
-
-.step {
-	padding: 10px;
-	margin: 10px;
-	border: 5px solid $red;
-
-	&.new {
-		border: 5px dashed $purple;
-	}
-}
-
-.step-description, .step-description .input {
-	font-size: 11px !important;
-	line-height: 18px !important;
-	letter-spacing: 0px !important;
-}
-
-.cursoryglance {
-	border: 5px solid red;
-	width: 25px;
-	height: 25px;
-	position: absolute;
-	-webkit-transition: all 0.1s linear;
-	-moz-transition: all 0.1s linear;
-	-o-transition: all 0.1s linear;
-	-ms-transition: all 0.1s linear;
-	transition: all 0.1s linear;
-}
