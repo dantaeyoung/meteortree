@@ -71,7 +71,7 @@ Template.tutorial.events
 				alert 'Only the following file types:\n-' + ALLOWED_FILE_TYPES.join('\n-') + '\nare allowed.' 
 
 
-Template.tutorial.rendered = ->
+Template.tutorial.onRendered = ->
 	$('.lazyYT').lazyYT()
 	console.log("tutorial rendered")
 	if(Meteor.user())
@@ -87,13 +87,8 @@ Template.tutorial.rendered = ->
 
 
 
-Template.tutorial.helpers
-	steps: ->
-#			Meteor.subscribe "steps"
-		Steps.find { tutorial_id: this._id },
-			sort:
-				ordinal: 1
 
+Template.tutorial.helpers
 
 	nodeIcon: ->
 		icon_id = this.icon_id
@@ -153,7 +148,6 @@ Template.tutorial.helpers
 			return "checked"
 		else
 			return ""
-
 
 
 
