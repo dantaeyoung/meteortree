@@ -4,10 +4,12 @@ Template.megavision.created = ->
 	$(document).bind 'mousemove', (e) ->
 		Session.set('mousePosition', {'x': e.pageX, 'y': e.pageY})
 
+	updateTimeInterval = Meteor.setInterval(updateTime, 5000)
 	cursoryglanceInterval = Meteor.setInterval(trackCursoryGlance, 100)
 
 Template.megavision.destroyed = ->
 	Meteor.clearInterval(cursoryglanceInterval)
+	Meteor.clearInterval(updateTimeInterval)
 
 
 Template.megavision.helpers
@@ -21,6 +23,21 @@ Template.megavision.helpers
 	cursoryGlances: ->
 		return CursoryGlances.find({})
 
+secondsSince = (d) ->
+		# TODO: date.now() dooesn't change
+		return (Session.get("currentTime") - d) / 1000
+
+
+Template.cursoryglance.helpers
+	ss :->
+		return secondsSince(Template.currentData().updatedAt)
+
+	decayOpacity: ->
+		ss = secondsSince(Template.currentData().updatedAt)
+		return Math.pow(0.99, ss) + 0.1
+	#return Math.sqrt(1/((ss+1)^0.2)) #TODO: make better
+
+
 mousePositionsDiffered = (p1, p2) ->
 	if typeof(p1) == 'undefined' or typeof(p2) == 'undefined'
 		return true 
@@ -28,6 +45,9 @@ mousePositionsDiffered = (p1, p2) ->
 		return false
 	else
 		return true
+
+updateTime = () ->
+	Session.set("currentTime", Date.now())
 
 trackCursoryGlance = () ->
 
@@ -52,7 +72,6 @@ trackCursoryGlance = () ->
 				mousePosition: Session.get('mousePosition')
 				updatedAt: new Date() # current time
 		else
-			console.log cursoryGlance
 			CursoryGlances.update cursoryGlance._id ,
 				$set:
 					userFingerprint: Session.get('userFingerprint')

@@ -1,4 +1,3 @@
-
 Accounts.config({forbidClientAccountCreation: true})
 
 if Meteor.isClient
