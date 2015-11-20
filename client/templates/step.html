@@ -1,3 +1,10 @@
+<template name="stepList">
+	{{#each steps }}
+		{{> step }}
+	{{/each}}
+	{{allRendered}}
+</template>
+
 <template name="step">
 <div class="step {{new}}" id="step-{{_id}}">
 	{{#if currentUser}}

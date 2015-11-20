@@ -1,5 +1,19 @@
 steps_dep = new Deps.Dependency()
 
+
+Template.stepList.helpers
+	steps: ->
+#			Meteor.subscribe "steps"
+		Steps.find { tutorial_id: this._id },
+			sort:
+				ordinal: 1
+	allRendered: ->
+		Meteor.defer () ->
+			console.log ("all steps rendered!")
+			$('.lazyYT').lazyYT()
+		return
+
+
 Template.step.helpers
 	video_embedded: ->
 		console.log "yo, video_embedded"

@@ -4,6 +4,7 @@
 </template>
 
 <template name="tutorial">
+	{{tutorial_test}}
 	<div class="tutorial {{publishMode}}" id="tutorial-{{ _id }}">
 		<div class="header">
 			<div class="draft-warning">DRAFT</div>
@@ -36,9 +37,7 @@
 		</div>
 		{{/if}}
 		<div class="steps sortable">
-		{{#each steps}}
-			{{> step }}
-		{{/each}}
+		{{> stepList }}
 		</div>
 		{{> step tutorial_id =  _id  new="new"}}
 		<div class="debug">
