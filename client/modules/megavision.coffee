@@ -15,8 +15,11 @@ Template.megavision.helpers
 		return "v0.1"
 
 	mousePositionFromDB: ->
-		cursoryGlance = CursoryGlances.findOne({ userFingerprint: "dan" })
+		cursoryGlance = CursoryGlances.findOne({ userFingerprint: "scott" })
 		return cursoryGlance
+
+	cursoryGlances: ->
+		return CursoryGlances.find({})
 
 
 trackCursoryglance = () ->
@@ -24,18 +27,18 @@ trackCursoryglance = () ->
 	console.log Session.get('mousePosition')
 
 	# there must be a better way to clean this up
-	cursoryGlance = CursoryGlances.findOne({ userFingerprint: "dan" })
+	cursoryGlance = CursoryGlances.findOne({ userFingerprint: "scott" })
 	cursoryGlanceId = ''
 	if typeof(cursoryGlance) == 'undefined'
 		CursoryGlances.insert
-			userFingerprint: "dan"
+			userFingerprint: "scott"
 			mousePosition: Session.get('mousePosition')
 			updatedAt: new Date() # current time
 	else
 		console.log cursoryGlance
 		CursoryGlances.update cursoryGlance['_id'],
 			$set:
-				userFingerprint: "dan"
+				userFingerprint: "scott"
 				mousePosition: Session.get('mousePosition')
 				updatedAt: new Date() # current time
 
