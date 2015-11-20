@@ -181,6 +181,15 @@ img::selection {
 	left: 30px;
 }
 
+	.week {
+		cursor: pointer;
+	}
+
+	.weekHighlight {
+		background: $purple;
+		color: #fff;
+	}
+
 #section-tree {
 	/*margin-right: 400px;*/
 	/*height: 100%;*/
