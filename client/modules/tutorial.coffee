@@ -56,7 +56,8 @@ Template.tutorial.events
 						icon_id: fileObj._id
 #			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
 	"change .fileInput": (event, target) ->
-		thistut = this.tutorial_id
+		console.log('changing file', event, target);
+		thistut = this._id
 		FS.Utility.eachFile event, (file) ->
 
 			fileType = file.name.split('.')

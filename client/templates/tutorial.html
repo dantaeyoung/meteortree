@@ -18,10 +18,20 @@
 		{{#if currentUser}}
 		<div class="edit-button button">EDIT TUTORIAL</div>
 		<div class="edit-form">
-			<input type="file" class="iconInput" />
+
 			<form class="update-tutorial">
-				Publish?
-				<input type="checkbox" name="publishMode" value="publishMode" {{publishChecked}}><br>
+				<div class="form-group">
+					<label for="iconInput">Add/change Tutorial icon:</label>
+					<input type="file" class="iconInput" id="iconInput" />
+				</div>
+				<div class="form-group">
+					<label for="fileInput" class="button-label">Add files</label>
+					<input type="file" id="fileInput" class="fileInput" style="display: none;" />
+				</div>
+				<div class="form-group">
+					<label for="publishMode">Publish?</label>
+					<input type="checkbox" id="publishMode" name="publishMode" value="publishMode" {{publishChecked}}><br>
+				</div>
 			</form>
 			<div class="tutorial-delete"><button class="delete">DELETE</button></div>
 		</div>
@@ -36,5 +46,3 @@
 		</div>
 	</div>
 </template>
-
-
