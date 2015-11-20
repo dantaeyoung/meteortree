@@ -31,7 +31,7 @@ sameMousePositions = (p1, p2) ->
 
 trackCursoryglance = () ->
 
-	if not sameMousePositions(Session.get('prevMousePosition'), Session.get('mousePosition') and typeof(Session.get('userFingerprint')) != "undefined")
+	if not sameMousePositions(Session.get('prevMousePosition'), Session.get('mousePosition')) and typeof(Session.get('userFingerprint')) != "undefined"
 
 		Session.set('prevMousePosition', Session.get('mousePosition'))
 
