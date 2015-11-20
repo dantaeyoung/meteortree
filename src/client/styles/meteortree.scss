@@ -258,8 +258,6 @@ body.draft-mode .logged-in #section-tree {
 }
 
 .node {
-	border: 6px solid transparent;
-
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -267,10 +265,11 @@ body.draft-mode .logged-in #section-tree {
 	-ms-user-select: none;
 	user-select: none;
 
-	width: 80px;
+	width: 60px;
 	cursor: pointer;
 	text-align: center;
 	z-index: 10;
+	transform: translateY(20px);
 }
 
 .node .title {
@@ -280,11 +279,12 @@ body.draft-mode .logged-in #section-tree {
 	font-size: 0.85em;
 }
 
-.node.courseHighlight, .node.weekmodeHighlight {
-	border-color: $purple;
+.node.courseHighlight, 
+.node.weekmodeHighlight {
+	box-shadow: 0 0 0 6px $purple;
 }
 
-.icon img {
+.icon > img {
 	max-width: 100%;
 	max-height: 100%;
 }
@@ -472,4 +472,3 @@ body.draft-mode .logged-in #section-tree {
 	height: 25px;
 	position: absolute;
 }
-
