@@ -22,7 +22,7 @@ if Meteor.isClient
 
 	Meteor.startup ->
 		new Fingerprint2().get (result) ->
-			console.log(result)
+			Session.set("userFingerprint", result)
 
 		
 
