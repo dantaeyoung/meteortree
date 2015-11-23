@@ -1,6 +1,4 @@
-$red: #fc0452;
-$purple: #be00c8;
-// @import "vars"
+@import "../../components/shared/styles/vars";
 
 /** HTML AND BODY **/
 
@@ -141,6 +139,7 @@ img::selection {
 
 // going to turn this into #node-info, see below...
 #column-content {
+	display: none;
 	z-index: 100;
 	background-color: white;
 }
