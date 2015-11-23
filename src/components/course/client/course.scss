@@ -1,11 +1,9 @@
-$red: #fc0452;
-$purple: #be00c8;
+@import "../../shared/styles/vars";	
 
 .node.courseHighlight, 
 .node.weekmodeHighlight {
 	box-shadow: 0 0 0 6px $purple;
 }
-
 
 .week {
 	cursor: pointer;
@@ -15,5 +13,3 @@ $purple: #be00c8;
 	background: $purple;
 	color: #fff;
 }
-
-
