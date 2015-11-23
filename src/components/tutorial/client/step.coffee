@@ -3,23 +3,23 @@ steps_dep = new Deps.Dependency()
 
 Template.stepList.helpers
 	steps: ->
-#			Meteor.subscribe "steps"
+		# Meteor.subscribe "steps"
 		Steps.find { tutorial_id: this._id },
 			sort:
 				ordinal: 1
 	allRendered: ->
 		Meteor.defer () ->
-			console.log ("all steps rendered!")
+			# console.log ("all steps rendered!")
 			$('.lazyYT').lazyYT()
 		return
 
 
 Template.step.helpers
 	video_embedded: ->
-		console.log "yo, video_embedded"
-		console.log this
+		# console.log "yo, video_embedded"
+		# console.log this
 		if this.video_url
-			console.log this.video_url
+			# console.log this.video_url
 			parseUrl = this.video_url.match(/(http|https):\/\/(?:www.)?(?:(vimeo).com\/(.*)|(youtube).com\/watch\?v=(.*?)$)/)
 			if parseUrl
 				if parseUrl[2] || parseUrl[3]

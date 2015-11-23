@@ -1,4 +1,3 @@
-
 Template.mainLayout.helpers
 	tutorials: ->
 		Meteor.subscribe('tutorials')
@@ -75,7 +74,7 @@ Template.tutorial.events
 Template.tutorial.onRendered = ->
 	$('.lazyYT').lazyYT()
 	console.log("tutorial rendered")
-	if(Meteor.user())
+	if (Meteor.user())
 		$( ".steps.sortable" ).sortable
 			handle: ".sorthandle"
 			start: (event, ui ) ->

@@ -170,6 +170,7 @@
 							nodes: weeksnodes
 
 			# only "show" if not already showing...
+			'''
 			node = $('#node-' + this._id)
 			$('#node-info')
 				.html('')
@@ -179,23 +180,33 @@
 				)
 				.append('<h2>' + this.title + '</h2>')
 				.append('<p>' + this.description + '</p>')
+			'''
 
 		"click": (event) ->
 
 			# TODO: transform tooltip into right col
 
 			tutid = this._id
-			$('.node').removeClass "courseHighlight"
-			$("#node-" + tutid).addClass "courseHighlight"
+			node = $("#node-" + tutid)
+			tutorial = $(".tutorial")
+
+			$('.node').not(node).removeClass "courseHighlight"
 
 			if Session.get("dep-mode") is "True"
 				endDepMode(this._id)
 			else
 				unless Session.get("week-mode") is "True"
-					console.log this
-					$(".tutorial").fadeOut(50);
-					console.log "#tutorial-" + tutid
-					$("#tutorial-" + tutid).fadeIn(50);
+
+					if !node.hasClass "courseHighlight"
+						$('#column-content').fadeIn()
+						tutorial.fadeOut(100, () ->
+							tutorial.fadeIn(100);
+						);
+					else
+						$('#column-content').fadeOut()
+
+					node.toggleClass "courseHighlight"
+					
 				else
 					weekfrom = Session.get("week-mode-from")
 					weeksnodes = Weeks.findOne(_id: weekfrom).nodes
@@ -212,7 +223,7 @@
 		"click .change-dep": ->
 			if(Meteor.user())
 
-				console.log this
+				# console.log this
 				unless Session.get("dep-mode") is "True"
 					$("body").addClass "dep-mode"
 					Session.set "dep-mode", "True"
