@@ -2,7 +2,10 @@
 Template.megavision.created = ->
 
 	$(document).bind 'mousemove', (e) ->
-		Session.set('mousePosition', {'x': e.pageX, 'y': e.pageY})
+		Session.set('mousePosition', {
+			'x': e.pageX, 
+			'y': e.pageY
+		})
 
 	updateTimeInterval = Meteor.setInterval(updateTime, 5000)
 	cursoryglanceInterval = Meteor.setInterval(trackCursoryGlance, 100)
@@ -57,16 +60,13 @@ trackCursoryGlance = () ->
 
 		# there must be a better way to clean this up
 		console.log Session.get('userFingerprint')
-		cursoryGlance = CursoryGlances.findOne({ userFingerprint: Session.get('userFingerprint') })
+		cursoryGlance = CursoryGlances.findOne({ 
+			userFingerprint: Session.get('userFingerprint') 
+		})
 		cursoryGlanceId = ''
+		
 		if typeof(cursoryGlance) == 'undefined'
-			alert "we're adding new"
-			console.log "$$$$$$$$$$$$$"
-			console.log "$$$$$$$$$$$$$"
-			console.log "$$$$$$$$$$$$$"
-			console.log typeof(cursoryGlance) == 'undefined'
-			console.log cursoryGlance
-			console.log CursoryGlances.findOne({ userFingerprint: Session.get('userFingerprint') })
+
 			CursoryGlances.insert
 				userFingerprint: Session.get('userFingerprint')
 				mousePosition: Session.get('mousePosition')

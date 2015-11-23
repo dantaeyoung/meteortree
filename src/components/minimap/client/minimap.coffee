@@ -1,29 +1,8 @@
-offOpacity = 0.6
-
-styles = '
-#minimap {
-	border: 3px solid red;
-	position: fixed;
-	bottom: 25px;
-	left: 15px;
-	opacity: ' + offOpacity + ';
-	transition: 0.2s opacity;
-	z-index: 9999
-} 
-#minimap:active,
-#minimap:hover {
-	opacity: 1;
-}
-'
-
-stylesheet = document.createElement 'style'
-stylesheetId = 'minimap-stylesheet'
-stylesheet.id = stylesheetId
-stylesheet.innerHTML = styles
-
 Minimap = ($container, nodes, width, height) ->
 
-	scale = 0.15
+	scale = 0.12 # scale relative to window
+	w = 4 # width of minimap node
+	h = 4 # height of minimap node
 
 	mouseDown = false
 	mouseX = null
@@ -39,21 +18,21 @@ Minimap = ($container, nodes, width, height) ->
 	draw = () ->
 
 		context.fillStyle = '#fff'
-		context.fillRect 0, 0, width, height
+		context.fillRect 0, 0, canvas.width, canvas.height
 		
-		x = $container.scrollLeft() * scale
-		y = $container.scrollTop() * scale
-		w = $container.width() * scale
-		h = $container.height() * scale
+		xs = $container.scrollLeft() * scale
+		ys = $container.scrollTop() * scale
+		ws = $container.width() * scale
+		hs = $container.height() * scale
 		
 		context.fillStyle = '#eaeaea';
 		context.setLineDash [2, 2]
 		context.beginPath()
-		context.moveTo x, y
-		context.lineTo x + w, y
-		context.lineTo x + w, y + h
-		context.lineTo x, y + h
-		context.lineTo x, y
+		context.moveTo xs, ys
+		context.lineTo xs + ws, ys
+		context.lineTo xs + ws, ys + hs
+		context.lineTo xs, ys + hs
+		context.lineTo xs, ys
 		context.fill()
 		context.stroke()
 
@@ -62,8 +41,6 @@ Minimap = ($container, nodes, width, height) ->
 		nodes.each(() ->
 			x = scale * parseInt getComputedStyle(this).left
 			y = scale * parseInt getComputedStyle(this).top
-			w = 5
-			h = 5
 			context.fillRect x, y, w, h
 		)
 
@@ -99,10 +76,13 @@ Minimap = ($container, nodes, width, height) ->
 	canvas.addEventListener('mousemove', mousemove)
 
 	return {
-		create: () -> 
-			if !document.getElementById stylesheetId
-				document.head.appendChild stylesheet
+		create: () ->
 			$container.append canvas
+		
+		update: (width, height) ->
+			canvas.width = width
+			canvas.height = height
+			draw()
 	}
 
 window.Minimap = Minimap
