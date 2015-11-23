@@ -104,6 +104,7 @@
 		drawLinks(tut1_id)
 
 	# this gets updated and passed into the minimap
+	map = null
 	containerWidth = 0
 	containerHeight = 0
 
@@ -248,7 +249,7 @@
 			sort:
 				createdAt: -1
 		tutcount = tuts.count()
-		if(Session.get("nodes-rendered") == tutcount)
+		if (Session.get("nodes-rendered") == tutcount)
 			_.each tuts.fetch(), (t) ->
 				drawLinks t._id
 
@@ -292,7 +293,7 @@
 	Template.tree.rendered = ->
 		map = Minimap $('#column-navtree'), $('.node'), containerWidth, containerHeight 
 		map.create()
-		if(!this._rendered)
+		if !this._rendered
 			this._rendered = true
 			$('#column-navtree').dragScroll({});
 
