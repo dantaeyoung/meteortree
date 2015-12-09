@@ -19,23 +19,18 @@
 					<a href="/" rel="home">
 						<img class="logo" src="/img/site-logo.jpg" />
 					</a>
-					<a href="/tutorial/one">one</a>
-					<a href="/tutorial/two">two</a>
 				</div>
 
 				<div id="section-tree">
 					{{> tree }}
 				</div>
 
-				<div id="login-shortcut"><a href="#">
-						{{#if currentUser}}
-						logout
-						{{else}}
-						login
-						{{/if}}
-				</a></div>
-
-				{{> loginButtons}}
+				<div id="admin-container">
+					{{> loginButtons}}
+					<script>
+					$('#admin-container').on('click', '#login-username, #login-password', function() { this.focus(); });
+					</script>
+				</div>
 
 				<div id="admin-buttons">
 					{{#if currentUser}}
