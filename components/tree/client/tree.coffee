@@ -23,11 +23,6 @@
 				$(".node").removeClass "draft-node"
 				Session.set "draft-mode", "False"
 				jsPlumb.repaintEverything()
-		"click #login-username": ->
-			this.focus()
-		"click #login-password": ->
-			this.focus()
-
 
 		"submit .new-tutorial": (event) ->
 			event.preventDefault()
