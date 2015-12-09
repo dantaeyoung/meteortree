@@ -118,16 +118,19 @@
             e.preventDefault();
             if (!$el.hasClass('lazyYT-video-loaded') && $thumb.hasClass('lazyYT-image-loaded')) {
               if(provider == "youtube") {
-                $el.html('<iframe src="//www.youtube.com/embed/' + id + '?autoplay=1&' + youtube_parameters + '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
-                .addClass('lazyYT-video-loaded');
+                $el.html('<iframe src="//www.youtube.com/embed/' + id + '?enablejsapi=1&autoplay=1&' + youtube_parameters + '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+                .addClass('lazyYT-video-loaded youtube');
               } 
               if(provider == "vimeo") {
                 $el.html('<iframe src="//player.vimeo.com/video/' + id + '?autoplay=1&" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
-                .addClass('lazyYT-video-loaded');
+                .addClass('lazyYT-video-loaded vimeo');
               }
+              $(".youtube iframe").each(function() {
+                  var iframewindow = this.contentWindow? this.contentWindow : this.contentDocument.defaultView;
+                  iframewindow.postMessage('{"event":"command", "func":"pauseVideo","args":""}','*');
+              });
             }
-          });
-
+          })
         if(provider == "youtube") {
           $.getJSON('https://gdata.youtube.com/feeds/api/videos/' + id + '?v=2&alt=json', function (data) {
 //              console.log(data);
