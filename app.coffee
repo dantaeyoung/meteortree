@@ -2,7 +2,12 @@ Accounts.config({forbidClientAccountCreation: true})
 
 if Meteor.isClient
 
-	Template.body.helpers
+	Template.mainLayout.events
+		"click .modal-shadow": (e) ->
+			$('[modal-target]').fadeOut()
+			$('.modal-shadow').fadeOut();
+
+	Template.mainLayout.helpers
 		loginStatus: ->
 			if(Meteor.user())
 				return "logged-in"
@@ -22,6 +27,20 @@ if Meteor.isClient
 	Meteor.startup ->
 		new Fingerprint2().get (result) ->
 			Session.set("userFingerprint", result)
+
+	Template.adminContainer.events
+		"click [data-modal]": (e) ->
+			modal = $('[modal-target="' + e.target.getAttribute('data-modal') + '"')
+			modalShadow = $('.modal-shadow')
+			if ( modal.is(':visible') )
+				modal.fadeOut()
+				modalShadow.fadeOut()
+			else
+				modal.fadeIn()
+				modalShadow.fadeIn()
+		"click .modal-close": (e) ->
+			$('[modal-target]').fadeOut()
+			$('.modal-shadow').fadeOut()
 
 		
 

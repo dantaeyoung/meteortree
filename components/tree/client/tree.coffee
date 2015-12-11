@@ -4,7 +4,7 @@
 #
 #
 
-	Template.body.events
+	Template.tree.events
 		"click .save-draft": (event) ->
 			if(Meteor.user())
 				allTuts = Tutorials.find({}).fetch()
