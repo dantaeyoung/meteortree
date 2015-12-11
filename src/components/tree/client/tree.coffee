@@ -134,7 +134,7 @@
 			if (icon)
 				imgurl = s3url(icon._id, icon.original.name)
 			else
-				imgurl = DEFAULT_ICON
+				imgurl = "/" + DEFAULT_ICON
 			return "<img src='" + imgurl + "'>"
 
 
