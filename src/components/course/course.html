@@ -1,17 +1,20 @@
 <template name="sectioncourses">
- <div class="courses">
-  {{#each courses}}
-	{{> course}}
-  {{/each}}
- </div>
-{{#if currentUser}}
- <div class="new-course">
-	<form class="new-course">
-	ADD NEW COURSE 
-    <input type="submit" />
-  </form>
- </div>
- {{/if}}
+
+	<div class="label">Courses</div>
+	<div style="display: none;" class="section-courses-content">
+		<div class="courses">
+			{{#each courses}}
+				{{> course}}
+			{{/each}}
+		</div>
+		{{#if currentUser}}
+			<div class="new-course">
+				<form class="new-course">
+					<input type="submit" class="button" value="Add New Course" />
+				</form>
+			</div>
+		{{/if}}
+	</div>
 </template> 
 
 
@@ -19,8 +22,8 @@
 <div class="course" id="course-{{_id}}" >
 	{{#if currentUser}}
 		<div class="menu">
-			<div class="course-title">{{> editableText collection="courses" field="title" }}</div>
-			<div class="publishMode">{{{publishModeIcon}}} </div>
+			<div class="course-title button-small">{{> editableText collection="courses" field="title" }}</div>
+			<div class="publishMode button-small">{{{publishModeIcon}}} </div>
 			<div class="delete-course-button button-small"><i class="fa fa-trash-o"></i></div>
 		</div>
 		<div class="weeks sortable">
@@ -48,7 +51,7 @@
 			<div class="week-title">{{> editableText collection="weeks" field="title" }}</div>
 		</div>
 		<div class="edit-bar">
-			<div class="sorthandle"><i class="fa fa-arrows"></i></div>
+			<div class="sorthandle button-small"><i class="fa fa-arrows"></i></div>
 			<div class="edit button-small"><i class="fa fa-pencil-square"></i></div>
 			<div class="delete button-small"><i class="fa fa-trash-o"></i></div>
 		</div>

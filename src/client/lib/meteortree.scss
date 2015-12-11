@@ -78,12 +78,12 @@ text-decoration: none;
 	top: 30px;
 
 	& > div {
-		display: inline-block;
+		float: left;
 		margin-right: 20px;
 	}
 }
 
-[data-modal] {
+.label {
 	cursor: pointer;
 	text-decoration: underline;
 }
@@ -229,11 +229,18 @@ img::selection {
 	}
 }
 
-#section-courses {
-	position: absolute;
-	z-index: 1000;
-	top:  230px;
-	left: 30px;
+.section-courses-content {
+	background: #fff;
+	min-width: 240px;
+	padding: 1em;
+	position: relative;
+	z-index: 900;
+
+	.course {
+		border: 2px dashed $red;
+		padding: 5px;
+		margin-bottom: 10px;
+	}
 }
 
 #section-tree {
@@ -268,6 +275,13 @@ body.draft-mode .logged-in #draft-sign {
 
 .editable-text {
 	cursor:text;
+}
+
+.edit-bar {
+	/* & > * {
+		float: left;
+		width: auto;
+	} */
 }
 
 .ui-draggable {

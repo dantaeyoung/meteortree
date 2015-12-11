@@ -7,6 +7,14 @@
 
 	Template.sectioncourses.events 
 
+		"click .label": (e) ->
+			$this = $(e.target)
+			if $this.hasClass('showing')
+				$this.next().show()
+			else
+				$this.next().hide()
+			$this.toggleClass('showing')
+
 		"submit form.new-course": ->
 			event.preventDefault()
 			Courses.insert
