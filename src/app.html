@@ -25,12 +25,7 @@
 					{{> tree }}
 				</div>
 
-				<div id="admin-container">
-					{{> loginButtons}}
-					<script>
-					$('#admin-container').on('click', '#login-username, #login-password', function() { this.focus(); });
-					</script>
-				</div>
+				{{> adminContainer }}
 
 				<div id="admin-buttons">
 					{{#if currentUser}}
@@ -61,8 +56,24 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="modal-shadow"></div>
 </body>
 
 </template>
 
+<template name="adminContainer">
+	<div id="admin-container">
+		{{> loginButtons}}
+		
+		<div data-modal="about">About</div>
+		<aside class="modal" modal-target="about">
+			<div class="modal-close">&#10005;</div>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus enim facere recusandae corporis delectus sit fugit facilis aliquam vitae, ut cum cupiditate impedit eius dolore, porro provident hic, mollitia animi.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam, quos. Repudiandae, consequuntur. Consectetur in nobis aperiam, animi aliquam id est quisquam quidem obcaecati, repellendus earum soluta maiores suscipit fugiat porro dolores. Voluptatum in quae repellendus consequuntur iure culpa odit, quasi excepturi saepe non necessitatibus fugit nulla, numquam provident dicta sed, aspernatur quia mollitia! Qui libero suscipit ullam inventore, dolore. Incidunt.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore officiis quia mollitia et atque, laudantium quam quo reprehenderit voluptates id aut sit eos quisquam dignissimos beatae voluptas cupiditate maiores ex tenetur ad iusto asperiores, deleniti facere! Aspernatur cupiditate facere fugit, nobis? Architecto quisquam quas quae aperiam aliquam, dolorum. Cum atque ullam possimus facilis veniam nobis eos odio illo voluptate repellat, autem consequuntur dolores architecto quae iusto sit, fuga ducimus soluta nostrum, nihil ex? Blanditiis fugiat nobis, distinctio sapiente aut deserunt vel repellendus nostrum, veniam fugit assumenda aspernatur ullam ad rerum consequuntur accusamus labore quaerat voluptas facilis doloremque velit qui totam et? Sed in voluptas cupiditate sint, dolor repudiandae vel aliquam molestias praesentium, aperiam autem dignissimos explicabo dolores dicta nesciunt laborum.</p><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus enim facere recusandae corporis delectus sit fugit facilis aliquam vitae, ut cum cupiditate impedit eius dolore, porro provident hic, mollitia animi.</p>
+		</aside>
 
+		<script>
+		$('#admin-container').on('click', '#login-username, #login-password', function() { this.focus(); });
+		</script>
+	</div>
+</template>
