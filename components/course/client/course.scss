@@ -5,6 +5,20 @@
 	box-shadow: 0 0 0 6px $purple;
 }
 
+.node.courseHover,
+.node.weekmodeHover {
+	&:after {
+		border: 6px dashed $purple;
+		content: "";
+		display: block;
+		height: 100%;
+		position: absolute;
+		top: -6px;
+		left: -6px;
+		width: 100%;
+	}
+}
+
 .week {
 	cursor: pointer;
 }

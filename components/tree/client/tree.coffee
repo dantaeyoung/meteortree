@@ -100,13 +100,11 @@
 
 	# this gets updated and passed into the minimap
 	map = null
-	containerWidth = 0
+	containerWidth = $('#column-navtree').width()
 	containerHeight = 0
 
 	Template.node.helpers
 		xpos: ->
-			if this.x * GRID_MULTIPLIER_X > containerWidth + 80
-				containerWidth = this.x * GRID_MULTIPLIER_X + 80
 			if(Meteor.user())
 				this.draft_x * GRID_MULTIPLIER_X
 			else
@@ -140,30 +138,32 @@
 
 
 	Template.node.events 
-
 		"mouseenter": (event) ->
-
-			if Session.get("dep-mode") is "True"
-				endDepMode(this._id)
-			else
-				unless Session.get("week-mode") is "True"
-#					console.log this
-					# $(".tutorial").fadeOut(50);
-					# console.log "#tutorial-" + tutid
-					# $("#tutorial-" + tutid).fadeIn(50);
-					# window.location.hash = tutid
+			return false
+			'''
+			# what is this mouseenter doing?? let click handle.
+				if Session.get("dep-mode") is "True"
+					endDepMode(this._id)
 				else
-					weekfrom = Session.get("week-mode-from")
-					weeksnodes = Weeks.findOne(_id: weekfrom).nodes
-					if (tutid in weeksnodes)
-						# $("#node-" + tutid).removeClass "courseHighlight"
-						weeksnodes = _.without(weeksnodes, tutid)
+					unless Session.get("week-mode") is "True"
+						# console.log this
+						# $(".tutorial").fadeOut(50);
+						# console.log "#tutorial-" + tutid
+						# $("#tutorial-" + tutid).fadeIn(50);
+						# window.location.hash = tutid
 					else
-						# $("#node-" + tutid).addClass "courseHighlight"
-						weeksnodes.push(tutid)
-					Weeks.update weekfrom,
-						$set:
-							nodes: weeksnodes
+						weekfrom = Session.get("week-mode-from")
+						weeksnodes = Weeks.findOne(_id: weekfrom).nodes
+						if (tutid in weeksnodes)
+							# $("#node-" + tutid).removeClass "courseHighlight"
+							weeksnodes = _.without(weeksnodes, tutid)
+						else
+							# $("#node-" + tutid).addClass "courseHighlight"
+							weeksnodes.push(tutid)
+						Weeks.update weekfrom,
+							$set:
+								nodes: weeksnodes
+			'''
 
 			# only "show" if not already showing...
 			'''
@@ -191,8 +191,8 @@
 			if Session.get("dep-mode") is "True"
 				endDepMode(this._id)
 			else
+				# not in week mode
 				unless Session.get("week-mode") is "True"
-
 					if !node.hasClass "courseHighlight"
 						$('#column-content').fadeIn()
 						tutorial.fadeOut(100, () ->
@@ -203,9 +203,20 @@
 
 					node.toggleClass "courseHighlight"
 					
+				# viewing a week, only show nodes in that week
 				else
 					weekfrom = Session.get("week-mode-from")
 					weeksnodes = Weeks.findOne(_id: weekfrom).nodes
+
+					if node.hasClass 'weekmodeHighlight'
+						$('#column-content').fadeIn()
+						tutorial.fadeOut(100, () ->
+							tutorial.fadeIn(100);
+						);
+					else
+						$('#column-content').hide()
+					
+					'''
 					if (tutid in weeksnodes)
 						# $("#node-" + tutid).removeClass "courseHighlight"
 						weeksnodes = _.without(weeksnodes, tutid)
@@ -215,6 +226,7 @@
 					Weeks.update weekfrom,
 						$set:
 							nodes: weeksnodes
+					'''
 
 		"click .change-dep": ->
 			if(Meteor.user())
@@ -286,9 +298,16 @@
 				createdAt: -1
 
 	Template.tree.rendered = ->
-		map = Minimap $('#column-navtree'), $('.node'), containerWidth, containerHeight 
+		map = Minimap $('#column-navtree'), $('.node'), containerWidth, containerHeight
 		map.create()
-		if !this._rendered
-			this._rendered = true
-			$('#column-navtree').dragScroll({});
+		Session.set 'Minimap', map
+
+		# reference map from $
+		$.fn.extend(
+			minimap: () -> return map
+		)
+		
+		this._rendered = true
+		map.update $('#column-navtree').width(), containerHeight
+		$('#column-navtree').dragScroll({});
 
