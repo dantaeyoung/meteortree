@@ -46,6 +46,7 @@ Minimap = ($container, nodes, width, height) ->
 
 	draw()
 	window.addEventListener('mousemove', draw);
+	window.addEventListener('resize', draw);
 	$container.on('scroll', draw);
 
 	mouse = {}
@@ -75,14 +76,16 @@ Minimap = ($container, nodes, width, height) ->
 	canvas.addEventListener('mouseup', () -> mouseDown = false)
 	canvas.addEventListener('mousemove', mousemove)
 
-	return {
+	output = {
 		create: () ->
 			$container.append canvas
 		
 		update: (width, height) ->
-			canvas.width = width
-			canvas.height = height
+			canvas.width = width * scale
+			canvas.height = height * scale
 			draw()
 	}
+
+	return output
 
 window.Minimap = Minimap

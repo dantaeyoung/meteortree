@@ -25,6 +25,14 @@
 				createdByUsername: Meteor.user().username
 				# Clear form
 
+		"mouseover .section-courses-content": (e) ->
+			e.target._mouseover = true
+		
+		"mouseleave .section-courses-content": (e) ->
+			if e.target._mouseover
+				delete e.target._mouseover
+				$(e.target).hide()
+
 	Template.course.events
 		"click .add-week-button": (event) ->
 			event.preventDefault()
@@ -47,39 +55,42 @@
 				$("#course-" + this._id).addClass("courseHighlight");
 				_.each $("#course-" + this._id).find(".week"), (d) ->
 					_.each Blaze.getData(d).nodes, (n) ->
-						$("#node-" + n).addClass "courseHighlight" 
+						$("#node-" + n).addClass "courseHover" 
 
 		"mouseout .course-title": (event) ->
 			unless Session.get("week-mode") is "True" 
-				$(".courseHighlight").removeClass("courseHighlight");
+				$(".courseHover").removeClass("courseHover");
 
 
 		"mouseover .week": (event) ->
 			
-			unless Session.get("week-mode") is "True" 
-				$(".weekHighlight").removeClass "weekHighlight"
-				$("#week-" + this._id).addClass "weekHighlight"
+			$("#week-" + this._id).addClass "weekHighlight"
 
-				_.each this.nodes, (n) ->
-					$("#node-" + n).addClass "weekmodeHighlight" 
+			_.each this.nodes, (n) ->
+				$("#node-" + n).addClass "weekmodeHover" 
 
 		"mouseout .week": (event) ->
 			
-			unless Session.get("week-mode") is "True" 
+			$(".weekmodeHover").removeClass "weekmodeHover"
+
+			unless this._id == Session.get 'week-mode-from'
 				$("#week-" + this._id).removeClass "weekHighlight"
-				$(".weekmodeHighlight").removeClass "weekmodeHighlight"
+				
 
 		"click .week": (event) ->
+			$('.weekmodeHighlight').removeClass 'weekmodeHighlight'
+			# unset
 			if Session.get("week-mode-from") == this._id
 				Session.set "week-mode", "False"
 				Session.set "week-mode-from", ""
-				$(".weekfrom").removeClass("weekfrom")
+				$(".weekfrom").removeClass "weekfrom"
 				$("body").removeClass "week-mode"
+				
+			# set
 			else
 				Session.set "week-mode", "True" 
 				Session.set "week-mode-from", this._id
 
-				$(".weekmodeHighlight").removeClass "weekmodeHighlight"
 				$(".weekHighlight").removeClass "weekHighlight"
 				$("#week-" + this._id).addClass "weekHighlight"
 
