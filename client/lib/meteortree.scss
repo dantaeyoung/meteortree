@@ -71,55 +71,13 @@ text-decoration: none;
 
 }
 
-#admin-container {
-	font-size: 15px;
-	left: 180px;
-	position: absolute;
-	top: 30px;
-
-	& > div {
-		float: left;
-		margin-right: 20px;
-	}
-}
-
 .label {
 	cursor: pointer;
 	text-decoration: underline;
 }
 
-.modal {
-	background: #fff;
-	border-top: 4px solid $red;
-	border-bottom: 4px solid $red;
-	display: none;
-	overflow-y: scroll;
-	padding: 2em;
-	position: fixed;
-	height: 60vh;
-	top: 20vh;
-	left: 20%;
-	width: 60%;
-	z-index: 999;
-}
-
-.modal-close {
-	cursor: pointer;
-	position: absolute;
-	top: 0.75em;
-	left: 0.75em;
-}
-
-.modal-shadow {
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background: rgba(0, 0, 0, 0.25);
-	z-index: 998;
-}
+.float-right { float: right; }
+.float-left { float: left; }
 
 #login-dropdown-list {
 	border: 0;
@@ -138,14 +96,6 @@ text-decoration: none;
 		cursor: pointer;
 	}
 }
-
-#admin-buttons {
-	position: fixed;
-	bottom: 20px;
-	left: 20px;
-}
-
-
 
 
 /***** SELECTION AND SCROLL STYLES *****/
