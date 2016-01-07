@@ -7,10 +7,13 @@
 
 	Template.sectioncourses.events 
 
-		"click .label": (e) ->
+		"click .button": (e) ->
 			$this = $(e.target)
-			if $this.hasClass('showing')
-				$this.next().show()
+			if !$this.hasClass('showing')
+				$this.next().show().css({
+					left: e.target.getBoundingClientRect().left,
+					top: e.target.getBoundingClientRect().bottom - 1	
+				})
 			else
 				$this.next().hide()
 			$this.toggleClass('showing')
@@ -25,6 +28,7 @@
 				createdByUsername: Meteor.user().username
 				# Clear form
 
+		'''
 		"mouseover .section-courses-content": (e) ->
 			e.target._mouseover = true
 		
@@ -32,6 +36,7 @@
 			if e.target._mouseover
 				delete e.target._mouseover
 				$(e.target).hide()
+		'''
 
 	Template.course.events
 		"click .add-week-button": (event) ->

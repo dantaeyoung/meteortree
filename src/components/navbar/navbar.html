@@ -18,3 +18,22 @@
 		</script>
 	</div>
 </template>
+
+<template name="sectioncourses">
+
+	<div class="button text-blue toggle-courses">Trails</div>
+	<div style="display: none;" class="section-courses-content">
+		<div class="courses">
+			{{#each courses}}
+				{{> course}}
+			{{/each}}
+		</div>
+		{{#if currentUser}}
+			<div class="new-course">
+				<form class="new-course">
+					<input type="submit" class="button" value="Add New Course" />
+				</form>
+			</div>
+		{{/if}}
+	</div>
+</template> 
