@@ -35,5 +35,5 @@ Router.route '/tutorial/:_tutid', ->
 	this.render 'tutorial',
 		to: 'tutorial'
 		data: ->
-			return Tutorials.findOne({_id: this.params._tutid});
+			return Tutorials.findOne({_id: this.params._tutid})
 
