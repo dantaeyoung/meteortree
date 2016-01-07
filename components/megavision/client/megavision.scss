@@ -23,5 +23,11 @@
 	-moz-filter: blur(10px);
 	text-indent: -9999px;
 	transform: translateX(-50%) translateY(-50%);
+
+    // megavision mouse pointers are invisible until actually handled by code
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    -moz-transition: opacity 1.5s ease-in-out;
+    -webkit-transition: opacity 1.5s ease-in-out;
 }
 
