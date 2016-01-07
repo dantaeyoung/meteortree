@@ -22,7 +22,6 @@
             loading_text = $el.text() ? $el.text() : settings.loading_text,
             youtube_parameters = $el.data('parameters') || '';
 
-
     if($el.data('youtube-id')) {
       var provider = "youtube"
             var id = $el.data('youtube-id')
@@ -118,17 +117,32 @@
             e.preventDefault();
             if (!$el.hasClass('lazyYT-video-loaded') && $thumb.hasClass('lazyYT-image-loaded')) {
               if(provider == "youtube") {
-                $el.html('<iframe src="//www.youtube.com/embed/' + id + '?enablejsapi=1&autoplay=1&' + youtube_parameters + '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+                $el.html('<iframe id="video-' + id + '" src="//www.youtube.com/embed/' + id + '?enablejsapi=1&autoplay=1&' + youtube_parameters + '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
                 .addClass('lazyYT-video-loaded youtube');
               } 
               if(provider == "vimeo") {
-                $el.html('<iframe src="//player.vimeo.com/video/' + id + '?autoplay=1&" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
+                $el.html('<iframe id="video-' + id + '" src="//player.vimeo.com/video/' + id + '?autoplay=1&" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>')
                 .addClass('lazyYT-video-loaded vimeo');
               }
-              $(".youtube iframe").each(function() {
-                  var iframewindow = this.contentWindow? this.contentWindow : this.contentDocument.defaultView;
-                  iframewindow.postMessage('{"event":"command", "func":"pauseVideo","args":""}','*');
-              });
+              var player = new YT.Player("video-" + id);
+
+              console.log(player);
+
+              window.pauseOtherVideos = function(event) {
+                 console.log(event.data);
+                 if(event.data == 1) {
+                     console.log("video playing") 
+                     $(".lazyYT iframe").each(function() {
+                        console.log(event);
+                        console.log(this.id);
+                 //       callPlayer(this.id, "pauseVideo");
+                    });
+                 } 
+              }
+
+              player.addEventListener('onStateChange', 'pauseOtherVideos')
+
+
             }
           })
         if(provider == "youtube") {
