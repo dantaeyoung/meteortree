@@ -42,12 +42,15 @@
 		<div class="step-description">
 			{{ description_text }}
 		</div>
-        <div class="step-markdown">
-            {{#markdown}}{{markdown_text}}{{/markdown}}
-	 	</div>
-		<div class="step-video">
-			{{{ video_embedded }}}
-		</div>
+        {{#if is_step_type_checked "step_video" }}
+            <div class="step-video">
+                {{{ video_embedded }}}
+            </div>
+        {{else}}
+            <div class="step-markdown">
+                {{#markdown}}{{markdown_text}}{{/markdown}}
+            </div>
+        {{/if}}
 	</div>
 </div>
 </template>
