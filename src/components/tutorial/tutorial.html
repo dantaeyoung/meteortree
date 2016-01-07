@@ -38,7 +38,9 @@
 		<div class="steps sortable">
 		{{> stepList }}
 		</div>
-		{{> step tutorial_id =  _id  new="new"}}
+        {{#if currentUser}}
+            {{> step tutorial_id =  _id  new="new"}}
+        {{/if}}
 		<div class="debug">
 			{{ isPublished }}
 			{{ createdAt }}
