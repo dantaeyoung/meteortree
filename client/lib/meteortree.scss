@@ -179,20 +179,6 @@ img::selection {
 	}
 }
 
-.section-courses-content {
-	background: #fff;
-	min-width: 240px;
-	padding: 1em;
-	position: relative;
-	z-index: 900;
-
-	.course {
-		border: 2px dashed $red;
-		padding: 5px;
-		margin-bottom: 10px;
-	}
-}
-
 #section-tree {
 	position: relative;
 }

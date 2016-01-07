@@ -13,7 +13,7 @@
 
 	#login-buttons,
 	.button {
-		background: #eee;
+		background: #fff;
 		border-radius: 4px;
 		color: $red;
 		padding: 5px 12px;
@@ -26,6 +26,43 @@
 		&:active {
 			box-shadow: 0 1px 2px transparentize(#000, 0.5);
 			transform: translateY(1.5px);
+		}
+
+		&.text-blue { color: $blue; }
+	}
+
+	.toggle-courses {
+		background-image: url(/img/trails-01.png);
+		background-position: 5px 0;
+		background-size: auto 100%;
+		background-repeat: no-repeat;
+		padding-left: 40px;
+
+		&:focus, &:active, &:hover {
+			background-color: $blue;
+			color: #fff;
+		}
+
+		&.showing {
+			background-color: #fff;
+			background-image: url(/img/trails-02.png);
+			border-radius: 4px 4px 0 0;
+			color: $blue !important;
+		}
+	}
+
+	.section-courses-content {
+		background: #fff;
+		border-radius: 0 4px 4px 4px;
+		left: 0;
+		min-width: 240px;
+		padding: 1em;
+		position: absolute;
+		z-index: 900;
+
+		.course {
+			padding: 5px;
+			margin-bottom: 10px;
 		}
 	}
 }
