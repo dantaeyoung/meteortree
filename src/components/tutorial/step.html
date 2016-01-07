@@ -26,7 +26,7 @@
 				Step Type<br>
 				<div>
 					<input type="radio" name="step_type" value="step_video" {{ is_step_type_checked "step_video" }} >Video <br>
-					<input type="radio" name="step_type" value="step_markdown" {{ is_step_type_checked "step_video" }} > Markdown
+					<input type="radio" name="step_type" value="step_markdown" {{ is_step_type_checked "step_markdown" }} > Markdown
 				</div>
 				Markdown<br>
 				<textarea name="markdown_text" placeholder="markdown">{{markdown_text}}</textarea><br>
@@ -42,6 +42,9 @@
 		<div class="step-description">
 			{{ description_text }}
 		</div>
+        <div class="step-markdown">
+            {{#markdown}}{{markdown_text}}{{/markdown}}
+	 	</div>
 		<div class="step-video">
 			{{{ video_embedded }}}
 		</div>
