@@ -159,3 +159,19 @@
     }
 }
 
+.download-file {
+	background-image: url(/img/file-icon.svg);
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	color: $gray;
+	display: block;
+	font-size: 14px;
+	margin-bottom: 5px;
+	padding: 5px 0 5px 30px;
+	text-decoration: none;
+
+	&:active, &:hover, &:focus {
+		color: $blue;
+	}
+}
+
