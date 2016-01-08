@@ -1,5 +1,8 @@
 @import "../../shared/styles/vars";	
 
+$button_pad_vertical: 5px;
+$button_pad_horizontal: 12px;
+
 #navbar {
 	background-color: $red;
 	background-image: url(/img/navbar-logo.svg);
@@ -16,7 +19,7 @@
 		background: #fff;
 		border-radius: 4px;
 		color: $red;
-		padding: 5px 12px;
+		padding: $button_pad_vertical $button_pad_horizontal;
 		transition: 0.1s;
 
 		&:focus, &:hover {
@@ -65,7 +68,20 @@
 			margin-bottom: 10px;
 		}
 	}
+
+	#login-buttons {
+		&.showing {
+			border-radius: 4px 4px 0 0;
+		}
+	}
 }
+
+#login-dropdown-list {
+	left: -$button_pad_horizontal;
+	top: 20px;
+}
+
+.login-close-text { display: none; }
 
 .modal {
 	background: #fff;
