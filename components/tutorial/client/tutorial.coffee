@@ -129,12 +129,12 @@ Template.tutorial.helpers
 			files.forEach((file) ->
 				# TODO: download attribute doesn't set filename properly?
 				if (file)
-					output += '<a href="' + file.url + '" download="' + file.name + '">Download</a><br>'
+					# TODO: include ability to delete
+					output += '<a class="download-file" href="' + file.url + '" download="' + file.name + '">' + file.name + '</a>'
 				# if file is false (see above s3 func), clear the output
 				else
 					output = ''
 			)
-			output += '<br>'
 		return output
 
 	publishMode: ->
