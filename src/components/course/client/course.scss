@@ -2,13 +2,14 @@
 
 .node.courseHighlight, 
 .node.weekmodeHighlight {
-	box-shadow: 0 0 0 6px $purple;
+	box-shadow: 0 0 0 6px $blue;
+	border-radius: 6px;
 }
 
 .node.courseHover,
 .node.weekmodeHover {
 	&:after {
-		border: 6px dashed $purple;
+		@extend .node.courseHighlight;
 		content: "";
 		display: block;
 		height: 100%;

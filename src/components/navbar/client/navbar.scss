@@ -35,20 +35,20 @@ $button_pad_horizontal: 12px;
 	}
 
 	.toggle-courses {
-		background-image: url(/img/trails-01.png);
+		background-image: url(/img/trails-01.svg);
 		background-position: 5px 0;
 		background-size: auto 100%;
 		background-repeat: no-repeat;
 		padding-left: 40px;
 
 		&:focus, &:active, &:hover {
+			// background-image: url(/img/trails-02.svg);
 			background-color: $blue;
 			color: #fff;
 		}
 
 		&.showing {
 			background-color: #fff;
-			background-image: url(/img/trails-02.png);
 			border-radius: 4px 4px 0 0;
 			color: $blue !important;
 		}
