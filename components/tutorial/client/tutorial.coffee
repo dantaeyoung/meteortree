@@ -6,7 +6,9 @@ Template.mainLayout.helpers
 				createdAt: -1
 
 EditableText.userCanEdit = (doc,Collection) ->
-    return this.context.user_id == Meteor.userId();
+    console.log this.context.user_id
+    return this.context.user_id == Meteor.userId()
+
 
 Template.tutorial.events
     "change .update-tutorial": (event, ui) ->
@@ -37,12 +39,7 @@ Template.tutorial.events
         return false
 
 
-    "click .button": ->
-        targetForm = $(event.target).closest(".step, .tutorial").find(".edit-form").first()
-            .toggle('slide', { 'direction': 'right'}, 300)
-
-
-	"click button.delete": ->
+	"click .tutorial-delete button.delete": ->
 		r = confirm("Delete this tutorial? This cannot be undone.")
 		if r == true
 			Tutorials.remove this._id

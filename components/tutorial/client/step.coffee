@@ -40,39 +40,42 @@ Deps.autorun ->
 	$('.lazyYT').lazyYT()
 
 Template.step.events
-	"click button.delete": ->
-		r = confirm("Delete this step? This cannot be undone.")
-		if r == true
-			Steps.remove this._id
+    "click button.delete": ->
+        r = confirm("Delete this step? This cannot be undone.")
+        if r == true
+            Steps.remove this._id
 
+    "click .step .button": (event, target) ->
+        targetForm = $(event.target).closest(".step").find(".step-edit").first()
+            .toggle('slide', { 'direction': 'right'}, 300)
 
-Template.step.events "submit .update-step": (event) ->
-#		$(".step").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
-	event.preventDefault();
+    "submit .update-step": (event) ->
+    #		$(".step").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
+        event.preventDefault();
 
-	description_text = event.target.description_text.value
-	title_text = event.target.title_text.value
-	video_url = event.target.video_url.value
-	step_type = event.target.step_type.value
-	markdown_text = event.target.markdown_text.value
+        description_text = event.target.description_text.value
+        title_text = event.target.title_text.value
+        video_url = event.target.video_url.value
+        step_type = event.target.step_type.value
+        markdown_text = event.target.markdown_text.value
 
-	Steps.upsert this._id,
-		$set:
-			tutorial_id: this.tutorial_id
-			step_type: step_type
-			markdown_text: markdown_text
-			description_text: description_text
-			title_text: title_text
-			video_url: video_url
-			ordinal: this.ordinal || 99999
-			updatedAt: new Date() # current time
-	if "new" in this
-		event.target.title_text.value = ""
-		event.target.description_text.value = ""
-		event.target.video_url.value = ""
-	steps_dep.changed()
-	console.log "update-step"
-	return false
+        Steps.upsert this._id,
+            $set:
+                tutorial_id: this.tutorial_id
+                step_type: step_type
+                markdown_text: markdown_text
+                description_text: description_text
+                title_text: title_text
+                video_url: video_url
+                ordinal: this.ordinal || 99999
+                updatedAt: new Date() # current time
+        if "new" in this
+            event.target.title_text.value = ""
+            event.target.description_text.value = ""
+            event.target.video_url.value = ""
+        steps_dep.changed()
+        console.log "update-step"
+        return false
 
 
 Template.step.rendered = ->
