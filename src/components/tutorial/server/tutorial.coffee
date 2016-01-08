@@ -1,3 +1,10 @@
+EditableText.userCanEdit = (doc,Collection) ->
+    if Meteor.userId()
+        return true
+    else 
+        return false
+    return this.context.user_id == Meteor.userId()
+
 Meteor.methods
 
 	publishTutorial: (tut_id, doPublish) ->
