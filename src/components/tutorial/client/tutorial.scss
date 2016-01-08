@@ -134,6 +134,10 @@
     & .step-inner {
         overflow: hidden;
 
+    & img {
+        max-width: 100%;
+    }
+
         & .step-description, & .step-description .input {
             font-size: 11px !important;
             line-height: 18px !important;

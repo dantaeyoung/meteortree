@@ -5,41 +5,43 @@ Template.mainLayout.helpers
 			sort:
 				createdAt: -1
 
-	Template.body.events
-		"change .update-tutorial": (event, ui) ->
-			event.preventDefault();
-
-			window.windowthis = this
-			window.windowevent = event
-			window.windowui = ui
-
-			tut_id = this._id
-			tut_id ?= ui._id
-
-			title = ui.title
-
-			console.log $("#tutorial-" + tut_id + " form.update-tutorial :checkbox:checked").length > 0
-
-			console.log $("#tutorial-" + tut_id + " input[name='publishMode']")
-			console.log $("#tutorial-" + tut_id + " input[name='publishMode']").is(":checked")
-
-			if $("#tutorial-" + tut_id + " form.update-tutorial :checkbox:checked").length > 0
-				publishMode = "publish"
-			else
-				publishMode = "unpublish"
-
-
-			console.log publishMode
-			Meteor.call("updateTutorial", tut_id, title, publishMode)
-			return false
-
-
-Template.body.events "click .button": ->
-	targetForm = $(event.target).closest(".step, .tutorial").find(".edit-form").first()
-		.toggle('slide', { 'direction': 'right'}, 300)
-
+EditableText.userCanEdit = (doc,Collection) ->
+    return this.context.user_id == Meteor.userId();
 
 Template.tutorial.events
+    "change .update-tutorial": (event, ui) ->
+        event.preventDefault();
+
+        window.windowthis = this
+        window.windowevent = event
+        window.windowui = ui
+
+        tut_id = this._id
+        tut_id ?= ui._id
+
+        title = ui.title
+
+        console.log $("#tutorial-" + tut_id + " form.update-tutorial :checkbox:checked").length > 0
+
+        console.log $("#tutorial-" + tut_id + " input[name='publishMode']")
+        console.log $("#tutorial-" + tut_id + " input[name='publishMode']").is(":checked")
+
+        if $("#tutorial-" + tut_id + " form.update-tutorial :checkbox:checked").length > 0
+            publishMode = "publish"
+        else
+            publishMode = "unpublish"
+
+
+        console.log publishMode
+        Meteor.call("updateTutorial", tut_id, title, publishMode)
+        return false
+
+
+    "click .button": ->
+        targetForm = $(event.target).closest(".step, .tutorial").find(".edit-form").first()
+            .toggle('slide', { 'direction': 'right'}, 300)
+
+
 	"click button.delete": ->
 		r = confirm("Delete this tutorial? This cannot be undone.")
 		if r == true
