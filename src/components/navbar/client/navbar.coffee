@@ -11,3 +11,12 @@ Template.navbar.events
 	"click .modal-close": (e) ->
 		$('[modal-target]').fadeOut()
 		$('.modal-shadow').fadeOut()
+	"click .login-link-text": (e) ->
+		e.preventDefault()
+		buttons = $(e.target).closest('#login-buttons')
+		loginInputs = $('#login-dropdown-list')
+		if ( buttons.hasClass('showing') )
+			loginInputs.hide()
+		else
+			loginInputs.show()
+		buttons.toggleClass('showing')

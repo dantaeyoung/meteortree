@@ -59,7 +59,7 @@
 
 	jsPlumb.Defaults.Connector = [ "SkillTreeBezier", { curviness: 35, cornerRadius: 30 } ]
 	jsPlumb.Defaults.PaintStyle = { strokeStyle:"gray", lineWidth:1 }
-	jsPlumb.Defaults.EndpointStyle = { radius:3, fillStyle:"gray" }
+	jsPlumb.Defaults.EndpointStyle = { radius: 0 }
 	jsPlumb.Defaults.Anchor = [ "Left", "Right" ]
 
 	Session.set "dep-mode", "False"
