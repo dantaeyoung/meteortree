@@ -39,10 +39,10 @@
 		this.type = "SkillTreeBezier"
 		this._compute = (paintInfo) ->
 
-			x1=paintInfo.sx
-			y1=paintInfo.sy
-			x2=paintInfo.tx
-			y2=paintInfo.ty
+			x1 = paintInfo.sx
+			y1 = paintInfo.sy + 25
+			x2 = paintInfo.tx
+			y2 = paintInfo.ty + 25
 
 			#segment to end point
 			_super.addSegment this, "Bezier",
@@ -58,7 +58,11 @@
 	jsPlumb.registerConnectorType(SkillTreeBezier, "SkillTreeBezier");
 
 	jsPlumb.Defaults.Connector = [ "SkillTreeBezier", { curviness: 35, cornerRadius: 30 } ]
-	jsPlumb.Defaults.PaintStyle = { strokeStyle:"gray", lineWidth:1 }
+	jsPlumb.Defaults.PaintStyle = { 
+		strokeStyle: "gray", 
+		lineWidth: 1, 
+		dashstyle: '3 2' 
+	}
 	jsPlumb.Defaults.EndpointStyle = { radius: 0 }
 	jsPlumb.Defaults.Anchor = [ "Left", "Right" ]
 

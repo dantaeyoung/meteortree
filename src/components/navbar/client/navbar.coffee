@@ -8,9 +8,11 @@ Template.navbar.events
 		else
 			modal.fadeIn()
 			modalShadow.fadeIn()
+
 	"click .modal-close": (e) ->
 		$('[modal-target]').fadeOut()
 		$('.modal-shadow').fadeOut()
+
 	"click .login-link-text": (e) ->
 		e.preventDefault()
 		buttons = $(e.target).closest('#login-buttons')
@@ -20,3 +22,33 @@ Template.navbar.events
 		else
 			loginInputs.show()
 		buttons.toggleClass('showing')
+
+Template.sectioncourses.helpers
+	courses: ->
+		Meteor.subscribe("courses")
+		return Courses.find {},
+			sort:
+				createdAt: -1
+
+Template.sectioncourses.events 
+
+	"click .button": (e) ->
+		$this = $(e.target)
+		if !$this.hasClass('showing')
+			$this.next().show().css({
+				left: e.target.getBoundingClientRect().left,
+				top: e.target.getBoundingClientRect().bottom - 1	
+			})
+		else
+			$this.next().hide()
+		$this.toggleClass('showing')
+
+	"submit form.new-course": ->
+		event.preventDefault()
+		Courses.insert
+			title: 'course title'
+			publishMode: "unpublish"
+			createdAt: new Date() # current time
+			createdById: Meteor.userId()
+			createdByUsername: Meteor.user().username
+			# Clear form

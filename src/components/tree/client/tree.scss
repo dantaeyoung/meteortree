@@ -53,10 +53,11 @@ body.draft-mode .logged-in #section-tree {
 
 
 	& .title {
+		color: $gray;
+		text-align: left;
 		text-transform: uppercase;
-		font-weight: bold;
 		letter-spacing: 0.1em;
-		font-size: 0.85em;
+		font-size: 0.75em;
 	}
 }
 
