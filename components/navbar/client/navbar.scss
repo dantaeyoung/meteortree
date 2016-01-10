@@ -79,6 +79,7 @@ $button_pad_horizontal: 12px;
 #login-dropdown-list {
 	left: -$button_pad_horizontal;
 	top: 20px;
+	border-radius: 0 4px 4px 4px;
 }
 
 .login-close-text { display: none; }
