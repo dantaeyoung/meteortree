@@ -102,6 +102,18 @@ Template.tutorial.helpers
 			imgurl = DEFAULT_ICON
 		return "<img src='" + imgurl + "'>"
 
+	trails: ->
+		Meteor.subscribe('courses')
+		
+		# TODO: find weeks that contain this
+		# then find course from that week
+		
+		return Courses.find({})
+
+	theTrail: ->
+		console.log('in the trail', this);
+		return '<h4>test</h4>';
+
 	files: ->
 		# TODO: for better async handling, should file_ids be published server-side?
 		file_ids = this.file_ids || []
@@ -125,12 +137,12 @@ Template.tutorial.helpers
 
 		output = ''
 		if (files.length > 0)
-			output += 'Files:<br>'
+			output += '<h3>Attachments</h3>'
 			files.forEach((file) ->
 				# TODO: download attribute doesn't set filename properly?
 				if (file)
 					# TODO: include ability to delete
-					output += '<a class="download-file" href="' + file.url + '" download="' + file.name + '">' + file.name + '</a>'
+					output += '<a class="link download-file" href="' + file.url + '" download="' + file.name + '">' + file.name + '</a>'
 				# if file is false (see above s3 func), clear the output
 				else
 					output = ''
