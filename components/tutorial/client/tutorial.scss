@@ -159,19 +159,56 @@
     }
 }
 
-.download-file {
-	background-image: url(/img/file-icon.svg);
-	background-position: 0 0;
-	background-repeat: no-repeat;
-	color: $gray;
-	display: block;
-	font-size: 14px;
-	margin-bottom: 5px;
-	padding: 5px 0 5px 30px;
-	text-decoration: none;
+.resources {
+	@extend .clearfix;
+	margin-bottom: 15px;
 
-	&:active, &:hover, &:focus {
-		color: $blue;
+	.img-preview {
+		border: 2px solid #000;
+		border-radius: 6px;
+		float: left;
+		height: auto;
+		margin-right: 5%;
+		width: 60%;
+		
+		+ .trails-files {
+			float: right;
+			width: 35%;
+		}
+	}
+
+	.trails-files {
+		
+		.trails, .files {
+			margin-bottom: 12px;
+		}
+
+		h3 {
+			margin-top: 0;
+		}
+	}
+
+	.link {
+		background-position: 0 0;
+		background-repeat: no-repeat;
+		background-size: 26px;
+		color: $gray;
+		display: block;
+		font-size: 14px;
+		padding: 5px 0 5px 30px;
+		margin-bottom: 5px;
+		text-decoration: none;
+
+		&.download-file {
+			background-image: url(/img/file-icon.svg);
+		}
+
+		&.view-trail {
+			background-image: url(/img/trails-circle-bg.svg);
+		}
+
+		&:active, &:hover, &:focus {
+			color: $blue;
+		}
 	}
 }
-

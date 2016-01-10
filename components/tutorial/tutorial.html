@@ -13,8 +13,22 @@
 				<div class="title editable-text-trigger">{{> editableText collection="tutorials" field="title" }}</div>
 			</div>
 		</div>
-		<div class="files">{{{ files }}}</div>
+
+		<div class="resources">
+			<!-- GIF preview -->
+			<img class="img-preview" src="http://placehold.it/600x400">
+			<div class="trails-files">
+				<div class="trails">
+					<h3>Trails</h3>
+					{{#each trails}}
+						<a href="" class="link view-trail">Test</a>
+					{{/each}}
+				</div>
+				<div class="files">{{{ files }}}</div>
+			</div>
+		</div>
 		{{#if currentUser}}
+		
 		<div class="edit-button button">EDIT TUTORIAL</div>
 		<div class="edit-form">
 
