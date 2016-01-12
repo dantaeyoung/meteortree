@@ -50,7 +50,6 @@ Template.step.events
             .toggle('slide', { 'direction': 'right'}, 300)
 
     "submit .update-step": (event) ->
-    #		$(".step").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
         event.preventDefault();
 
         description_text = event.target.description_text.value
@@ -77,6 +76,19 @@ Template.step.events
         console.log "update-step"
         return false
 
+    "change [name='step_type']": (e) ->
+        value = e.target.value;
+        container = $(e.target).closest('.step-edit')
+        match = {
+            'step_video': 'video_url_container',
+            'step_markdown': 'markdown_text_container'
+        }
+
+        for key, selector of match
+            if ( key == value )
+                container.find('.' + selector).show()
+            else
+                container.find('.' + selector).hide()
 
 Template.step.rendered = ->
 	button = this.find('.button');
