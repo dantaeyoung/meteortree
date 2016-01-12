@@ -11,33 +11,6 @@ EditableText.userCanEdit = (doc,Collection) ->
 
 
 Template.tutorial.events
-    "change .update-tutorial": (event, ui) ->
-        event.preventDefault();
-
-        window.windowthis = this
-        window.windowevent = event
-        window.windowui = ui
-
-        tut_id = this._id
-        tut_id ?= ui._id
-
-        title = ui.title
-
-        console.log $("#tutorial-" + tut_id + " form.update-tutorial :checkbox:checked").length > 0
-
-        console.log $("#tutorial-" + tut_id + " input[name='publishMode']")
-        console.log $("#tutorial-" + tut_id + " input[name='publishMode']").is(":checked")
-
-        if $("#tutorial-" + tut_id + " form.update-tutorial :checkbox:checked").length > 0
-            publishMode = "publish"
-        else
-            publishMode = "unpublish"
-
-
-        console.log publishMode
-        Meteor.call("updateTutorial", tut_id, title, publishMode)
-        return false
-
 
 	"click .tutorial-delete button.delete": ->
 		r = confirm("Delete this tutorial? This cannot be undone.")
@@ -46,13 +19,22 @@ Template.tutorial.events
 
 	"change .iconInput": (event, target) ->
 		thistut = this._id
-		console.log(this)
 		FS.Utility.eachFile event, (file) ->
 			s3Icons.insert file, (err, fileObj) ->
 				Tutorials.update thistut,
 					$set:
 						icon_id: fileObj._id
-#			$(".tutorial").find(".edit-form").hide('slide', { 'direction': 'right'}, 300);
+
+	"change .previewInput": (e, target) ->
+		thistut = this._id
+		console.log('preview image is changing');
+		FS.Utility.eachFile event, (file) ->
+			s3Icons.insert file, (err, fileObj) ->
+				console.log('uploaded new preview image', fileObj)
+				Tutorials.update thistut,
+					$set:
+						preview_id: fileObj._id
+
 	"change .fileInput": (event, target) ->
 		console.log('changing file', event, target);
 		thistut = this._id
@@ -68,6 +50,26 @@ Template.tutorial.events
 							file_ids: fileObj._id
 			else
 				alert 'Only the following file types:\n-' + ALLOWED_FILE_TYPES.join('\n-') + '\nare allowed.' 
+				
+    "change .update-tutorial": (event, ui) ->
+        event.preventDefault();
+
+        window.windowthis = this
+        window.windowevent = event
+        window.windowui = ui
+
+        tut_id = this._id
+        tut_id ?= ui._id
+
+        title = ui.title
+
+        if $("#tutorial-" + tut_id + " form.update-tutorial :checkbox:checked").length > 0
+            publishMode = "publish"
+        else
+            publishMode = "unpublish"
+
+        Meteor.call("updateTutorial", tut_id, title, publishMode)
+        # return false
 
 
 Template.tutorial.onRendered = ->
@@ -101,6 +103,16 @@ Template.tutorial.helpers
 		else
 			imgurl = DEFAULT_ICON
 		return "<img src='" + imgurl + "'>"
+
+	previewImg: ->
+		preview_id = this.preview_id
+		preview = s3Icons.findOne({ _id: preview_id })
+
+		s3url = (id, name) ->
+			return (BUCKET_URL + 'icons/images/' + id + '-' + name)
+
+		url = s3url(preview._id, preview.original.name)
+		return url;
 
 	trails: ->
 		Meteor.subscribe('courses')

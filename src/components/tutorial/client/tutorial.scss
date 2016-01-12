@@ -174,12 +174,18 @@
 		+ .trails-files {
 			float: right;
 			width: 35%;
+
+			.trails, .files {
+				width: 100%;
+			}
 		}
 	}
 
 	.trails-files {
 		
 		.trails, .files {
+			float: left;
+			width: 50%;
 			margin-bottom: 12px;
 		}
 
@@ -220,6 +226,14 @@
 		font-size: 14px;
 		margin: 10px 0;
 		width: 100%;
+	}
+
+	.form-group {
+		.button-label {
+			display: inline-block;
+			margin-bottom: 0;
+			width: auto;
+		}
 	}
 
 	.markdown_text_container,

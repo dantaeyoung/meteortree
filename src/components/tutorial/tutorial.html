@@ -16,7 +16,9 @@
 
 		<div class="resources">
 			<!-- GIF preview -->
-			<img class="img-preview" src="http://placehold.it/600x400">
+			{{#if preview_id}}
+				<img class="img-preview" src="{{ previewImg }}">
+			{{/if}}
 			<div class="trails-files">
 				<div class="trails">
 					<h3>Trails</h3>
@@ -29,23 +31,26 @@
 		</div>
 		{{#if currentUser}}
 		
-		<div class="edit-button button">EDIT TUTORIAL</div>
+		<h2>EDIT TUTORIAL</h2>
 		<div class="edit-form">
 
 			<form class="update-tutorial">
 				<div class="form-group">
-					<label for="iconInput">Add/change Tutorial icon:</label>
-					<input type="file" class="iconInput" id="iconInput" />
-				</div>
-				<div class="form-group">
-					<label for="fileInput" class="button-label">Add files</label>
-					<input type="file" id="fileInput" class="fileInput" style="display: none;" />
-				</div>
-				<div class="form-group">
-					<label for="publishMode">Publish?</label>
-					<input type="checkbox" id="publishMode" name="publishMode" value="publishMode" {{publishChecked}}><br>
+					<label for="publishMode">Publish? <input type="checkbox" id="publishMode" name="publishMode" value="publishMode" {{publishChecked}}></label>
 				</div>
 			</form>
+			<div class="form-group">
+				<label for="iconInput" class="button-label">Add/change tutorial icon</label>
+				<input type="file" class="iconInput" id="iconInput" />
+			</div>
+			<div class="form-group">
+				<label for="previewInput" class="button-label">Add/change image preview</label>
+				<input type="file" id="previewInput" class="previewInput" />
+			</div>
+			<div class="form-group">
+				<label for="fileInput" class="button-label">Add file attachments</label>
+				<input type="file" id="fileInput" class="fileInput" />
+			</div>
 			<div class="tutorial-delete"><button class="delete">DELETE</button></div>
 		</div>
 		{{/if}}
