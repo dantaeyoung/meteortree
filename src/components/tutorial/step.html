@@ -42,21 +42,31 @@
         <div class="edit-form">
             <button class="delete">DELETE</button>
             <form class="update-step">
-                Step Title<br>
-                <textarea name="title_text" placeholder="title">{{title_text}}</textarea><br>
-                Step Type<br>
+
+                <textarea name="title_text" placeholder="Step Title">{{title_text}}</textarea>
+
+                <label>Step Type</label>
                 <div>
                     <input type="radio" name="step_type" value="step_video" {{ is_step_type_checked "step_video" }} >Video <br>
                     <input type="radio" name="step_type" value="step_markdown" {{ is_step_type_checked "step_markdown" }} > Markdown
                 </div>
-                Markdown<br>
-                <textarea name="markdown_text" placeholder="markdown">{{markdown_text}}</textarea><br>
-                Description<br>
-                <textarea name="description_text" placeholder="description">{{description_text}}</textarea><br>
-                Video URL<br>
-                <input type="text" name="video_url" placeholder="video_url" value="{{video_url}}"><br>
-                {{ tutorial_id }}<br>
-                <input type="submit" />
+                
+                <div class="description_container">
+                    <label>Description</label>
+                    <textarea name="description_text" placeholder="description">{{description_text}}</textarea>
+                </div>
+                
+                <div class="video_url_container">
+                    <label>Video URL</label>
+                    <input type="text" name="video_url" placeholder="video_url" value="{{video_url}}">
+                </div>
+
+                <div class="markdown_text_container">
+                    <label for="markdown_text">Markdown</label>
+                    <textarea name="markdown_text" placeholder="markdown">{{markdown_text}}</textarea>
+                </div>
+                
+                <input type="submit" class="button" />
             </form>
         </div>
     </div>

@@ -212,3 +212,18 @@
 		}
 	}
 }
+
+.edit-form {
+
+	label, textarea, input[type="text"] {
+		display: block;
+		font-size: 14px;
+		margin: 10px 0;
+		width: 100%;
+	}
+
+	.markdown_text_container,
+	.video_url_container {
+		display: none; // toggled w/ JS
+	}
+}
