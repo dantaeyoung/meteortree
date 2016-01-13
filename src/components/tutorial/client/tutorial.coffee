@@ -6,8 +6,8 @@ Template.mainLayout.helpers
 				createdAt: -1
 
 EditableText.userCanEdit = (doc,Collection) ->
-    console.log this.context.user_id
-    return this.context.user_id == Meteor.userId()
+	console.log this.context.user_id
+	return this.context.user_id == Meteor.userId()
 
 
 Template.tutorial.events
@@ -50,26 +50,41 @@ Template.tutorial.events
 							file_ids: fileObj._id
 			else
 				alert 'Only the following file types:\n-' + ALLOWED_FILE_TYPES.join('\n-') + '\nare allowed.' 
-				
-    "change .update-tutorial": (event, ui) ->
-        event.preventDefault();
 
-        window.windowthis = this
-        window.windowevent = event
-        window.windowui = ui
+	"click .delete-file": (e) ->
+		e.preventDefault()
+		file_id = $(e.target).closest('.download-file').attr('data-file-id')
+		file = s3Files.findOne({ _id: file_id })
 
-        tut_id = this._id
-        tut_id ?= ui._id
+		# remove from S3
+		file.remove(() ->
+			# and then remove from mongo...
+			# TODO: why does it disappear and then reappear?
+			# Also it seems like the file isn't actually deleted off the server?
+			s3Files.remove file_id
+		)
 
-        title = ui.title
 
-        if $("#tutorial-" + tut_id + " form.update-tutorial :checkbox:checked").length > 0
-            publishMode = "publish"
-        else
-            publishMode = "unpublish"
 
-        Meteor.call("updateTutorial", tut_id, title, publishMode)
-        # return false
+	"change .update-tutorial": (event, ui) ->
+		event.preventDefault();
+
+		window.windowthis = this
+		window.windowevent = event
+		window.windowui = ui
+
+		tut_id = this._id
+		tut_id ?= ui._id
+
+		title = ui.title
+
+		if $("#tutorial-" + tut_id + " form.update-tutorial :checkbox:checked").length > 0
+			publishMode = "publish"
+		else
+			publishMode = "unpublish"
+
+		Meteor.call("updateTutorial", tut_id, title, publishMode)
+		# return false
 
 
 Template.tutorial.onRendered = ->
@@ -84,9 +99,6 @@ Template.tutorial.onRendered = ->
 				$(this).removeClass("sorting");
 				$(this).children(".step").each (i, d) ->
 					Meteor.call("updateStep", Blaze.getData(d)._id, i * 10)
-
-
-
 
 
 Template.tutorial.helpers
@@ -111,7 +123,7 @@ Template.tutorial.helpers
 		s3url = (id, name) ->
 			return (BUCKET_URL + 'icons/images/' + id + '-' + name)
 
-		url = s3url(preview._id, preview.original.name)
+		url = if preview then s3url(preview._id, preview.original.name) else ''
 		return url;
 
 	trails: ->
@@ -132,17 +144,20 @@ Template.tutorial.helpers
 		files = []
 		file_ids.forEach((id) ->
 			file = s3Files.findOne({ _id: id })
-			files.push(file)
+			if (file)
+				file.id = id;
+				files.push(file);
 		)
 
 		s3 = (file) ->
 			# in the event this fires before .findOne has run,
 			# return false and check again below
-			if (!file)
+			if (!file || !file._id)
 				return false
 			return {
 				url: BUCKET_URL + 'files/' + file._id + '-' + file.original.name
 				name: file.original.name
+				id: file._id
 			}
 
 		files = files.map(s3)
@@ -154,7 +169,7 @@ Template.tutorial.helpers
 				# TODO: download attribute doesn't set filename properly?
 				if (file)
 					# TODO: include ability to delete
-					output += '<a class="link download-file" href="' + file.url + '" download="' + file.name + '">' + file.name + '</a>'
+					output += '<a class="link download-file" data-file-id="' + file.id + '" href="' + file.url + '" download="' + file.name + '">' + file.name + '<span class="delete-file">✕</delete></a>'
 				# if file is false (see above s3 func), clear the output
 				else
 					output = ''

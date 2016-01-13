@@ -201,19 +201,37 @@
 		color: $gray;
 		display: block;
 		font-size: 14px;
-		padding: 5px 0 5px 30px;
+		padding: 5px 30px;
+		position: relative;
 		margin-bottom: 5px;
 		text-decoration: none;
 
 		&.download-file {
 			background-image: url(/img/file-icon.svg);
+
+			.delete-file {
+				color: #000;
+				display: none; 
+				font-size: 1.25em;
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				right: 0;
+			}
+			
+			&:hover {
+				.delete-file {
+					display: block;
+					&:hover { color: $red; }
+				}
+			}
 		}
 
 		&.view-trail {
 			background-image: url(/img/trails-circle-bg.svg);
 		}
 
-		&:active, &:hover, &:focus {
+		&:hover, &:focus {
 			color: $blue;
 		}
 	}
