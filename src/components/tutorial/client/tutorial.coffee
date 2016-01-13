@@ -6,8 +6,9 @@ Template.mainLayout.helpers
 				createdAt: -1
 
 EditableText.userCanEdit = (doc,Collection) ->
-	console.log this.context.user_id
-	return this.context.user_id == Meteor.userId()
+	if Meteor.userId()
+		return true
+	return false
 
 
 Template.tutorial.events
