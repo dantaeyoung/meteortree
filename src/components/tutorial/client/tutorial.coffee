@@ -129,11 +129,13 @@ Template.tutorial.helpers
 
 	trails: ->
 		Meteor.subscribe('courses')
-		
-		# TODO: find weeks that contain this
-		# then find course from that week
-		
-		return Courses.find({})
+		Meteor.subscribe('weeks')
+
+		weeksOfTutorial = Weeks.find( { "nodes": this._id } ).fetch()
+		courseIdsOfTutorial = _.uniq(_.pluck(weeksOfTutorial, 'course_id'))
+		coursesOfTutorial = _.map courseIdsOfTutorial, (courseId) ->
+			return Courses.findOne({ _id: courseId })
+		return coursesOfTutorial
 
 	theTrail: ->
 		console.log('in the trail', this);
