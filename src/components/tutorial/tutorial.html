@@ -28,7 +28,14 @@
 						<a href="#" data-trail-id="{{_id}}" class="link view-trail">{{title}} -- {{_id}}</a>
 					{{/each}}
 				</div>
-				<div class="files">{{{ files }}}</div>
+				<div class="files">
+				{{ #each files }}
+					{{#if first}}
+						<h3>Attachments</h3>
+					{{/if}}
+					<a class="link download-file" data-file-id="{{id}}" href="{{url}}" download="{{name}}">{{name}}<span class="delete-file">✕</span></a>
+				{{ /each }} 
+				</div>
 			</div>
 		</div>
 		{{#if currentUser}}
