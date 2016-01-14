@@ -7,39 +7,48 @@
 
    options: Currently not used
 
-   MODIFIED BY github.com/provolot
+   MODIFIED BY github.com/provolot + @scottpdonaldson
    */
 ; (function ($) {
 	$.fn.dragScroll = function (options) {
+		
 		/* Mouse dragg scroll */
 		var x, y, top, left, down;
-		var $scrollArea = $(this);
+		var $scrollArea = $(this),
+			body = $('body');
 
-		$($scrollArea).attr("onselectstart", "return false;");   // Disable text selection in IE8
+		$scrollArea.attr("onselectstart", "return false;");   // Disable text selection in IE8
 
-		$($scrollArea).mousedown(function (e) {
+		$scrollArea.mousedown(function (e) {
 			e.preventDefault();
-			down = true;
-			x = e.pageX;
-			y = e.pageY;
-			top = $(this).scrollTop();
-			left = $(this).scrollLeft();
-			$('html').css('cursor', 'move');
+
+			var target = $(e.target);
+			if (options.exclude && !target.is(options.exclude) && target.closest(options.exclude).length === 0) {
+				down = true;
+				x = e.pageX;
+				y = e.pageY;
+				top = $scrollArea.scrollTop();
+				left = $scrollArea.scrollLeft();
+				body.css('cursor', 'move');
+			}
 		});
-		$($scrollArea).mouseleave(function (e) {
+
+		$scrollArea.mouseleave(function (e) {
 			down = false;
 		});
-		$("body").mousemove(function (e) {
+
+		body.mousemove(function (e) {
 			if (down) {
 				var newX = e.pageX;
 				var newY = e.pageY;
-				$($scrollArea).scrollTop(top - newY + y);
-				$($scrollArea).scrollLeft(left - newX + x);
+				$scrollArea.scrollTop(top - newY + y);
+				$scrollArea.scrollLeft(left - newX + x);
 			}
 		});
-		$("body").mouseup(function (e) { 
+
+		body.mouseup(function (e) { 
 			down = false; 
-			$('html').css('cursor', 'default');
+			body.css('cursor', 'default');
 		});
 	};
 })(jQuery);
