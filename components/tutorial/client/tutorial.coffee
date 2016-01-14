@@ -52,7 +52,7 @@ Template.tutorial.events
 			else
 				alert 'Only the following file types:\n-' + ALLOWED_FILE_TYPES.join('\n-') + '\nare allowed.' 
 
-	"click .slide-tutorial": (e) ->
+	"click .tutorial-tab.slide": (e) ->
 		tab = $(e.target)
 		content = $('#column-content')
 		anim = (start, end) ->
@@ -84,6 +84,9 @@ Template.tutorial.events
 
 		$('body').toggleClass('node-content-hidden')
 		tab.toggleClass('open')
+
+	"click .tutorial-tab.edit": (e) ->
+		$('#column-content').toggleClass('edit-mode')
 
 	"click .view-trail": (e) ->
 		e.preventDefault()
