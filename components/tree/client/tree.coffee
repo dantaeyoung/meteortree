@@ -146,8 +146,6 @@
 
 		"click": (event) ->
 
-			# TODO: transform tooltip into right col
-
 			$('body').addClass('viewing-node')
 
 			tutid = this._id
@@ -282,5 +280,9 @@
 			else
 				map.update($('.node'), $('#column-navtree').width(), containerHeight)
 		updateMap()
-		$('#column-navtree').dragScroll({});
+
+
+		$('#column-navtree').dragScroll({
+			exclude: '.node'
+		});
 
