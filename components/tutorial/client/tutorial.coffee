@@ -82,6 +82,7 @@ Template.tutorial.events
 		else
 			anim(0, 90)
 
+		$('body').toggleClass('node-content-hidden')
 		tab.toggleClass('open')
 
 	"click .view-trail": (e) ->

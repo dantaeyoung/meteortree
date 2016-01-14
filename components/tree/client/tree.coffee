@@ -54,6 +54,7 @@
 				cp1y: y1,
 				cp2x: ((x2 + x1) / 2 + (Math.sqrt(y1 + y2) / 2))
 				cp2y: y2
+
 	jsPlumbUtil.extend(SkillTreeBezier, jsPlumb.Connectors.AbstractConnector);
 	jsPlumb.registerConnectorType(SkillTreeBezier, "SkillTreeBezier");
 
@@ -146,6 +147,8 @@
 		"click": (event) ->
 
 			# TODO: transform tooltip into right col
+
+			$('body').addClass('viewing-node')
 
 			tutid = this._id
 			node = $("#node-" + tutid)
@@ -274,7 +277,6 @@
 		
 		this._rendered = true
 		updateMap = () ->
-			console.log('updating map. width:', $('#colum-navtree').width())
 			if (containerHeight == 0)
 				setTimeout(updateMap, 250)
 			else

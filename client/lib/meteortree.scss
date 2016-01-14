@@ -140,8 +140,20 @@ img::selection {
 }
 
 #column-navtree {
-	flex: 1;
+	position: absolute;
+	height: 100%;
+	top: 0;
+	left: 0;
 	overflow: scroll;
+	width: 100%;
+
+	.viewing-node & {
+		width: 50%;
+	}
+
+	.node-content-hidden & {
+		width: 95%;
+	}
 }
 
 #column-navtree {
