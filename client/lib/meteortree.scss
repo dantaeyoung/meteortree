@@ -139,7 +139,7 @@ img::selection {
 	display: flex;
 }
 
-#column-navtree, #column-content  {
+#column-navtree {
 	flex: 1;
 	overflow: scroll;
 }
@@ -154,7 +154,12 @@ img::selection {
 	display: none;
 	z-index: 100;
 	background-color: white;
-    margin-top: 50px;
+	height: 100%;
+    overflow: visible;
+    position: absolute;
+    right: 0;
+    top: 46px; // height of header
+    width: 50%;
 }
 
 #node-info {

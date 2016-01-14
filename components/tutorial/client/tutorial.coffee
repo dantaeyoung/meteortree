@@ -52,6 +52,38 @@ Template.tutorial.events
 			else
 				alert 'Only the following file types:\n-' + ALLOWED_FILE_TYPES.join('\n-') + '\nare allowed.' 
 
+	"click .slide-tutorial": (e) ->
+		tab = $(e.target)
+		content = $('#column-content')
+		anim = (start, end) ->
+			
+			diff = 0
+			factor = 4
+
+			content.css(
+				transform: 'translateX(' + start + '%)'
+			)
+			
+			if (end > start)
+				diff = factor
+				if (start + diff > end)
+					diff = end - start
+			
+			if (end < start)
+				diff = -factor
+				if (start + diff < end)
+					diff = end - start
+			
+			if (diff != 0)
+				requestAnimationFrame(anim.bind(null, start + diff, end))
+
+		if ( tab.hasClass('open') )
+			anim(90, 0)
+		else
+			anim(0, 90)
+
+		tab.toggleClass('open')
+
 	"click .view-trail": (e) ->
 		e.preventDefault()
 		# see src/components/course/client/course.coffee
