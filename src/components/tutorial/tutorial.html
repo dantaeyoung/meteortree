@@ -21,9 +21,11 @@
 			{{/if}}
 			<div class="trails-files">
 				<div class="trails">
-					<h3>Trails</h3>
 					{{#each trails}}
-						<a href="" class="link view-trail">{{title}} -- {{_id}}</a>
+						{{#if first}}
+							<h3>Trails</h3>
+						{{/if}}
+						<a href="#" data-trail-id="{{_id}}" class="link view-trail">{{title}} -- {{_id}}</a>
 					{{/each}}
 				</div>
 				<div class="files">{{{ files }}}</div>

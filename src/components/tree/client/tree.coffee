@@ -190,7 +190,7 @@
 			node = $("#node-" + tutid)
 			tutorial = $(".tutorial")
 
-			$('.node').not(node).removeClass "courseHighlight"
+			$('.node').not(node).removeClass "courseHighlight courseHover"
 
 			if Session.get("dep-mode") is "True"
 				endDepMode(this._id)

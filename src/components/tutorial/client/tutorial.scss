@@ -186,7 +186,6 @@
 		.trails, .files {
 			float: left;
 			width: 50%;
-			margin-bottom: 12px;
 		}
 
 		h3 {
@@ -204,6 +203,7 @@
 		padding: 5px 30px;
 		position: relative;
 		margin-bottom: 5px;
+		&:last-child { margin-bottom: 15px; }
 		text-decoration: none;
 
 		&.download-file {
