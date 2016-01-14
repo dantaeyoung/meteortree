@@ -161,28 +161,15 @@ Template.tutorial.helpers
 	files: ->
 		# TODO: for better async handling, should file_ids be published server-side?
 		file_ids = this.file_ids || []
-		files = []
-		file_ids.forEach((id) ->
-			file = s3Files.findOne({ _id: id })
-			if (file)
-				file.id = id;
-				files.push(file);
-		)
+			
+		getFile = (id) ->
+			return s3Files.findOne({ _id: id })
 
-		s3 = (file) ->
-			# in the event this fires before .findOne has run,
-			# return false and check again below
-			if (!file || !file._id)
-				return false
-			return {
-				url: BUCKET_URL + 'files/' + file._id + '-' + file.original.name
-				name: file.original.name
-				id: file._id
-			}
-
-		files = files.map(s3)
+		files = _.compact(_.map(file_ids, getFile))
 
 		return files
+
+
 
 	publishMode: ->
 		if this.publishMode == "publish"
