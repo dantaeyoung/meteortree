@@ -51,10 +51,8 @@
 	}
 }
 
-.slide-tutorial {
-	background-color: #fff;
-	background-image: url(/img/close-tutorial.svg);
-	&.open { background-image: url(/img/open-tutorial.svg); }
+.tutorial-tab {
+	background-color: #fff;	
 	background-size: 100% 100%;
 	border-radius: 4px 0 0 4px;
 	cursor: pointer;
@@ -63,7 +61,25 @@
 	position: absolute;
 	top: 20px;
 	width: 40px;
-	left: -39px; // allow for slight overlap
+	left: -40px;
+
+	span {
+		display: block;
+		font-size: 28px;
+		position: relative;
+		text-align: center;
+		top: 6px;
+	}
+
+	&.slide {
+		background-image: url(/img/close-tutorial.svg);
+		&.open { background-image: url(/img/open-tutorial.svg); }
+	}
+
+	&.edit {
+		background-color: #F8CCD9;
+		top: 70px;
+	}
 }
 
 .draft-warning {

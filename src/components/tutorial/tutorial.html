@@ -5,9 +5,13 @@
 
 <template name="tutorial">
 	
-	<div class="slide-tutorial-wrapper">
-		<div class="slide-tutorial"></div>
+	<div class="tutorial-tab slide"></div>
+
+	{{#if currentUser}}
+	<div class="tutorial-tab edit">
+		<span class="fa fa-pencil"></span>
 	</div>
+	{{/if}}
 	
 	<div class="tutorial {{publishMode}}" id="tutorial-{{ _id }}" style="display: block;">
 		<div class="header">

@@ -172,6 +172,16 @@ img::selection {
     right: 0;
     top: 46px; // height of header
     width: 50%;
+
+    &.edit-mode {
+    	background: repeating-linear-gradient(
+    		135deg,
+    		#F8CCD9,
+    		#F8CCD9 10px,
+    		#FED8F1 10px,
+    		#FED8F1 20px
+		);
+    }
 }
 
 #node-info {
