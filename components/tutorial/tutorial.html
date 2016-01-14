@@ -91,13 +91,14 @@
 
 <template name = "tutorialComments">
 	{{tuturl}}
+	{{fullUrl}}
 	{{this}}
 	{{id}}
 	<div id='discourse-comments'></div>
 
 	<script type="text/javascript">
 	  DiscourseEmbed = { discourseUrl: 'http://104.131.88.84/',
-		  discourseEmbedUrl: '{{tuturl}}' };
+		  discourseEmbedUrl: "{{fullUrl}}" };
 
 	  (function() {
 		var d = document.createElement('script'); d.type = 'text/javascript'; d.async = true;
