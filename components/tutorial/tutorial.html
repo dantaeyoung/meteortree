@@ -57,6 +57,10 @@
 				</div>
 			</form>
 			<div class="form-group">
+				<label for="slugInput">Add/change tutorial slug</label>
+				<div class="slug editable-text-trigger">{{> editableText collection="tutorials" field="slug" }}</div>
+			</div>
+			<div class="form-group">
 				<label for="iconInput" class="button-label">Add/change tutorial icon</label>
 				<input type="file" class="iconInput" id="iconInput" />
 			</div>
