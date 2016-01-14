@@ -169,6 +169,11 @@ Template.tutorial.helpers
 		else
 			imgurl = DEFAULT_ICON
 		return "<img src='" + imgurl + "'>"
+	nodeUrl: ->
+		if this.slug
+			return "/tutorial/" + this.slug
+		else 
+			return "/tutorial/" + this._id 
 
 	previewImg: ->
 		preview_id = this.preview_id

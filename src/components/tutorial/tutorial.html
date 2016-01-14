@@ -81,9 +81,28 @@
         {{#if currentUser}}
             {{> step tutorial_id =  _id  new="new"}}
         {{/if}}
+		{{> tutorialComments tuturl=nodeUrl }}
 		<div class="debug">
 			{{ isPublished }}
 			{{ createdAt }}
 		</div>
 	</div>
+</template>
+
+<template name = "tutorialComments">
+	{{tuturl}}
+	{{this}}
+	{{id}}
+	<div id='discourse-comments'></div>
+
+	<script type="text/javascript">
+	  DiscourseEmbed = { discourseUrl: 'http://104.131.88.84/',
+		  discourseEmbedUrl: '{{tuturl}}' };
+
+	  (function() {
+		var d = document.createElement('script'); d.type = 'text/javascript'; d.async = true;
+		d.src = DiscourseEmbed.discourseUrl + 'javascripts/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(d);
+	  })();
+	</script>
 </template>
