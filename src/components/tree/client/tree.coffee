@@ -139,7 +139,11 @@
 			else
 				imgurl = "/" + DEFAULT_ICON
 			return "<img src='" + imgurl + "'>"
-
+		nodeUrl: ->
+			if this.slug
+				return "/tutorial/" + this.slug
+			else 
+				return "/tutorial/" + this._id 
 
 
 	Template.node.events 

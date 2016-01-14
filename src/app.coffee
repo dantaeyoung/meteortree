@@ -31,9 +31,12 @@ if Meteor.isClient
 Router.configure
 	layoutTemplate: 'mainLayout'
 
-Router.route '/tutorial/:_tutid', ->
+Router.route '/tutorial/:slug', ->
 	this.render 'tutorial',
 		to: 'tutorial'
 		data: ->
-			return Tutorials.findOne({_id: this.params._tutid})
+			tut = Tutorials.findOne({slug: this.params.slug})
+			if tut 
+				return tut
+			return Tutorials.findOne({_id: this.params.slug}) #using id as fallback; sometime in the future  this could be removed
 
