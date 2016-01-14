@@ -182,19 +182,7 @@ Template.tutorial.helpers
 
 		files = files.map(s3)
 
-		output = ''
-		if (files.length > 0)
-			output += '<h3>Attachments</h3>'
-			files.forEach((file) ->
-				# TODO: download attribute doesn't set filename properly?
-				if (file)
-					# TODO: include ability to delete
-					output += '<a class="link download-file" data-file-id="' + file.id + '" href="' + file.url + '" download="' + file.name + '">' + file.name + '<span class="delete-file">✕</delete></a>'
-				# if file is false (see above s3 func), clear the output
-				else
-					output = ''
-			)
-		return output
+		return files
 
 	publishMode: ->
 		if this.publishMode == "publish"
