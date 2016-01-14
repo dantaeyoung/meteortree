@@ -162,8 +162,13 @@ Template.tutorial.helpers
 		# TODO: for better async handling, should file_ids be published server-side?
 		file_ids = this.file_ids || []
 			
+		idx = 0
 		getFile = (id) ->
-			return s3Files.findOne({ _id: id })
+			theFile = s3Files.findOne({ _id: id })
+			if theFile
+				theFile.first = idx == 0
+			idx++
+			return theFile
 
 		files = _.compact(_.map(file_ids, getFile))
 
