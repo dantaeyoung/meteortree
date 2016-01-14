@@ -80,7 +80,8 @@ Minimap = ($container, nodes, width, height) ->
 		create: () ->
 			$container.append canvas
 		
-		update: (width, height) ->
+		update: (newNodes, width, height) ->
+			nodes = newNodes
 			canvas.width = width * scale
 			canvas.height = height * scale
 			draw()

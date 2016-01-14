@@ -5,6 +5,8 @@
 
 
 #section-tutorial {
+	height: 100%;
+	overflow: scroll;
 
 	& .header-inner {
 		display: table;
@@ -47,6 +49,21 @@
 		}
 
 	}
+}
+
+.slide-tutorial {
+	background-color: #fff;
+	background-image: url(/img/close-tutorial.svg);
+	&.open { background-image: url(/img/open-tutorial.svg); }
+	background-size: 100% 100%;
+	border-radius: 4px 0 0 4px;
+	cursor: pointer;
+	display: block;
+	height: 40px;
+	position: absolute;
+	top: 20px;
+	width: 40px;
+	left: -39px; // allow for slight overlap
 }
 
 .draft-warning {

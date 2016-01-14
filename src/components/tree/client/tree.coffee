@@ -142,45 +142,6 @@
 
 
 	Template.node.events 
-		"mouseenter": (event) ->
-			return false
-			'''
-			# what is this mouseenter doing?? let click handle.
-				if Session.get("dep-mode") is "True"
-					endDepMode(this._id)
-				else
-					unless Session.get("week-mode") is "True"
-						# console.log this
-						# $(".tutorial").fadeOut(50);
-						# console.log "#tutorial-" + tutid
-						# $("#tutorial-" + tutid).fadeIn(50);
-						# window.location.hash = tutid
-					else
-						weekfrom = Session.get("week-mode-from")
-						weeksnodes = Weeks.findOne(_id: weekfrom).nodes
-						if (tutid in weeksnodes)
-							# $("#node-" + tutid).removeClass "courseHighlight"
-							weeksnodes = _.without(weeksnodes, tutid)
-						else
-							# $("#node-" + tutid).addClass "courseHighlight"
-							weeksnodes.push(tutid)
-						Weeks.update weekfrom,
-							$set:
-								nodes: weeksnodes
-			'''
-
-			# only "show" if not already showing...
-			'''
-			node = $('#node-' + this._id)
-			$('#node-info')
-				.html('')
-				.css(
-					left: parseInt(node.css('left')) + parseInt(node.css('width'))
-					top: parseInt node.css('top')
-				)
-				.append('<h2>' + this.title + '</h2>')
-				.append('<p>' + this.description + '</p>')
-			'''
 
 		"click": (event) ->
 
@@ -312,6 +273,12 @@
 		)
 		
 		this._rendered = true
-		map.update $('#column-navtree').width(), containerHeight
+		updateMap = () ->
+			console.log('updating map. width:', $('#colum-navtree').width())
+			if (containerHeight == 0)
+				setTimeout(updateMap, 250)
+			else
+				map.update($('.node'), $('#column-navtree').width(), containerHeight)
+		updateMap()
 		$('#column-navtree').dragScroll({});
 
