@@ -230,4 +230,7 @@ Template.tutorial.helpers
 
 
 
-
+Template.tutorialComments.helpers
+	fullUrl: ->
+		return window.location.protocol + "//" + window.location.host + this.tuturl
+	
