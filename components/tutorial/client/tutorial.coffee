@@ -52,6 +52,23 @@ Template.tutorial.events
 			else
 				alert 'Only the following file types:\n-' + ALLOWED_FILE_TYPES.join('\n-') + '\nare allowed.' 
 
+	"click .view-trail": (e) ->
+		e.preventDefault()
+		# see src/components/course/client/course.coffee
+		$this = $(e.target)
+		course_id = $this.attr('data-trail-id')
+		
+		$('.node').removeClass('courseHover')
+
+		if ( !$this.hasClass('showing') )
+
+			_.each $("#course-" + course_id).find(".week"), (d) ->
+				_.each Blaze.getData(d).nodes, (n) ->
+					$("#node-" + n).addClass "courseHover" 
+
+		$this.siblings().removeClass('showing')
+		$this.toggleClass('showing')
+
 	"click .delete-file": (e) ->
 		e.preventDefault()
 		file_id = $(e.target).closest('.download-file').attr('data-file-id')
@@ -133,13 +150,13 @@ Template.tutorial.helpers
 
 		weeksOfTutorial = Weeks.find( { "nodes": this._id } ).fetch()
 		courseIdsOfTutorial = _.uniq(_.pluck(weeksOfTutorial, 'course_id'))
+		idx = 0
 		coursesOfTutorial = _.map courseIdsOfTutorial, (courseId) ->
-			return Courses.findOne({ _id: courseId })
+			theCourse = Courses.findOne({ _id: courseId })
+			theCourse.first = (idx == 0)
+			idx++
+			return theCourse
 		return coursesOfTutorial
-
-	theTrail: ->
-		console.log('in the trail', this);
-		return '<h4>test</h4>';
 
 	files: ->
 		# TODO: for better async handling, should file_ids be published server-side?
