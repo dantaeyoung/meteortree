@@ -192,6 +192,11 @@
 						tutorial.fadeOut(100, () ->
 							tutorial.fadeIn(100);
 						);
+
+						if node.position().left > 0.5 * $(window).width()
+							$('#column-navtree').animate({
+								scrollLeft: $(window).width()
+							})
 					else
 						$('#column-content').hide()
 						$('body').removeClass('viewing-node')
