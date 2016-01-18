@@ -38,28 +38,10 @@
 				<div id="section-tree">
 					{{> tree }}
 				</div>
-
-				<div id="admin-buttons">
-					{{#if currentUser}}
-					<form class="new-tutorial">
-						ADD NEW TUTORIAL
-						<input type="submit" />
-					</form>
-					<div class="discard-draft button">DISCARD DRAFT</div>
-					<div class="save-draft button">SAVE DRAFT</div>
-					{{/if}}
-				</div>
 			</div>
 
 			<div id="column-content">
-				<div id="section-tutorial-preview">
-					{{!-- #each tutorials}}
-					{{> tutorialpreview}}
-					{{/each --}}
-				</div>
-				<div id="section-tutorial">
-					{{> yield "tutorial"}}
-				</div>
+				{{> yield "tutorial"}}
 			</div>
 		</div>
 	</div>

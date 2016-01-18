@@ -15,11 +15,10 @@ Template.stepList.helpers
 
 
 Template.step.helpers
+	editMode: ->
+		return Session.get('editMode')
 	video_embedded: ->
-		# console.log "yo, video_embedded"
-		# console.log this
 		if this.video_url
-			# console.log this.video_url
 			parseUrl = this.video_url.match(/(http|https):\/\/(?:www.)?(?:(vimeo).com\/(.*)|(youtube).com\/watch\?v=(.*?)$)/)
 			if parseUrl
 				if parseUrl[2] || parseUrl[3]
@@ -34,6 +33,12 @@ Template.step.helpers
 	is_step_type_checked: (step_type) ->
 		if this.step_type == step_type
 			return "checked"
+
+	is_video: ->
+		return this.step_type == "step_video"
+
+	is_markdown: ->
+		return this.step_type == "step_markdown"
 
 Deps.autorun ->
 	steps_dep.depend()

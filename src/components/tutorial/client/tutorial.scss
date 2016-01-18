@@ -8,6 +8,16 @@
 	height: 100%;
 	overflow: scroll;
 
+	&.edit-mode {
+    	background: repeating-linear-gradient(
+    		135deg,
+    		#F8CCD9,
+    		#F8CCD9 10px,
+    		#FED8F1 10px,
+    		#FED8F1 20px
+		);
+    }
+
 	& .header-inner {
 		display: table;
 		margin-bottom: 10px;
@@ -197,12 +207,21 @@
 	margin-bottom: 15px;
 
 	.img-preview {
+		background-position: 50% 50%;
+		background-size: cover;
 		border: 2px solid #000;
 		border-radius: 6px;
 		float: left;
 		height: auto;
 		margin-right: 5%;
+		position: relative;
 		width: 60%;
+
+		img { 
+			height: auto;
+			opacity: 0;
+			max-width: 100%;
+		}
 		
 		+ .trails-files {
 			float: right;

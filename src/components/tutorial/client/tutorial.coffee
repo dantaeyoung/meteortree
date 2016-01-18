@@ -86,7 +86,7 @@ Template.tutorial.events
 		tab.toggleClass('open')
 
 	"click .tutorial-tab.edit": (e) ->
-		$('#column-content').toggleClass('edit-mode')
+		Session.set('editMode', !Session.get('editMode'))
 
 	"click .view-trail": (e) ->
 		e.preventDefault()
@@ -156,6 +156,15 @@ Template.tutorial.onRendered = ->
 
 
 Template.tutorial.helpers
+
+	editMode: ->
+		return Session.get('editMode')
+
+	sectionClass: ->
+		if Session.get('editMode') == true
+			return 'edit-mode'
+		else
+			return ''
 
 	nodeIcon: ->
 		icon_id = this.icon_id
