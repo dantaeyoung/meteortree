@@ -45,8 +45,8 @@ Template.minimap.helpers
 			path = ''
 			path += 'M' + x1 + ' ' + y1 + ' '
 			path += 'C ' + (0.5 * (x2 + x1)) + ' ' + y1 + ', '
-			path += (0.5 * (x2 + x1)) + ' ' + (0.5 * (y2 + y1)) + ', '
-			path += x2 + ' ' + (0.5 * (y2 + y1))
+			path += (0.5 * (x2 + x1)) + ' ' + y2 + ', '
+			path += x2 + ' ' + y2
 
 			return path
 
