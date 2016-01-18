@@ -4,6 +4,11 @@ mouse = {}
 mousedown = false
 
 draw = () ->
+	if container.width() > Session.get('containerWidth')
+		$('#minimap').width(scale * container.width())
+	else
+		$('#minimap').width(scale * Session.get('containerWidth'))
+
 	$('#minimap-viewport').attr({
 		x: scale * container.scrollLeft(),
 		y: scale * container.scrollTop(),
@@ -86,7 +91,7 @@ Template.minimap.rendered = ->
 	container = $('#column-navtree')
 
 	$('#minimap')
-		.width(scale * container.width())
+		.width(scale * Session.get('containerWidth'))
 		.height(scale * Session.get('containerHeight'))
 
 	draw()
