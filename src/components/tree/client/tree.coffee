@@ -106,10 +106,14 @@
 		drawLinks(tut1_id)
 
 	# this gets updated and passed into the minimap
+	containerWidth = 0
 	containerHeight = 0
 
 	Template.node.helpers
 		xpos: ->
+			if this.x * GRID_MULTIPLIER_X > containerWidth + 80
+				containerWidth = this.x * GRID_MULTIPLIER_X + 80
+				Session.set('containerWidth', containerWidth)
 			if(Meteor.user())
 				this.draft_x * GRID_MULTIPLIER_X
 			else
