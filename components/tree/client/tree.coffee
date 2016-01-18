@@ -136,10 +136,8 @@
 				return (BUCKET_URL + 'icons/images/' + id + '-' + name)
 
 			if (icon)
-				imgurl = s3url(icon._id, icon.original.name)
-			else
-				imgurl = "/" + DEFAULT_ICON
-			return "<img src='" + imgurl + "'>"
+				return s3url(icon._id, icon.original.name)
+			return DEFAULT_ICON
 		nodeUrl: ->
 			if this.slug
 				return "/tutorial/" + this.slug

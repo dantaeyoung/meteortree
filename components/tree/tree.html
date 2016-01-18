@@ -14,7 +14,9 @@
 <template name="node">
 	<a href="{{nodeUrl}}">
 		<div class="node {{publishMode}} {{draftMode}}" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; " id="node-{{_id}}" >
-			<div class="icon">{{{ nodeIcon }}}</div>
+			<div class="icon">
+				<img src="{{ nodeIcon }}">
+			</div>
 			<div class="title">{{ title }}</div>
 			{{#if currentUser}}
 			<div class="change-dep"><i class="fa fa-arrows-h fa-2x"></i></div>
