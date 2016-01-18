@@ -105,8 +105,14 @@ Template.tutorial.events
 
 	"click .delete-file": (e) ->
 		e.preventDefault()
-		file_id = $(e.target).closest('.download-file').attr('data-file-id')
+		file_id = this._id
 		file = s3Files.findOne({ _id: file_id })
+
+		thistut = $(e.target).closest('.tutorial').attr('id').replace('tutorial-', '')
+		Tutorials.update thistut,
+			$pull: {
+				file_ids: file_id
+			}
 
 		file.remove(() ->
 			s3Files.remove file_id
