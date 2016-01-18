@@ -12,12 +12,13 @@ html, body{
 }
 
 body {
+	font-size: 15px;
+	line-height: 1.4;
 	margin: 0px;
 	overflow: hidden;
 	padding: 0px;
 	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
 	color: #333;
-	font-size: 0.8em;
 
 	.dep-mode {
 		background-color: pink;
@@ -172,16 +173,6 @@ img::selection {
     right: 0;
     top: 46px; // height of header
     width: 50%;
-
-    &.edit-mode {
-    	background: repeating-linear-gradient(
-    		135deg,
-    		#F8CCD9,
-    		#F8CCD9 10px,
-    		#FED8F1 10px,
-    		#FED8F1 20px
-		);
-    }
 }
 
 #node-info {

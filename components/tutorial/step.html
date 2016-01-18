@@ -7,7 +7,7 @@
 
 <template name="step">
 <div class="step {{new}}" id="step-{{_id}}">
-	{{#if currentUser}}
+	{{#if editMode}}
 	<div class="step-ui-menu">
 		{{#if new}}
 			<div class="new-button button"><i class="fa fa-plus-square fa-2x"></i> STEP</div>
@@ -23,7 +23,7 @@
     </div>
 
 	<div class="step-inner">
-        {{#if is_step_type_checked "step_video" }}
+        {{#if is_video }}
             <div class="step-video">
                 {{{ video_embedded }}}
             </div>
@@ -37,7 +37,7 @@
         {{/if}}
 	</div>
 
-    {{#if currentUser}}
+    {{#if editMode}}
     <div class="step-edit">
         <div class="edit-form">
             <button class="delete">DELETE</button>
@@ -47,8 +47,8 @@
 
                 <label>Step Type</label>
                 <div>
-                    <input type="radio" name="step_type" value="step_video" {{ is_step_type_checked "step_video" }} >Video <br>
-                    <input type="radio" name="step_type" value="step_markdown" {{ is_step_type_checked "step_markdown" }} > Markdown
+                    <input type="radio" name="step_type" value="step_video" {{ is_step_type_checked "step_video" }}>Video <br>
+                    <input type="radio" name="step_type" value="step_markdown" {{ is_step_type_checked "step_markdown" }}> Markdown
                 </div>
                 
                 <div class="description_container">

@@ -4,87 +4,102 @@
 </template>
 
 <template name="tutorial">
-	
-	<div class="tutorial-tab slide"></div>
 
-	{{#if currentUser}}
-	<div class="tutorial-tab edit">
-		<span class="fa fa-pencil"></span>
-	</div>
-	{{/if}}
+	<div id="section-tutorial" class="{{sectionClass}}">
 	
-	<div class="tutorial {{publishMode}}" id="tutorial-{{ _id }}" style="display: block;">
-		<div class="header">
-			<div class="draft-warning">DRAFT</div>
-			<div class="header-inner">
-				<div class="icon">{{{ nodeIcon }}}</div>
-				<div class="title editable-text-trigger">{{> editableText collection="tutorials" field="title" }}</div>
-			</div>
-		</div>
+		<div class="tutorial-tab slide"></div>
 
-		<div class="resources">
-			<!-- GIF preview -->
-			{{#if preview_id}}
-				<img class="img-preview" src="{{ previewImg }}">
-			{{/if}}
-			<div class="trails-files">
-				<div class="trails">
-					{{#each trails}}
-						{{#if first}}
-							<h3>Trails</h3>
-						{{/if}}
-						<a href="#" data-trail-id="{{_id}}" class="link view-trail">{{title}} -- {{_id}}</a>
-					{{/each}}
-				</div>
-				<div class="files">
-				{{ #each files }}
-					{{#if first}}
-						<h3>Attachments</h3>
-					{{/if}}
-					<a class="link download-file" data-file-id="{{id}}" href="{{url}}" download="{{name}}">{{name}}<span class="delete-file">✕</span></a>
-				{{ /each }} 
-				</div>
-			</div>
-		</div>
 		{{#if currentUser}}
-		
-		<h2>EDIT TUTORIAL</h2>
-		<div class="edit-form">
-
-			<form class="update-tutorial">
-				<div class="form-group">
-					<label for="publishMode">Publish? <input type="checkbox" id="publishMode" name="publishMode" value="publishMode" {{publishChecked}}></label>
-				</div>
-			</form>
-			<div class="form-group">
-				<label for="slugInput">Add/change tutorial slug</label>
-				<div class="slug editable-text-trigger">{{> editableText collection="tutorials" field="slug" }}</div>
-			</div>
-			<div class="form-group">
-				<label for="iconInput" class="button-label">Add/change tutorial icon</label>
-				<input type="file" class="iconInput" id="iconInput" />
-			</div>
-			<div class="form-group">
-				<label for="previewInput" class="button-label">Add/change image preview</label>
-				<input type="file" id="previewInput" class="previewInput" />
-			</div>
-			<div class="form-group">
-				<label for="fileInput" class="button-label">Add file attachments</label>
-				<input type="file" id="fileInput" class="fileInput" />
-			</div>
-			<div class="tutorial-delete"><button class="delete">DELETE</button></div>
+		<div class="tutorial-tab edit">
+			<span class="fa fa-pencil"></span>
 		</div>
 		{{/if}}
-		<div class="steps sortable">
-		{{> stepList }}
-		</div>
-        {{#if currentUser}}
-            {{> step tutorial_id =  _id  new="new"}}
-        {{/if}}
-		{{> tutorialComments tuturl=nodeUrl }}
-		<div class="debug">
-			{{ isPublished }}
-			{{ createdAt }}
+		
+		<div class="tutorial {{publishMode}}" id="tutorial-{{ _id }}" style="display: block;">
+			<div class="header">
+				<div class="draft-warning">DRAFT</div>
+				<div class="header-inner">
+					<div class="icon">{{{ nodeIcon }}}</div>
+					<div class="title editable-text-trigger">{{> editableText collection="tutorials" field="title" }}</div>
+				</div>
+			</div>
+
+			<div class="resources">
+				<!-- GIF preview -->
+				{{#if preview_id}}
+					<div class="img-preview" style="background-image:url({{ previewImg }})">
+						<img src="{{ previewImg }}">
+						<span class="delete-img-preview">✕</span>
+					</div>
+				{{/if}}
+				<div class="trails-files">
+					<div class="trails">
+						{{#each trails}}
+							{{#if first}}
+								<h3>Trails</h3>
+							{{/if}}
+							<a href="#" data-trail-id="{{_id}}" class="link view-trail">{{title}} -- {{_id}}</a>
+						{{/each}}
+					</div>
+					<div class="files">
+					{{ #each files }}
+						{{#if first}}
+							<h3>Attachments</h3>
+						{{/if}}
+						<a class="link download-file" data-file-id="{{id}}" href="{{url}}" download="{{name}}">{{name}}
+						{{#if editMode}}
+						<span class="delete-file">✕</span>
+						{{/if}}
+						</a>
+					{{ /each }} 
+					</div>
+				</div>
+			</div>
+			{{#if currentUser}}
+			
+			{{#if editMode}}
+				<h2>EDIT TUTORIAL</h2>
+				<div class="edit-form">
+
+					<form class="update-tutorial">
+						<div class="form-group">
+							<label for="publishMode">Publish? <input type="checkbox" id="publishMode" name="publishMode" value="publishMode" {{publishChecked}}></label>
+						</div>
+					</form>
+					<div class="form-group">
+						<label for="slugInput">Add/change tutorial slug</label>
+						<div class="slug editable-text-trigger">{{> editableText collection="tutorials" field="slug" }}</div>
+					</div>
+					<div class="form-group">
+						<label for="iconInput" class="button-label">Add/change tutorial icon</label>
+						<input type="file" class="iconInput" id="iconInput" />
+					</div>
+					<div class="form-group">
+						<label for="previewInput" class="button-label">Add/change image preview</label>
+						<input type="file" id="previewInput" class="previewInput" />
+					</div>
+					<div class="form-group">
+						<label for="fileInput" class="button-label">Add file attachments</label>
+						<input type="file" id="fileInput" class="fileInput" />
+					</div>
+					<div class="tutorial-delete"><button class="delete">DELETE</button></div>
+				</div>
+				{{/if}}
+
+				<div class="steps sortable">
+				{{> stepList }}
+				</div>
+
+		        {{#if editMode}}
+		            {{> step tutorial_id =  _id  new="new"}}
+		        {{/if}}
+
+				{{> tutorialComments tuturl=nodeUrl }}
+				<div class="debug">
+					{{ isPublished }}
+					{{ createdAt }}
+				</div>
+			{{/if}}
 		</div>
 	</div>
 </template>
