@@ -4,7 +4,7 @@
 #
 #
 
-	Template.tree.events
+	Template.body.events
 		"click .save-draft": (event) ->
 			if(Meteor.user())
 				allTuts = Tutorials.find({}).fetch()
@@ -26,6 +26,8 @@
 
 		"submit .new-tutorial": (event) ->
 			event.preventDefault()
+
+			console.log('adding new tutorial')
 
 			Meteor.call "addTutorial"
 			# Clear form
@@ -73,7 +75,7 @@
 
 	endDepMode = (end_id) ->
 		$("body").removeClass "dep-mode"
-		$("#section-tree").unbind "mousemove"
+		$("#column-navtree").unbind "mousemove"
 		$("#depline").remove()
 		Session.set "dep-mode", "False"
 		tut1_id = [ end_id, Session.get("dep-from") ].sort()[0]
@@ -104,8 +106,6 @@
 		drawLinks(tut1_id)
 
 	# this gets updated and passed into the minimap
-	map = null
-	containerWidth = $('#column-navtree').width()
 	containerHeight = 0
 
 	Template.node.helpers
@@ -117,6 +117,7 @@
 		ypos: ->
 			if this.y * GRID_MULTIPLIER_Y > containerHeight + 80
 				containerHeight = this.y * GRID_MULTIPLIER_Y + 80
+				Session.set('containerHeight', containerHeight)
 			if(Meteor.user())
 				this.draft_y * GRID_MULTIPLIER_Y
 			else
@@ -170,6 +171,7 @@
 						);
 					else
 						$('#column-content').fadeOut()
+						$('body').removeClass('viewing-node')
 
 					node.toggleClass "courseHighlight"
 					
@@ -185,32 +187,25 @@
 						);
 					else
 						$('#column-content').hide()
-					
-					'''
-					if (tutid in weeksnodes)
-						# $("#node-" + tutid).removeClass "courseHighlight"
-						weeksnodes = _.without(weeksnodes, tutid)
-					else
-						# $("#node-" + tutid).addClass "courseHighlight"
-						weeksnodes.push(tutid)
-					Weeks.update weekfrom,
-						$set:
-							nodes: weeksnodes
-					'''
+						$('body').removeClass('viewing-node')
 
-		"click .change-dep": ->
-			if(Meteor.user())
+		"click .change-dep": (e) ->
+			if (Meteor.user())
 
-				# console.log this
-				unless Session.get("dep-mode") is "True"
+				if Session.get("dep-mode") != "True"
+					console.log('starting dep mode')
 					$("body").addClass "dep-mode"
 					Session.set "dep-mode", "True"
 					Session.set "dep-from", this._id
-					Session.set "mouseX", this.draft_x * GRID_MULTIPLIER_X
-					Session.set "mouseY", this.draft_y * GRID_MULTIPLIER_Y
-					$("#section-tree").bind "mousemove", (e) ->
-						$("#section-tree").line Session.get('mouseX'),Session.get('mouseY'),e.offsetnX, e.offsetY, {id: 'depline'}
+
+					# draw line from right side of node
+					mouseX = (this.draft_x + 2) * GRID_MULTIPLIER_X
+					mouseY = this.draft_y * GRID_MULTIPLIER_Y + 45
+					
+					$("body").on "mousemove", (e) ->
+						$("#column-navtree").line(mouseX, mouseY, e.offsetX, e.offsetY, {id: 'depline'})
 				else
+					console.log('ending dep mode')
 					endDepMode(this._id)
 
 
@@ -268,25 +263,7 @@
 				createdAt: -1
 
 	Template.tree.rendered = ->
-		map = Minimap $('#column-navtree'), $('.node'), containerWidth, containerHeight
-		map.create()
-		Session.set 'Minimap', map
-
-		# reference map from $
-		$.fn.extend(
-			minimap: () -> return map
-		)
-		
-		this._rendered = true
-		updateMap = () ->
-			if (containerHeight == 0)
-				setTimeout(updateMap, 250)
-			else
-				map.update($('.node'), $('#column-navtree').width(), containerHeight)
-		updateMap()
-
 
 		$('#column-navtree').dragScroll({
-			exclude: '.node'
+			exclude: '.node, #minimap'
 		});
-

@@ -27,9 +27,11 @@
             <div class="step-video">
                 {{{ video_embedded }}}
             </div>
-            <div class="step-description">
-                {{#markdown}}{{ description_text }}{{/markdown}}
-            </div>
+            {{#if description_text}}
+                <div class="step-description">
+                    {{#markdown}}{{ description_text }}{{/markdown}}
+                </div>
+            {{/if}}
         {{else}}
             <div class="step-markdown">
                 {{#markdown}}{{ markdown_text }}{{/markdown}}

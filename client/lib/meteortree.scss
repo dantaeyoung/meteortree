@@ -236,8 +236,13 @@ body.draft-mode .logged-in #draft-sign {
 
 
 
-.editable-text {
-	cursor:text;
+.editable-text,
+.wide-text-edit {
+	background: transparentize(#fff, 0.5);
+	cursor: text;
+	display: block; // can we do this? doesn't show up if empty
+	min-height: 24px;
+	padding: 5px;
 }
 
 .edit-bar {

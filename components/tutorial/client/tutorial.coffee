@@ -28,10 +28,8 @@ Template.tutorial.events
 
 	"change .previewInput": (e, target) ->
 		thistut = this._id
-		console.log('preview image is changing');
 		FS.Utility.eachFile event, (file) ->
 			s3Icons.insert file, (err, fileObj) ->
-				console.log('uploaded new preview image', fileObj)
 				Tutorials.update thistut,
 					$set:
 						preview_id: fileObj._id
@@ -110,14 +108,23 @@ Template.tutorial.events
 		file_id = $(e.target).closest('.download-file').attr('data-file-id')
 		file = s3Files.findOne({ _id: file_id })
 
-		# remove from S3
 		file.remove(() ->
-			# and then remove from mongo...
-			# TODO: why does it disappear and then reappear?
-			# Also it seems like the file isn't actually deleted off the server?
 			s3Files.remove file_id
 		)
 
+	"click .delete-img-preview": (e) ->
+		e.preventDefault();
+		preview_id = $(e.target).closest('.img-preview').attr('data-id')
+		preview = s3Icons.findOne({ _id: preview_id })
+		
+		preview.remove(() ->
+			s3Icons.remove preview_id
+		)
+
+		thistut = this._id
+		Tutorials.update thistut,
+			$unset:
+				preview_id: null
 
 
 	"change .update-tutorial": (event, ui) ->

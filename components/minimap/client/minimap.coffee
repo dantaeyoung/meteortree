@@ -1,92 +1,94 @@
-Minimap = ($container, nodes, width, height) ->
+container = null # set on render
+scale = 0.11
+mouse = {}
+mousedown = false
 
-	scale = 0.12 # scale relative to window
-	w = 4 # width of minimap node
-	h = 4 # height of minimap node
+draw = () ->
+	$('#minimap-viewport').attr({
+		x: scale * container.scrollLeft(),
+		y: scale * container.scrollTop(),
+		width: scale * container.width(),
+		height: scale * container.height()
+	})
 
-	mouseDown = false
-	mouseX = null
-	mouseY = null
+Template.minimap.helpers
+	nodes: ->
+		Meteor.subscribe("tutorials")
+		return Tutorials.find {},
+			sort:
+				createdAt: -1
 
-	canvas = document.createElement 'canvas'
-	canvas.id = 'minimap'
-	canvas.width = width * scale
-	canvas.height = height * scale
+	links: ->
+		Meteor.subscribe('links')
+		return Links.find({})
+	
+	link: () ->
+		tut1 = Tutorials.findOne({
+			_id: this.tutorial1
+		})
+		tut2 = Tutorials.findOne({
+			_id: this.tutorial2
+		})
 
-	context = canvas.getContext '2d'
+		if ( tut1 && tut2 )
 
-	draw = () ->
+			x1 = tut1.x * GRID_MULTIPLIER_X * scale
+			x2 = tut2.x * GRID_MULTIPLIER_X * scale
+			y1 = tut1.y * GRID_MULTIPLIER_Y * scale
+			y2 = tut2.y * GRID_MULTIPLIER_X * scale
 
-		context.fillStyle = '#fff'
-		context.fillRect 0, 0, canvas.width, canvas.height
-		
-		xs = $container.scrollLeft() * scale
-		ys = $container.scrollTop() * scale
-		ws = $container.width() * scale
-		hs = $container.height() * scale
-		
-		context.fillStyle = '#eaeaea';
-		context.setLineDash [2, 2]
-		context.beginPath()
-		context.moveTo xs, ys
-		context.lineTo xs + ws, ys
-		context.lineTo xs + ws, ys + hs
-		context.lineTo xs, ys + hs
-		context.lineTo xs, ys
-		context.fill()
-		context.stroke()
+			path = ''
+			path += 'M' + x1 + ' ' + y1 + ' '
+			path += 'C ' + (0.5 * (x2 + x1)) + ' ' + y1 + ', '
+			path += (0.5 * (x2 + x1)) + ' ' + (0.5 * (y2 + y1)) + ', '
+			path += x2 + ' ' + (0.5 * (y2 + y1))
 
-		context.fillStyle = '#333'
+			return path
 
-		nodes.each(() ->
-			x = scale * parseInt getComputedStyle(this).left
-			y = scale * parseInt getComputedStyle(this).top
-			context.fillRect x, y, w, h
-		)
+		return ''
 
-	draw()
-	window.addEventListener('mousemove', draw);
-	window.addEventListener('resize', draw);
-	$container.on('scroll', draw);
 
-	mouse = {}
+	height: scale * Session.get('containerHeight')
+	width:  scale * $('#column-navtree').width()
+	cx: () ->
+		return scale * this.x * GRID_MULTIPLIER_X
+	cy: () ->
+		return scale * this.y * GRID_MULTIPLIER_Y
 
-	mousemove = (e) ->
+Template.minimap.events
+
+	mousedown: (e) ->
+		mousedown = true
+		mouse.x = e.offsetX
+		mouse.y = e.offsetY
+
+	mousemove: (e) ->
 		e.stopPropagation()
 
-		if mouseDown
+		if mousedown
 
-			x = (e.layerX - mouse.x) / scale
-			y = (e.layerY - mouse.y) / scale
+			x = (e.offsetX - mouse.x) / scale
+			y = (e.offsetY - mouse.y) / scale
 
-			mouse.x = e.layerX
-			mouse.y = e.layerY
+			mouse.x = e.offsetX
+			mouse.y = e.offsetY
 
-			$container.scrollLeft($container.scrollLeft() + x)
-			$container.scrollTop($container.scrollTop() + y)
+			container.scrollLeft(container.scrollLeft() + x)
+			container.scrollTop(container.scrollTop() + y)
 			draw()
+	mouseleave: -> 
+		mousedown = false
+	mouseup: -> 
+		mousedown = false
 
-	canvas.addEventListener('mousedown', (e) -> 
-		mouseDown = true
-		mouse.x = e.layerX
-		mouse.y = e.layerY
-	)
+Template.minimap.rendered = ->
 
-	canvas.addEventListener('mouseleave', () -> mouseDown = false)
-	canvas.addEventListener('mouseup', () -> mouseDown = false)
-	canvas.addEventListener('mousemove', mousemove)
+	container = $('#column-navtree')
 
-	output = {
-		create: () ->
-			$container.append canvas
-		
-		update: (newNodes, width, height) ->
-			nodes = newNodes
-			canvas.width = width * scale
-			canvas.height = height * scale
-			draw()
-	}
+	$('#minimap')
+		.width(scale * container.width())
+		.height(scale * Session.get('containerHeight'))
 
-	return output
-
-window.Minimap = Minimap
+	draw()
+	container.on('scroll', draw)
+	$(window).on('mousemove resize', draw)
