@@ -1,7 +1,9 @@
 @import "../../shared/styles/vars";
 
 #minimap {
+	background: #fff;
 	border: 3px solid $red;
+	cursor: move;
 	position: fixed;
 	bottom: 25px;
 	left: 15px;

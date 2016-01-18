@@ -164,12 +164,12 @@
         text-transform: uppercase;
         font-weight: bold;
         font-size: 1.2em;
-        padding-bottom: 4px;
         margin-bottom: 10px; 
 
         & .step-title-inner {
             border-bottom: 4px solid $nearblack;
-            padding-bottom: 3px;
+        	line-height: 1.8;
+            padding-bottom: 4px;
         }
        
     }
@@ -177,23 +177,28 @@
     & .step-inner {
         overflow: hidden;
 
-    & img {
-        max-width: 100%;
-    }
+	    & img {
+	        max-width: 100%;
+	    }
 
-        & .step-description, & .step-description .input {
-            font-size: 11px !important;
-            line-height: 18px !important;
-            letter-spacing: 0px !important;
-        }
+	    & .step-description, & .step-description .input {
+	        font-size: 11px !important;
+	        line-height: 18px !important;
+	        letter-spacing: 0px !important;
+	    }
 
-        & .step-video {
-            width: 50%;
-            float: right;
-            padding-left: 15px;
-            padding-bottom: 5px;
-        }
+	    & .step-video {
+	        width: 50%;
+	        float: right;
+	        padding-left: 15px;
+	        padding-bottom: 5px;
 
+	        &:only-child {
+	        	float: none;
+	        	padding-left: 0;
+	        	width: 100%;
+	        }
+	    }
     }
 
 	& .step-ui-menu, & .edit-form {
@@ -213,14 +218,40 @@
 		border-radius: 6px;
 		float: left;
 		height: auto;
+		overflow: hidden;
 		margin-right: 5%;
 		position: relative;
+		min-height: 40px;
 		width: 60%;
 
 		img { 
 			height: auto;
 			opacity: 0;
 			max-width: 100%;
+		}
+
+		.delete-img-preview {
+			background: $red;
+			bottom: 0;
+			cursor: pointer;
+			display: none;
+			font-size: 16px;
+			left: 0;
+			padding: 6px;
+			position: absolute;
+			text-align: center;
+			width: 100%;
+
+			&:hover { 
+				background: lighten($red, 10%);
+				color: #fff;
+			}
+		}
+
+		&:hover {
+			.delete-img-preview {
+				display: block;
+			}
 		}
 		
 		+ .trails-files {

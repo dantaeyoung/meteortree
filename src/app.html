@@ -31,8 +31,17 @@
 
 			<div id="column-navtree">
 
-				<div id="megavision">
-					{{> megavision }}
+				<style>#admin-buttons { position: fixed; top: 60px;
+					left: 20px; }</style>
+				<div id="admin-buttons">
+					{{#if currentUser}}
+					<form class="new-tutorial">
+						ADD NEW TUTORIAL
+						<input type="submit" />
+					</form>
+					<div class="discard-draft button">DISCARD DRAFT</div>
+					<div class="save-draft button">SAVE DRAFT</div>
+					{{/if}}
 				</div>
 
 				<div id="section-tree">
