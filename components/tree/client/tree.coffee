@@ -42,9 +42,9 @@
 		this._compute = (paintInfo) ->
 
 			x1 = paintInfo.sx
-			y1 = paintInfo.sy + 25
+			y1 = paintInfo.sy + 20
 			x2 = paintInfo.tx
-			y2 = paintInfo.ty + 25
+			y2 = paintInfo.ty + 20
 
 			#segment to end point
 			_super.addSegment this, "Bezier",
@@ -267,8 +267,8 @@
 
 			jsPlumb.setContainer("tree-links")
 			jsPlumb.connect
-				source: $('#node-' + d.tutorial1)
-				target: $('#node-' + d.tutorial2)
+				source: $('#node-' + d.tutorial1 + ' .icon')
+				target: $('#node-' + d.tutorial2 + ' .icon')
 
 
 
