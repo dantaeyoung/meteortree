@@ -40,3 +40,5 @@ check
 markdown
 reywood:publish-composite
 meteorhacks:fast-render
+dbernhard:jquery-ui-draggable
+jsplumb:jsplumb

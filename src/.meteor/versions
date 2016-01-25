@@ -40,6 +40,7 @@ check@1.1.0
 chuangbo:cookie@1.1.0
 coffeescript@1.0.11
 d3js:d3@3.5.8
+dbernhard:jquery-ui-draggable@0.1.2
 dburles:mongo-collection-instances@0.3.4
 ddp@1.2.2
 ddp-client@1.2.1
@@ -75,6 +76,7 @@ iron:router@1.0.12
 iron:url@1.0.11
 jeremy:ghostdown@0.4.3
 jquery@1.11.4
+jsplumb:jsplumb@1.7.2
 lai:collection-extensions@0.1.4
 launch-screen@1.0.4
 less@2.5.1
