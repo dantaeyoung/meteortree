@@ -241,12 +241,16 @@
 		if(Meteor.user())
 			$(".node#node-" + this.data._id).draggable
 				grid: [ GRID_MULTIPLIER_X, GRID_MULTIPLIER_Y ]
+				drag: (event, ui) -> 
+					console.log(ui.position.left + "/" + ui.position.top)
+
 				stop: (event, ui) -> # fired when an item is dropped
 					$("body").addClass "draft-mode"
 					Session.set "draft-mode", "True"
 					tut = Blaze.getData(ui.helper[0])
 					$(".node#node-" + tut._id).addClass("draft-node")
 
+					console.log(ui.position.left + "/" + ui.position.top)
 					Meteor.call("moveTutorial", tut, ui.position.left / GRID_MULTIPLIER_X, ui.position.top / GRID_MULTIPLIER_Y)
 
 					jsPlumb.repaintEverything()
