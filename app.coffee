@@ -33,7 +33,7 @@ Router.configure
 
 Router.route '/tutorial/:slug', ->
 	this.render 'tutorial',
-		#fastRender: true
+		fastRender: true
 		to: 'tutorial'
 		data: ->
 			tut = Tutorials.findOne({slug: this.params.slug})
