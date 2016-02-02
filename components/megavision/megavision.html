@@ -1,9 +1,9 @@
 <template name="megavision">
-	MEGAVISION 
-	{{ version }}
-	{{#each cursoryGlances}}
-		{{ > cursoryglance }}
-	{{/each}}}
+	{{#if megavisionActive}}
+		{{#each cursoryGlances}}
+			{{ > cursoryglance }}
+		{{/each}}
+	{{/if}}
 </template> 
 
 <template name="cursoryglance">

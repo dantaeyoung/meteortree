@@ -16,6 +16,8 @@ Template.megavision.destroyed = ->
 
 
 Template.megavision.helpers
+	megavisionActive: ->
+		return Session.get('megavisionActive')
 	version: ->
 		return "v0.1"
 
@@ -54,12 +56,12 @@ updateTime = () ->
 
 trackCursoryGlance = () ->
 
-	if mousePositionsDiffered(Session.get('prevMousePosition'), Session.get('mousePosition')) and Session.get('userFingerprint')
+	if Session.get('megavisionActive') and mousePositionsDiffered(Session.get('prevMousePosition'), Session.get('mousePosition')) and Session.get('userFingerprint')
 
 		Session.set('prevMousePosition', Session.get('mousePosition'))
 
 		# there must be a better way to clean this up
-		console.log Session.get('userFingerprint')
+		# console.log Session.get('userFingerprint')
 		cursoryGlance = CursoryGlances.findOne({ 
 			userFingerprint: Session.get('userFingerprint') 
 		})

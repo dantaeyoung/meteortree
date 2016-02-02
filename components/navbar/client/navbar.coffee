@@ -23,6 +23,17 @@ Template.navbar.events
 			loginInputs.show()
 		buttons.toggleClass('showing')
 
+Template.settings.helpers
+	megavisionOn: ->
+		return (if Session.get('megavisionActive') then 'checked' else '')
+	megavisionOff: ->
+		return (if Session.get('megavisionActive') then '' else 'checked')
+
+Template.settings.events
+	'change [name="megavision-toggle"]': (e) ->
+		val = if e.target.id == 'megavision-toggle-on' then true else false
+		Session.set('megavisionActive', val)
+
 Template.sectioncourses.helpers
 	courses: ->
 		Meteor.subscribe("courses")
