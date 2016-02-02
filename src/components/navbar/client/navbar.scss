@@ -14,7 +14,6 @@ $button_pad_horizontal: 12px;
 	width: 100%;
 	z-index: 700;
 
-	#login-buttons,
 	.button {
 		background: #fff;
 		border-radius: 4px;
@@ -68,18 +67,12 @@ $button_pad_horizontal: 12px;
 			margin-bottom: 10px;
 		}
 	}
-
-	#login-buttons {
-		&.showing {
-			border-radius: 4px 4px 0 0;
-		}
-	}
 }
 
 #login-dropdown-list {
-	left: -$button_pad_horizontal;
-	top: 20px;
-	border-radius: 0 4px 4px 4px;
+	background: transparent;
+	padding: 8px 0 0;
+	position: relative;
 }
 
 .login-close-text { display: none; }

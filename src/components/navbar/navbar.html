@@ -1,7 +1,7 @@
 <template name="navbar">
 	<div id="navbar" class="clearfix">
 
-		{{> loginButtons}}
+		{{> settings}}
 
 		{{> sectioncourses }}
 		
@@ -13,6 +13,28 @@
 			</aside>
 		</div>
 	</div>
+</template>
+
+<template name="settings">
+
+	<div class="button text-blue" data-modal="settings"><i class="fa fa-gears"></i> Settings</div>
+
+	<aside class="modal" modal-target="settings">
+		{{> loginButtons}}
+
+		<div id="megavision-toggle">
+			<h3>Megavision:</h3>
+			
+			<input type="radio" name="megavision-toggle" id="megavision-toggle-on" {{megavisionOn}}>
+			<label for="megavision-toggle-on">On</label>
+
+			<br>
+			
+			<input type="radio" name="megavision-toggle" id="megavision-toggle-off" {{megavisionOff}}>
+			<label for="megavision-toggle-off">Off</label>
+		</div>
+	</aside>
+
 </template>
 
 <template name="sectioncourses">
