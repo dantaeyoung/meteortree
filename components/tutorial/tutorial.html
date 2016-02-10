@@ -31,7 +31,9 @@
 				{{#if preview_id}}
 					<div class="img-preview" data-id={{preview_id}} style="background-image:url({{ previewImg }})">
 						<img src="{{ previewImg }}">
-						<span class="delete-img-preview">Remove image preview</span>
+						{{#if editMode}}
+							<span class="delete-img-preview">Remove image preview</span>
+						{{/if}}
 					</div>
 				{{/if}}
 				<div class="trails-files">
