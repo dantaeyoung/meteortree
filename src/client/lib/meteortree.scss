@@ -180,8 +180,8 @@ img::selection {
     	transform: translateX(0);
     }
 
-    &.partially-hidden {
-    	transform: translateX(90%);
+    .node-content-hidden & {
+    	transform: translateX(90%) !important;
     }
 }
 

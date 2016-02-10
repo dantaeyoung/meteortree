@@ -52,15 +52,7 @@ Template.tutorial.events
 
 	"click .tutorial-tab.slide": (e) ->
 		tab = $(e.target)
-		content = $('#column-content')
-
-		if ( tab.hasClass('open') )
-			content.removeClass 'partially-hidden'
-		else
-			content.addClass 'partially-hidden'
-
 		$('body').toggleClass('node-content-hidden')
-		tab.toggleClass('open')
 
 	"click .tutorial-tab.edit": (e) ->
 		Session.set('editMode', !Session.get('editMode'))

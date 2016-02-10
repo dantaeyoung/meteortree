@@ -172,6 +172,8 @@ Template.node.events
 						tutorial.fadeIn(100);
 					);
 
+					$('body').removeClass('node-content-hidden')
+
 					if node.offset().left > 0.5 * $(window).width()
 						$('#column-navtree').animate({
 							scrollLeft: node.offset().left - 0.25 * $(window).width()

@@ -83,7 +83,7 @@
 
 	&.slide {
 		background-image: url(/img/close-tutorial.svg);
-		&.open { background-image: url(/img/open-tutorial.svg); }
+		.node-content-hidden & { background-image: url(/img/open-tutorial.svg); }
 	}
 
 	&.edit {
