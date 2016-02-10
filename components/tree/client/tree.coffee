@@ -167,7 +167,7 @@ Template.node.events
 			# not in week mode
 			unless Session.get("week-mode") is "True"
 				if !node.hasClass "courseHighlight"
-					$('#column-content').fadeIn()
+
 					tutorial.fadeOut(100, () ->
 						tutorial.fadeIn(100);
 					);
@@ -177,7 +177,6 @@ Template.node.events
 							scrollLeft: $(window).width()
 						})
 				else
-					$('#column-content').fadeOut()
 					$('body').removeClass('viewing-node')
 
 				node.toggleClass "courseHighlight"
@@ -188,7 +187,6 @@ Template.node.events
 				weeksnodes = Weeks.findOne(_id: weekfrom).nodes
 
 				if node.hasClass 'weekmodeHighlight'
-					$('#column-content').fadeIn()
 					tutorial.fadeOut(100, () ->
 						tutorial.fadeIn(100);
 					);
@@ -198,7 +196,6 @@ Template.node.events
 							scrollLeft: $(window).width()
 						})
 				else
-					$('#column-content').hide()
 					$('body').removeClass('viewing-node')
 
 	"click .change-dep": (e) ->
