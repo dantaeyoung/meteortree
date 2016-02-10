@@ -10,9 +10,9 @@
 		<div class="tutorial-tab slide"></div>
 
 		{{#if currentUser}}
-		<div class="tutorial-tab edit">
-			<span class="fa fa-pencil"></span>
-		</div>
+			<div class="tutorial-tab edit">
+				<span class="fa fa-pencil"></span>
+			</div>
 		{{/if}}
 		
 		<div class="tutorial {{publishMode}}" id="tutorial-{{ _id }}" style="display: block;">
@@ -57,7 +57,6 @@
 					</div>
 				</div>
 			</div>
-			{{#if currentUser}}
 			
 			{{#if editMode}}
 				<h2>EDIT TUTORIAL</h2>
@@ -86,27 +85,27 @@
 					</div>
 					<div class="tutorial-delete"><button class="delete">DELETE</button></div>
 				</div>
-				{{/if}}
+			{{/if}}
 
-				<div class="steps sortable">
-				{{> stepList }}
-				</div>
+			<div class="steps sortable">
+			{{> stepList }}
+			</div>
 
-		        {{#if editMode}}
-		            {{> step tutorial_id =  _id  new="new"}}
-		        {{/if}}
+	        {{#if editMode}}
+	            {{> step tutorial_id=_id  new="new"}}
 
-				{{> tutorialComments tuturl=nodeUrl }}
-				<div class="debug">
+	            <div class="debug">
 					{{ isPublished }}
 					{{ createdAt }}
 				</div>
-			{{/if}}
+
+				{{> tutorialComments tuturl=nodeUrl }}
+	        {{/if}}
 		</div>
 	</div>
 </template>
 
-<template name = "tutorialComments">
+<template name="tutorialComments">
 	{{tuturl}}
 	{{fullUrl}}
 	{{this}}
