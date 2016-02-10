@@ -140,6 +140,11 @@ Template.tutorial.onRendered = ->
 
 
 Template.tutorial.helpers
+	optionsHelper: ->
+		acceptEmpty: true
+		substitute: '<i class="fa fa-pencil"></i>'
+		textarea: true
+		eventType: "dblclick"
 
 	editMode: ->
 		return Session.get('editMode')

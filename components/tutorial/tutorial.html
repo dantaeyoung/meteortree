@@ -22,7 +22,8 @@
 					<div class="icon">
 						<img src="{{ nodeIcon }}">
 					</div>
-					<div class="title editable-text-trigger">{{> editableText collection="tutorials" field="title" }}</div>
+					<div class="title editable-text-trigger">{{> editableText collection="tutorials" field="title" options=optionsHelper }}</div>
+					<div class="tweet editable-text-trigger">{{> editableText collection="tutorials" field="tweet" placeholder="Enter 140 characters describing this tutorial." options=optionsHelper }}</div>
 				</div>
 			</div>
 
@@ -71,7 +72,11 @@
 					</form>
 					<div class="form-group">
 						<label for="slugInput">Add/change tutorial slug</label>
-						<div class="slug editable-text-trigger">{{> editableText collection="tutorials" field="slug" }}</div>
+						<div class="slug editable-text-trigger">{{> editableText collection="tutorials" field="slug" placeholder="Enter slug url to access this tutorial." options=optionsHelper }}</div>
+					</div>
+					<div class="form-group">
+						<label for="slugInput">Add/change tutorial legacy slug (please don't edit this unless you know what you're doing)</label>
+						<div class="slug editable-text-trigger">{{> editableText collection="tutorials" field="slugLegacy" placeholder="Enter slug url to access this tutorial." options=optionsHelper }}</div>
 					</div>
 					<div class="form-group">
 						<label for="iconInput" class="button-label">Add/change tutorial icon</label>
