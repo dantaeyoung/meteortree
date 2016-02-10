@@ -72,12 +72,6 @@ Template.minimap.helpers
 			return path
 
 		return ''
-
-
-	height: scale * Session.get('containerHeight')
-	width: scale * $('#column-navtree').width()
-	heightTwelve: scale * Session.get('containerHeight') + 12
-	widthTwelve: scale * $('#column-navtree').width() + 12
 	cx: () ->
 		return scale * this.x * GRID_MULTIPLIER_X
 	cy: () ->
