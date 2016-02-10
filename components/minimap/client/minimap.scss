@@ -1,8 +1,6 @@
 @import "../../shared/styles/vars";
 
 #minimap {
-	background: #fff;
-	border: 3px solid $red;
 	cursor: move;
 	position: fixed;
 	bottom: 25px;
@@ -10,9 +8,13 @@
 	opacity: 0.6;
 	transition: 0.2s opacity;
 	z-index: 500;
-} 
+}
 
 #minimap:active,
 #minimap:hover {
 	opacity: 1;
+}
+
+#minimap-viewport {
+	box-shadow: 0 0 4px #000;
 }
