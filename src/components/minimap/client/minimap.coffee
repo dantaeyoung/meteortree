@@ -3,18 +3,39 @@ scale = 0.11
 mouse = {}
 mousedown = false
 
-draw = () ->
-	if container.width() > Session.get('containerWidth')
-		$('#minimap').width(scale * container.width())
-	else
-		$('#minimap').width(scale * Session.get('containerWidth'))
+clamp = (val, min, max) ->
+	return Math.max(min, Math.min(val, max))
 
-	$('#minimap-viewport').attr({
-		x: scale * container.scrollLeft(),
-		y: scale * container.scrollTop(),
-		width: scale * container.width(),
-		height: scale * container.height()
+draw = () ->
+
+	minimap = $('#minimap')
+	bg = $('.minimap-bg')
+	viewport = $('#minimap-viewport')
+
+	bg.attr({
+		height: scale * Session.get('containerHeight')
+		width: scale * $('#column-navtree').width()
 	})
+
+	if container.width() > Session.get('containerWidth')
+		minimap.width(scale * container.width())
+		bg.width(scale * container.width())
+	else
+		minimap.width(scale * Session.get('containerWidth'))
+		bg.width(scale * Session.get('containerWidth'))
+
+	viewport.attr({
+		width: scale * container.width() - 6,
+		height: scale * container.height() - 6
+	})
+
+	viewport.attr({
+		x: clamp(scale * container.scrollLeft(), 3, minimap.width() - (+viewport.attr('width')) - 3),
+		y: clamp(scale * container.scrollTop(), 3, minimap.height() - (+viewport.attr('height')) - 3)
+	})
+
+dimAdd = (which, val) ->
+	return dims[which] + val
 
 Template.minimap.helpers
 	nodes: ->
@@ -54,7 +75,9 @@ Template.minimap.helpers
 
 
 	height: scale * Session.get('containerHeight')
-	width:  scale * $('#column-navtree').width()
+	width: scale * $('#column-navtree').width()
+	heightTwelve: scale * Session.get('containerHeight') + 12
+	widthTwelve: scale * $('#column-navtree').width() + 12
 	cx: () ->
 		return scale * this.x * GRID_MULTIPLIER_X
 	cy: () ->
@@ -90,9 +113,10 @@ Template.minimap.rendered = ->
 
 	container = $('#column-navtree')
 
-	$('#minimap')
-		.width(scale * Session.get('containerWidth'))
-		.height(scale * Session.get('containerHeight'))
+	$('#minimap').attr({
+		width: scale * Session.get('containerWidth')
+		height: scale * Session.get('containerHeight')
+	})
 
 	draw()
 	container.on('scroll', draw)
