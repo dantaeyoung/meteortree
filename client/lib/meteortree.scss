@@ -140,28 +140,6 @@ img::selection {
 	display: flex;
 }
 
-#column-navtree {
-	position: absolute;
-	height: 100%;
-	top: 0;
-	left: 0;
-	overflow: scroll;
-	transition: 0.2s width;
-	width: 100%;
-
-	.viewing-node & {
-		width: 50%;
-	}
-
-	.node-content-hidden & {
-		width: 95%;
-	}
-}
-
-#column-navtree {
-	order: -1;
-	background-color: #EAEAEA;
-}
 
 // going to turn this into #node-info, see below...
 #column-content {
