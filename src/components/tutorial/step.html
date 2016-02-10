@@ -1,0 +1,80 @@
+<template name="stepList">
+	{{#each steps }}
+		{{> step }}
+	{{/each}}
+	{{allRendered}}
+</template>
+
+<template name="step">
+<div class="step {{new}}" id="step-{{_id}}">
+	{{#if editMode}}
+	<div class="step-ui-menu">
+		{{#if new}}
+			<div class="new-button button"><i class="fa fa-plus-square fa-2x"></i> STEP</div>
+		{{else}}
+			<div class="sorthandle"><i class="fa fa-arrows fa-2x"></i></div>
+			<div class="edit-button button"><i class="fa fa-pencil-square fa-2x"></i></div>
+		{{/if}}
+        <button class="testedit">DELETE</button>
+	</div>
+	{{/if}}
+    <div class="step-title">
+        <span class="step-title-inner">{{ title_text }}</span>
+    </div>
+
+	<div class="step-inner">
+        {{#if is_video }}
+            <div class="step-video">
+                {{{ video_embedded }}}
+            </div>
+            {{#if description_text}}
+                <div class="step-description">
+                    {{#markdown}}{{ description_text }}{{/markdown}}
+                </div>
+            {{/if}}
+        {{else}}
+            <div class="step-markdown">
+                {{#markdown}}{{ markdown_text }}{{/markdown}}
+            </div>
+        {{/if}}
+	</div>
+
+    {{#if editMode}}
+    <div class="step-edit">
+        <div class="edit-form">
+            <button class="delete">DELETE</button>
+            <form class="update-step">
+
+                <textarea name="title_text" placeholder="Step Title">{{title_text}}</textarea>
+
+                <label>Step Type</label>
+                <div>
+                    <input type="radio" name="step_type" value="step_video" {{ is_step_type_checked "step_video" }}>Video <br>
+                    <input type="radio" name="step_type" value="step_markdown" {{ is_step_type_checked "step_markdown" }}> Markdown
+                </div>
+                
+                <div class="description_container">
+                    <label>Description</label>
+                    <textarea name="description_text" placeholder="description">{{description_text}}</textarea>
+                </div>
+                
+                <div class="video_url_container">
+                    <label>Video URL</label>
+                    <input type="text" name="video_url" placeholder="video_url" value="{{video_url}}">
+                </div>
+
+                <div class="markdown_text_container">
+                    <label for="markdown_text">Markdown</label>
+                    <textarea name="markdown_text" placeholder="markdown">{{markdown_text}}</textarea>
+                </div>
+                
+                <input type="submit" class="button" />
+            </form>
+        </div>
+    </div>
+    {{/if}}
+
+
+</div>
+</template>
+

@@ -1,0 +1,26 @@
+<template name="tree">
+	<div id="draft-sign">DRAFT</div>
+	<div id="tree-nodes">
+		{{#each nodes}}
+			{{> node}}
+		{{/each}}
+	</div>
+	
+	<div id="tree-links"></div>
+	
+	{{> minimap}}
+</template> 
+
+<template name="node">
+	<a href="{{nodeUrl}}">
+		<div class="node {{publishMode}} {{draftMode}}" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; " id="node-{{_id}}" >
+			<div class="icon">
+				<img src="{{ nodeIcon }}">
+			</div>
+			<div class="title">{{ title }}</div>
+			{{#if currentUser}}
+			<div class="change-dep"><i class="fa fa-arrows-h fa-2x"></i></div>
+			{{/if}}
+		</div>
+	</a>
+</template>

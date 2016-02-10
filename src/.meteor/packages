@@ -4,7 +4,6 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
 accounts-ui
 accounts-password
 coffeescript
@@ -23,3 +22,23 @@ cfs:s3
 fourseven:scss
 jeremy:ghostdown
 iron:router
+erasaur:meteor-lodash
+standard-minifiers
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+session
+jquery
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check
+markdown
+reywood:publish-composite
+meteorhacks:fast-render
+dbernhard:jquery-ui-draggable
+jsplumb:jsplumb

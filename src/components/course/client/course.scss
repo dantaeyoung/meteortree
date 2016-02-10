@@ -1,0 +1,30 @@
+@import "../../shared/styles/vars";	
+
+.node.courseHighlight, 
+.node.weekmodeHighlight {
+	box-shadow: 0 0 0 6px $blue;
+	border-radius: 6px;
+}
+
+.node.courseHover,
+.node.weekmodeHover {
+	&:after {
+		@extend .node.courseHighlight;
+		content: "";
+		display: block;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		//left: -6px;
+		width: 100%;
+	}
+}
+
+.week {
+	cursor: pointer;
+}
+
+.weekHighlight {
+	background: $purple;
+	color: #fff;
+}
