@@ -56,7 +56,7 @@ Template.tutorial.events
 		anim = (start, end) ->
 			
 			diff = 0
-			factor = 4
+			factor = 5
 
 			content.css(
 				transform: 'translateX(' + start + '%)'

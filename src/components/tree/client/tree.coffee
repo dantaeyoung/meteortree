@@ -42,9 +42,9 @@ SkillTreeBezier = ->
 	this._compute = (paintInfo) ->
 
 		x1 = paintInfo.sx
-		y1 = paintInfo.sy + 20
+		y1 = paintInfo.sy + 40
 		x2 = paintInfo.tx
-		y2 = paintInfo.ty + 20
+		y2 = paintInfo.ty + 40
 
 		#segment to end point
 		_super.addSegment this, "Bezier",
