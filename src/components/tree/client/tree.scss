@@ -9,7 +9,7 @@ body.draft-mode .logged-in #section-tree {
 	height: 100%;
 	top: 0;
 	left: 0;
-	overflow: hidden;
+	overflow: scroll;
 	transition: 0.2s width;
 	width: 100%;
 

@@ -1,9 +1,9 @@
 <template name="minimap">
-	<svg id="minimap" height="{{heightTwelve}}" width="{{widthTwelve}}">
+	<svg id="minimap">
 		
-		<rect class="minimap-bg" x="3" y="3" height="{{height}}" width="{{width}}" rx="6" ry="6" fill="#fff"></rect>
+		<rect class="minimap-bg" x="3" y="3" rx="6" ry="6" fill="#fff"></rect>
 		
-		<rect id="minimap-viewport" fill="#eaeaea" x="3" y="3" width="50" height="50" stroke="#fc0452" stroke-width="3" rx="4" ry="4"></rect>
+		<rect id="minimap-viewport" fill="#eaeaea" width="50" height="50" stroke="#fc0452" stroke-width="3" rx="4" ry="4"></rect>
 		<g>
 		{{#each links}}
 			<path d="{{link}}" fill="transparent" stroke="#999" stroke-dasharray="2 1"></path>
