@@ -172,9 +172,9 @@ Template.node.events
 						tutorial.fadeIn(100);
 					);
 
-					if node.position().left > 0.5 * $(window).width()
+					if node.offset().left > 0.5 * $(window).width()
 						$('#column-navtree').animate({
-							scrollLeft: $(window).width()
+							scrollLeft: node.offset().left - 0.25 * $(window).width()
 						})
 				else
 					$('body').removeClass('viewing-node')
@@ -191,9 +191,9 @@ Template.node.events
 						tutorial.fadeIn(100);
 					);
 
-					if node.position().left > 0.5 * $(window).width()
+					if node.offset().left > 0.5 * $(window).width()
 						$('#column-navtree').animate({
-							scrollLeft: $(window).width()
+							scrollLeft: node.offset().left - 0.25 * $(window).width()
 						})
 				else
 					$('body').removeClass('viewing-node')
