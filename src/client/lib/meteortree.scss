@@ -146,6 +146,7 @@ img::selection {
 	top: 0;
 	left: 0;
 	overflow: scroll;
+	transition: 0.2s width;
 	width: 100%;
 
 	.viewing-node & {
@@ -164,7 +165,6 @@ img::selection {
 
 // going to turn this into #node-info, see below...
 #column-content {
-	display: none;
 	z-index: 100;
 	background-color: white;
 	height: 100%;
@@ -172,7 +172,17 @@ img::selection {
     position: absolute;
     right: 0;
     top: 46px; // height of header
+    transform: translateX(calc(100% + 40px));
+    transition: 0.2s transform;
     width: 50%;
+
+    .viewing-node & {
+    	transform: translateX(0);
+    }
+
+    &.partially-hidden {
+    	transform: translateX(90%);
+    }
 }
 
 #node-info {

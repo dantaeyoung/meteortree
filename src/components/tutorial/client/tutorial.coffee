@@ -53,32 +53,11 @@ Template.tutorial.events
 	"click .tutorial-tab.slide": (e) ->
 		tab = $(e.target)
 		content = $('#column-content')
-		anim = (start, end) ->
-			
-			diff = 0
-			factor = 5
-
-			content.css(
-				transform: 'translateX(' + start + '%)'
-			)
-			
-			if (end > start)
-				diff = factor
-				if (start + diff > end)
-					diff = end - start
-			
-			if (end < start)
-				diff = -factor
-				if (start + diff < end)
-					diff = end - start
-			
-			if (diff != 0)
-				requestAnimationFrame(anim.bind(null, start + diff, end))
 
 		if ( tab.hasClass('open') )
-			anim(90, 0)
+			content.removeClass 'partially-hidden'
 		else
-			anim(0, 90)
+			content.addClass 'partially-hidden'
 
 		$('body').toggleClass('node-content-hidden')
 		tab.toggleClass('open')
