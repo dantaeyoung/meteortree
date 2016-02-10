@@ -20,6 +20,7 @@ $button_pad_horizontal: 12px;
 		color: $red;
 		padding: $button_pad_vertical $button_pad_horizontal;
 		transition: 0.1s;
+		margin: 0px 2px;
 
 		&:focus, &:hover {
 			box-shadow: 0 2px 4px transparentize(#000, 0.5);
