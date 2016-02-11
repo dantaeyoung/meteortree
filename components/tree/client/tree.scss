@@ -79,12 +79,15 @@ body.draft-mode .logged-in #section-tree {
 
 
 	& .title {
-		color: $gray;
-		text-align: left;
+		color: $darkgray;
 		text-transform: uppercase;
-		letter-spacing: 0.1em;
+		letter-spacing: 0.05em;
+		line-height: 130%;
 		font-size: 0.6em;
+		font-weight: 700;
 		text-decoration: none;
+		text-align: center;
+		margin: 2px -5px;
 	}
 
 	&.ui-draggable {

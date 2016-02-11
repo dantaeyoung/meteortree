@@ -179,14 +179,14 @@ Template.node.events
 		node = $("#node-" + tutid)
 		tutorial = $(".tutorial")
 
-		$('.node').not(node).removeClass "courseHighlight courseHover"
+		$('.node').not(node).removeClass "courseSelect courseHover"
 
 		if Session.get("dep-mode") is "True"
 			endDepMode(this._id)
 		else
 			# not in week mode
 			unless Session.get("week-mode") is "True"
-				if !node.hasClass "courseHighlight"
+				if !node.hasClass "courseSelect"
 
 					tutorial.fadeOut(100, () ->
 						tutorial.fadeIn(100);
@@ -201,7 +201,7 @@ Template.node.events
 				else
 					$('body').removeClass('viewing-node')
 
-				node.toggleClass "courseHighlight"
+				node.toggleClass "courseSelect"
 				
 			# viewing a week, only show nodes in that week
 			else
