@@ -12,8 +12,8 @@
 </template> 
 
 <template name="node">
-	<a href="{{nodeUrl}}">
-		<div class="node {{publishMode}} {{draftMode}}" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; " id="node-{{_id}}" >
+	<div class="node {{publishMode}} {{draftMode}}" style="position: absolute; top: {{ ypos }}px; left: {{ xpos }}px; " id="node-{{_id}}" >
+		<a href="{{nodeUrl}}">
 			<div class="icon">
 				<img src="{{ nodeIcon }}">
 			</div>
@@ -21,6 +21,6 @@
 			{{#if currentUser}}
 			<div class="change-dep"><i class="fa fa-arrows-h fa-2x"></i></div>
 			{{/if}}
-		</div>
-	</a>
+		</a>
+	</div>
 </template>

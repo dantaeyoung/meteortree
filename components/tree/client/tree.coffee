@@ -34,7 +34,6 @@ Template.body.events
 		event.target.title.value = ""
 		nodes_dep.changed
 
-
 SkillTreeBezier = ->
 	_super =  jsPlumb.Connectors.AbstractConnector.apply(this, arguments);
 
@@ -152,7 +151,6 @@ Template.node.helpers
 Template.node.events 
 
 	"click": (event) ->
-
 		$('body').addClass('viewing-node')
 
 		tutid = this._id
@@ -238,22 +236,21 @@ Template.node.rendered = ->
 
 
 	if(Meteor.user())
-		$(".node#node-" + this.data._id).draggable
+		jsPlumb.draggable $(".node#node-" + this.data._id),
 			grid: [ GRID_MULTIPLIER_X, GRID_MULTIPLIER_Y ]
-			drag: (event, ui) -> 
-				console.log(ui.position.left + "/" + ui.position.top)
-
-			stop: (event, ui) -> # fired when an item is dropped
+			drag: (event) -> 
+				console.log(event.pos[0] + "/" + event.pos[1])
+			stop: (event) -> # fired when an item is dropped
 				$("body").addClass "draft-mode"
 				Session.set "draft-mode", "True"
-				tut = Blaze.getData(ui.helper[0])
+				console.log $(event.el)
+				tut = Blaze.getData(event.el)
 				$(".node#node-" + tut._id).addClass("draft-node")
 
-				console.log(ui.position.left + "/" + ui.position.top)
-				Meteor.call("moveTutorial", tut, ui.position.left / GRID_MULTIPLIER_X, ui.position.top / GRID_MULTIPLIER_Y)
+				console.log(event.pos[0] + "/" + event.pos[1])
+				Meteor.call("moveTutorial", tut, event.pos[0] / GRID_MULTIPLIER_X, event.pos[1] / GRID_MULTIPLIER_Y)
 
 				jsPlumb.repaintEverything()
-
 
 drawLinks = (from_id) ->
 	console.log("drawLinks")
@@ -292,3 +289,4 @@ Template.tree.rendered = ->
 	$('#column-navtree').dragScroll({
 		exclude: '.node, #minimap'
 	});
+
