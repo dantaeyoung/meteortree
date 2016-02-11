@@ -59,14 +59,36 @@ SkillTreeBezier = ->
 jsPlumbUtil.extend(SkillTreeBezier, jsPlumb.Connectors.AbstractConnector);
 jsPlumb.registerConnectorType(SkillTreeBezier, "SkillTreeBezier");
 
-jsPlumb.Defaults.Connector = [ "SkillTreeBezier", { curviness: 35, cornerRadius: 30 } ]
-jsPlumb.Defaults.PaintStyle = { 
-	strokeStyle: "gray", 
-	lineWidth: 1.5, 
-	dashstyle: '3 2' 
+jsPlumb.importDefaults
+	Connector : [ "SkillTreeBezier", { curviness: 35, cornerRadius: 30 } ]
+	PaintStyle :
+		strokeStyle: "gray", 
+		lineWidth: 1.5, 
+		dashstyle: '3 2' 
+	Anchor : [ "Left", "Right" ]
+	EndpointStyle : { radius: 0 }
+#	DragOptions : { cursor: "crosshair" }
+#	Endpoint : [ "Dot", { radius:7 } ] 
+#	EndpointStyle : {fillStyle:'pink'}
+#	Overlays: [[ "Arrow", { width:5, length:5, location:0, direction: -1, id:"arrow" } ]]
+#	EndpointHoverStyle: { fillStyle: "orange" }
+#	HoverPaintStyle: { strokeStyle: "orange" }
+#	ConnectionsDetachable:true
+#	ReattachConnections:true
+#	DropOptions:
+#		tolerance: "touch"
+#		hoverClass: "dropHover"
+#		activeClass: "dragActive"
+
+sourceEndpoint = {
+	isSource: true
+	maxConnections: -1
 }
-jsPlumb.Defaults.EndpointStyle = { radius: 0 }
-jsPlumb.Defaults.Anchor = [ "Left", "Right" ]
+targetEndpoint = {
+	isTarget: true
+	maxConnections: -1
+}
+
 
 Session.set "dep-mode", "False"
 Session.set "nodes-rendered", 0
@@ -236,6 +258,10 @@ Template.node.rendered = ->
 
 
 	if(Meteor.user())
+		thisIcon = $(".node#node-" + this.data._id + " .icon")
+#		jsPlumb.addEndpoint(thisIcon, sourceEndpoint, {anchor: [[1, 0.5, 1, 0]]})
+#		jsPlumb.addEndpoint(thisIcon, targetEndpoint, {anchor: [[0, 0.5, -1, 0]]})
+
 		jsPlumb.draggable $(".node#node-" + this.data._id),
 			grid: [ GRID_MULTIPLIER_X, GRID_MULTIPLIER_Y ]
 			drag: (event) -> 
@@ -252,28 +278,38 @@ Template.node.rendered = ->
 
 				jsPlumb.repaintEverything()
 
+
 drawLinks = (from_id) ->
+	"""
 	console.log("drawLinks")
 	Meteor.subscribe "links"
 	Meteor.subscribe "tutorials"
 
-#	_.each Links.find({tutorial1: from_id}).fetch(), (d) ->
-#		jsPlumb.setContainer("tree-links")
-#		jsPlumb.connect
-#			source: $('#node-' + d.tutorial1 + ' .icon')
-#			target: $('#node-' + d.tutorial2 + ' .icon')
-
+	_.each Links.find({tutorial1: from_id}).fetch(), (d) ->
+		jsPlumb.setContainer("tree-links")
+		jsPlumb.connect
+			source: $('#node-' + d.tutorial1 + ' .icon')
+			target: $('#node-' + d.tutorial2 + ' .icon')
+			deleteEndpointsOnDetach:false
+			newConnection:true 
+	"""
 
 drawAllLinks = () ->
 	console.log("drawLinks")
 	Meteor.subscribe "links"
 	Meteor.subscribe "tutorials"
 
+
 	_.each Links.find({}).fetch(), (d) ->
 		jsPlumb.setContainer("tree-links")
 		jsPlumb.connect
 			source: $('#node-' + d.tutorial1 + ' .icon')
 			target: $('#node-' + d.tutorial2 + ' .icon')
+			reattach:true
+			detachable: true
+			newConnection: false
+			deleteEndpointsOnDetach:false 
+			
 
 
 
@@ -284,6 +320,7 @@ Template.tree.helpers nodes: ->
 			createdAt: -1
 
 Template.tree.rendered = ->
+
 	drawAllLinks()
 
 	$('#column-navtree').dragScroll({

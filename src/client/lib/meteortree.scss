@@ -88,22 +88,13 @@ text-decoration: none;
 .float-right { float: right; }
 .float-left { float: left; }
 
-#login-dropdown-list {
-	border: 0;
-	border-radius: 0;
-	box-shadow: 0 0 0 transparent;
-	margin: 0;
-
-	.login-button {
-		border: 0;
-		border-radius: 0;
-		@extend .button;
-		width: 100%;
-	}
-
-	label {
-		cursor: pointer;
-	}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* IE/Edge */
+  user-select: none;           /* non-prefixed version, currently */
 }
 
 
