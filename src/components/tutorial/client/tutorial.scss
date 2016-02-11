@@ -2,7 +2,9 @@
 
 /**** TUTORIAL ****/
 
-
+.icon img {
+	display: block;
+}
 
 #section-tutorial {
 	height: 100%;
@@ -22,13 +24,10 @@
 		border-top: 5px solid $red;
 		padding-top: 5px;
 		margin-bottom: 10px;
-		width: 100%;
+		display: flex;
+		flex-direction: row;
+			align-items: center;
 
-		& > div {
-			display: inline-block;
-			vertical-align:middle;
-			padding-right: 10px;
-		}
 
 
 		& textarea {
@@ -36,11 +35,43 @@
 			width: 100%;
 		}
 
-		& .title, & .title input {
+		& .icon {
+			margin-right: 5px;
+		}
+
+		& .title {
 			text-transform: uppercase;
 			font-weight: bold;
-			letter-spacing: 0.1em;
 			font-size: 20px;
+			letter-spacing: 0.1em;
+			line-height: 105%;
+			height: 52px;
+			padding: 5px 10px;
+			margin-right: 10px;
+			background-color: $red;
+			color: white;
+			
+			width: 50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;	
+
+			text-align: center;
+			-webkit-border-radius: 8px;
+			-moz-border-radius: 8px;
+			border-radius: 8px;
+		}
+
+		& .tweet {
+			font-weight: bold;
+			font-size: 12px;
+			height: 52px;
+			
+			display: flex;
+			justify-content: center;
+			align-items: center;	
+
+			text-align: left;
 		}
 	}
 
