@@ -19,14 +19,13 @@
     }
 
 	& .header-inner {
-		display: table;
+		border-top: 5px solid $red;
+		padding-top: 5px;
 		margin-bottom: 10px;
 		width: 100%;
 
 		& > div {
-			border-top: 5px solid $red;
-			padding-top: 5px;
-			display: table-cell;
+			display: inline-block;
 			vertical-align:middle;
 			padding-right: 10px;
 		}
