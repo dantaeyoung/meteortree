@@ -41,4 +41,10 @@ Router.route '/tutorial/:slug', ->
 				return tut
 			return Tutorials.findOne({_id: this.params.slug}) #using id as fallback; sometime in the future  this could be removed
 
+Router.route '/tutorials/:slugLegacy', ->
+	tut = Tutorials.findOne({slugLegacy: this.params.slugLegacy})
+	if tut
+		Router.go('/tutorial/' + tut.slug)
+	else
+		Router.go('/')
 
