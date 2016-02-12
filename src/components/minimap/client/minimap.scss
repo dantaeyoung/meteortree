@@ -1,7 +1,11 @@
 @import "../../shared/styles/vars";
 
 #minimap {
+	border: 3px solid #fff;
+	border-radius: 6px;
+	box-sizing: content-box;
 	cursor: move;
+	fill: #fff;
 	position: fixed;
 	bottom: 25px;
 	left: 15px;
