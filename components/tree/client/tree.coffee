@@ -142,7 +142,7 @@ Template.node.helpers
 	ypos: ->
 		if this.y * GRID_MULTIPLIER_Y > containerHeight + 80
 			containerHeight = this.y * GRID_MULTIPLIER_Y + 80
-			Session.set('containerHeight', containerHeight)
+			Session.set('containerHeight', containerHeight + 80)
 		if(Meteor.user())
 			this.draft_y * GRID_MULTIPLIER_Y
 		else

@@ -1,5 +1,6 @@
 container = null # set on render
 scale = 0.11
+border = 3
 mouse = {}
 mousedown = false
 
@@ -13,25 +14,25 @@ draw = () ->
 	viewport = $('#minimap-viewport')
 
 	bg.attr({
-		height: scale * Session.get('containerHeight')
+		height: scale * Session.get('containerHeight') + 2 * border + 10
 		width: scale * $('#column-navtree').width()
 	})
 
 	if container.width() > Session.get('containerWidth')
-		minimap.width(scale * container.width())
+		minimap.width(scale * container.width()) + 2 * border
 		bg.width(scale * container.width())
 	else
-		minimap.width(scale * Session.get('containerWidth'))
+		minimap.width(scale * Session.get('containerWidth')) + 2 * border
 		bg.width(scale * Session.get('containerWidth'))
 
 	viewport.attr({
-		width: scale * container.width() - 6,
-		height: scale * container.height() - 6
+		width: scale * container.width() - 2 * border,
+		height: scale * container.height() - 2 * border
 	})
 
 	viewport.attr({
-		x: clamp(scale * container.scrollLeft(), 3, minimap.width() - (+viewport.attr('width')) - 3),
-		y: clamp(scale * container.scrollTop(), 3, minimap.height() - (+viewport.attr('height')) - 3)
+		x: clamp(scale * container.scrollLeft(), border, minimap.width() - (+viewport.attr('width')) - border),
+		y: clamp(scale * container.scrollTop(), border, minimap.height() - (+viewport.attr('height')) - border)
 	})
 
 dimAdd = (which, val) ->
