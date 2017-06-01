@@ -39,12 +39,14 @@ Router.route '/tutorial/:slug', ->
 			console.log this.params.slug
 			tut = Tutorials.findOne({slug: this.params.slug})
 			if tut 
+				$('body').addClass('viewing-node')
 				return tut
 			return Tutorials.findOne({_id: this.params.slug}) #using id as fallback; sometime in the future  this could be removed
 
 Router.route '/tutorials/:slugLegacy', ->
 	tut = Tutorials.findOne({slugLegacy: this.params.slugLegacy})
 	if tut
+		$('body').addClass('viewing-node')
 		Router.go('/tutorial/' + tut.slug)
 	else
 		Router.go('/')
