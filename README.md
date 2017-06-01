@@ -1,30 +1,38 @@
 # Meteortree
 
-Meteor rewrite of GSAPP Skilltree.
+The [GSAPP Skill Tree](skilltree.gsapp.org) is a pedagogy platform at Columbia University GSAPP for explaining and teaching the unknown unknowns of architectural software tools.
 
-Uses Meteor. Deployed with [mupx](https://github.com/arunoda/meteor-up/tree/mupx#).
+![skilltree_screenshot](https://github.com/dantaeyoung/meteortree/blob/master/skilltree_screenshot.png)
 
-###How to develop:
+(http://skilltree.gsapp.org)
 
-Run devrun.sh; see devrun.sh.example to add MONGODB_URL env keys and others.
+Credits:
+- **Created by:** Dan Taeyoung and Danil Nagy.
+- **Design:** Dan Taeyoung 
+- **Software development:** Dan Taeyoung, Scott Donaldson
+- **Icons:** Dan Taeyoung
+- **Video tutorials:**
+  - Farzin Lotfi-Jam
+  - Danil Nagy
+  - Bika Rebek
+  - Dan Taeyoung
+  - Josh Uhl
+  - and many others.
 
-###How to deploy:
+Please send suggestions/comments to dan.taeyoung@columbia.edu.
 
-1) Install mupx (locally) with
+## Dev info:
 
-`npm install -g mupx`
+Uses Meteor. Deployed with Heroku.
 
-2) Edit mup.json file.
+### How to develop / deploy:
 
-See mup.json.example file and make sure any environment variables (such as MongoDB servers) are set accurately. Make sure that server has ssh keys from your computer.
+#### Develop:
+- Run `devrun.sh`
+    - See `devrun.sh.example` to add MONGODB_URL env keys and others.
+#### Deploy:
 
-3) Setup mupx server and deploy.
-
-From the meteor source folder:
-
-`mupx setup`
-
-`mupx deploy`
+- `git push heroku master`
 
 #### SCHEMA:
 There are five collections:
