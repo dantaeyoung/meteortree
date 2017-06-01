@@ -19,11 +19,17 @@ Credits:
   - Josh Uhl
   - and many others.
 
-Please send suggestions/comments to dan.taeyoung@columbia.edu.
+Please send suggestions/comments to dan.taeyoung@columbia.edu. 
 
 ## Dev info:
 
-Uses Meteor. Deployed with Heroku.
+Uses Meteor w/ Blaze & Coffeescript. Deployed with Heroku.
+
+TODO:
+- [ ] Trails for courses
+- [ ] Better edit UI
+- [ ] Megavision CSS positioning
+
 
 ### How to develop / deploy:
 
