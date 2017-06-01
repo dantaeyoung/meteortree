@@ -4,3 +4,4 @@ public/uploads
 mup.json
 devrun.sh
 settings.json
+.DS_Store
