@@ -23,7 +23,7 @@ Please send suggestions/comments to dan.taeyoung@columbia.edu.
 
 ## Dev info:
 
-Uses Meteor w/ Blaze & Coffeescript. Deployed with Heroku.
+Uses Meteor w/ Blaze & Coffeescript. Deployed with Heroku, MongoDB on Compose.io.
 
 TODO:
 - [ ] Trails for courses
