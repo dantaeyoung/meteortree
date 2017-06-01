@@ -1,0 +1,132 @@
+<template name="tutorialpreview">
+	<h2>I AM A PREVIEW </h2>
+	tutorial-{{ _id }}
+</template>
+
+<template name="tutorial">
+
+	<div id="section-tutorial" class="{{sectionClass}}">
+	
+		<div class="tutorial-tab slide"></div>
+
+		{{#if currentUser}}
+			<div class="tutorial-tab edit">
+				<span class="fa fa-pencil"></span>
+			</div>
+		{{/if}}
+		
+		<div class="tutorial {{publishMode}}" id="tutorial-{{ _id }}" style="display: block;">
+			<div class="header">
+				<div class="draft-warning">DRAFT</div>
+				<div class="header-inner">
+					<div class="icon">
+						<img src="{{ nodeIcon }}">
+					</div>
+					<div class="title editable-text-trigger">{{> editableText collection="tutorials" field="title" options=optionsHelper }}</div>
+					<div class="tweet editable-text-trigger">{{> editableText collection="tutorials" field="tweet" placeholder="Enter 140 characters describing this tutorial." options=optionsHelper }}</div>
+				</div>
+			</div>
+
+			<div class="resources">
+				<!-- GIF preview -->
+				{{#if preview_id}}
+					<div class="img-preview" data-id={{preview_id}} style="background-image:url({{ previewImg }})">
+						<img src="{{ previewImg }}">
+						{{#if editMode}}
+							<span class="delete-img-preview">Remove image preview</span>
+						{{/if}}
+					</div>
+				{{/if}}
+				<div class="trails-files">
+					<div class="trails">
+						{{#each trails}}
+							{{#if first}}
+								<h3>Trails</h3>
+							{{/if}}
+							<a href="#" data-trail-id="{{_id}}" class="link view-trail">{{title}}</a>
+						{{/each}}
+					</div>
+					<div class="files">
+					{{ #each files }}
+						{{#if first}}
+							<h3>Attachments</h3>
+						{{/if}}
+						<a class="link download-file" data-file-id="{{id}}" href="{{url}}" download="{{name}}">{{name}}
+						{{#if editMode}}
+						<span class="delete-file">✕</span>
+						{{/if}}
+						</a>
+					{{ /each }} 
+					</div>
+				</div>
+			</div>
+			
+			{{#if editMode}}
+				<h2>EDIT TUTORIAL</h2>
+				<div class="edit-form">
+
+					<form class="update-tutorial">
+						<div class="form-group">
+							<label for="publishMode">Publish? <input type="checkbox" id="publishMode" name="publishMode" value="publishMode" {{publishChecked}}></label>
+						</div>
+					</form>
+					<div class="form-group">
+						<label for="slugInput">Add/change tutorial slug</label>
+						<div class="slug editable-text-trigger">{{> editableText collection="tutorials" field="slug" placeholder="Enter slug url to access this tutorial." options=optionsHelper }}</div>
+					</div>
+					<div class="form-group">
+						<label for="slugInput">Add/change tutorial legacy slug (please don't edit this unless you know what you're doing)</label>
+						<div class="slug editable-text-trigger">{{> editableText collection="tutorials" field="slugLegacy" placeholder="Enter slug url to access this tutorial." options=optionsHelper }}</div>
+					</div>
+					<div class="form-group">
+						<label for="iconInput" class="button-label">Add/change tutorial icon</label>
+						<input type="file" class="iconInput" id="iconInput" />
+					</div>
+					<div class="form-group">
+						<label for="previewInput" class="button-label">Add/change image preview</label>
+						<input type="file" id="previewInput" class="previewInput" />
+					</div>
+					<div class="form-group">
+						<label for="fileInput" class="button-label">Add file attachments</label>
+						<input type="file" id="fileInput" class="fileInput" />
+					</div>
+					<div class="tutorial-delete"><button class="delete">DELETE</button></div>
+				</div>
+			{{/if}}
+
+			<div class="steps sortable">
+			{{> stepList }}
+			</div>
+
+	        {{#if editMode}}
+	            {{> step tutorial_id=_id  new="new"}}
+
+	            <div class="debug">
+					{{ isPublished }}
+					{{ createdAt }}
+				</div>
+
+				{{> tutorialComments tuturl=nodeUrl }}
+	        {{/if}}
+		</div>
+	</div>
+</template>
+
+<template name="tutorialComments">
+	{{tuturl}}
+	{{fullUrl}}
+	{{this}}
+	{{id}}
+	<div id='discourse-comments'></div>
+
+	<script type="text/javascript">
+	  DiscourseEmbed = { discourseUrl: 'http://104.131.88.84/',
+		  discourseEmbedUrl: "{{fullUrl}}" };
+
+	  (function() {
+		var d = document.createElement('script'); d.type = 'text/javascript'; d.async = true;
+		d.src = DiscourseEmbed.discourseUrl + 'javascripts/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(d);
+	  })();
+	</script>
+</template>

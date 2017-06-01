@@ -1,0 +1,48 @@
+@import "../../shared/styles/vars";	
+
+.node.courseHighlight,
+.node.weekmodeHighlight {
+	box-shadow: 0 0 0 6px $blue;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+.node.courseSelect {
+	box-shadow: 0 0 0 10px $red;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	background-color: $red;
+
+	& .title {
+		color: $white;
+	}
+}
+
+.node.courseHover,
+.node.weekmodeHover {
+	&:after {
+		@extend .node.courseHighlight;
+		content: "";
+		display: block;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		//left: -6px;
+		width: 100%;
+	}
+}
+
+.week {
+	cursor: pointer;
+}
+
+.weekHighlight {
+	background: $blue;
+	color: #fff;
+}
+
+.tutorial .trails .link {
+	font-weight: 900;
+}

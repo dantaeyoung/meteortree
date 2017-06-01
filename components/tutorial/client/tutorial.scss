@@ -1,0 +1,374 @@
+@import "../../shared/styles/vars";
+
+/**** TUTORIAL ****/
+
+.icon img {
+	display: block;
+}
+
+#section-tutorial {
+	height: 100%;
+	overflow: scroll;
+
+	&.edit-mode {
+    	background: repeating-linear-gradient(
+    		135deg,
+    		#F8CCD9,
+    		#F8CCD9 10px,
+    		#FED8F1 10px,
+    		#FED8F1 20px
+		);
+    }
+
+	& .header-inner {
+		border-top: 5px solid $red;
+		padding-top: 5px;
+		margin-bottom: 10px;
+		display: flex;
+		flex-direction: row;
+			align-items: center;
+
+
+
+		& textarea {
+			font-size: 1em !important;
+			width: 100%;
+		}
+
+		& .icon {
+			margin-right: 5px;
+		}
+
+		& .title {
+			text-transform: uppercase;
+			font-weight: bold;
+			font-size: 20px;
+			letter-spacing: 0.1em;
+			line-height: 105%;
+			height: 52px;
+			padding: 5px 10px;
+			margin-right: 10px;
+			background-color: $red;
+			color: white;
+			
+			width: 50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;	
+
+			text-align: center;
+			-webkit-border-radius: 8px;
+			-moz-border-radius: 8px;
+			border-radius: 8px;
+		}
+
+		& .tweet {
+			font-weight: bold;
+			font-size: 12px;
+			height: 52px;
+			
+			display: flex;
+			justify-content: center;
+			align-items: center;	
+
+			text-align: left;
+		}
+	}
+
+	& .header-edit {
+
+		& .label {
+			float: left;
+			width: 100px;
+			padding-top: 5px;
+			font-weight: bold;
+		}
+
+		&.submit {
+			margin: 20px 0px;
+		}
+
+	}
+}
+
+.tutorial-tab {
+	background-color: #fff;	
+	background-size: 100% 100%;
+	border-radius: 4px 0 0 4px;
+	cursor: pointer;
+	display: block;
+	height: 40px;
+	position: absolute;
+	top: 20px;
+	width: 40px;
+	left: -40px;
+
+	span {
+		display: block;
+		font-size: 28px;
+		position: relative;
+		text-align: center;
+		top: 6px;
+	}
+
+	&.slide {
+		background-image: url(/img/close-tutorial.svg);
+		.node-content-hidden & { background-image: url(/img/open-tutorial.svg); }
+	}
+
+	&.edit {
+		background-color: #F8CCD9;
+		top: 70px;
+	}
+}
+
+.draft-warning {
+	display: none;
+}
+
+
+#section-tutorial .draft .draft-warning {
+	-webkit-appearance:none;
+	-moz-appearance:none;
+	appearance:none;
+	display: block !important;
+	font-weight: bold;
+	font-size: 3em;
+	height:100%;
+	margin-bottom: -20px;
+	color: #bfb029;
+}
+
+
+.tutorial {
+	/*position: absolute;*/
+	/*top: 0px;*/
+	/*margin-left: 0px;*/
+	/*margin: 20px;*/
+	/*padding: 20px;*/
+	/*width: 300px;*/
+	/*display: none; */
+}
+
+.tutorial-delete {
+	text-align:right;
+	width: 100%;
+
+}
+
+.logged-in .tutorial.unpublish::before  {
+	content:  "UNPUBLISHED";
+	color:      $red;
+	font-weight: bold;
+	font-size: 1.8em;
+	border-bottom: 2px solid $red;
+
+}
+.logged-in .tutorial.unpublish  {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==) repeat #f4e69c;
+}
+
+
+.tutorial .description {
+	margin-bottom: 10px;
+}
+
+.update-tutorial {
+	font-size: 2em;
+}
+
+/***** TUTORIAL STEP STYLES *****/
+
+.step {
+	padding: 10px;
+	margin: 15px 0;
+    font-size: 1.2em;
+
+	&.new {
+		border: 5px dashed $purple;
+	}
+
+    & .step-title {
+        color: $nearblack;
+        border-bottom: 2px dotted $nearblack;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 1.1em;
+        margin-bottom: 10px; 
+
+        & .step-title-inner {
+            border-bottom: 4px solid $nearblack;
+        	line-height: 1.8;
+            padding-bottom: 4px;
+        }
+       
+    }
+
+    & .step-inner {
+        overflow: hidden;
+
+	    & img {
+	        max-width: 100%;
+	    }
+
+	    & .step-description, & .step-description .input {
+	        font-size: 11px !important;
+	        line-height: 18px !important;
+	        letter-spacing: 0px !important;
+	    }
+
+	    & .step-video {
+	        width: 50%;
+	        float: right;
+	        padding-left: 15px;
+	        padding-bottom: 5px;
+
+	        &:only-child {
+	        	float: none;
+	        	padding-left: 0;
+	        	width: 100%;
+	        }
+	    }
+    }
+
+	& .step-ui-menu, & .edit-form {
+        background-color: #FFB6C1;
+        padding: 10px;
+    }
+}
+
+.resources {
+	@extend .clearfix;
+	margin-bottom: 15px;
+
+	.img-preview {
+		background-position: 50% 50%;
+		background-size: cover;
+		border: 2px solid #000;
+		border-radius: 6px;
+		float: left;
+		height: auto;
+		overflow: hidden;
+		margin-right: 5%;
+		position: relative;
+		min-height: 40px;
+		width: 60%;
+
+		img { 
+			height: auto;
+			opacity: 0;
+			max-width: 100%;
+		}
+
+		.delete-img-preview {
+			background: $red;
+			bottom: 0;
+			cursor: pointer;
+			display: none;
+			font-size: 16px;
+			left: 0;
+			padding: 6px;
+			position: absolute;
+			text-align: center;
+			width: 100%;
+
+			&:hover { 
+				background: lighten($red, 10%);
+				color: #fff;
+			}
+		}
+
+		&:hover {
+			.delete-img-preview {
+				display: block;
+			}
+		}
+		
+		+ .trails-files {
+			float: right;
+			width: 35%;
+
+			.trails, .files {
+				width: 100%;
+			}
+		}
+	}
+
+	.trails-files {
+		
+		.trails, .files {
+			float: left;
+			width: 50%;
+		}
+
+		h3 {
+			margin-top: 0;
+		}
+	}
+
+	.link {
+		background-position: 0 0;
+		background-repeat: no-repeat;
+		background-size: 26px;
+		color: $gray;
+		display: block;
+		font-size: 14px;
+		padding: 5px 30px;
+		position: relative;
+		margin-bottom: 5px;
+		&:last-child { margin-bottom: 15px; }
+		text-decoration: none;
+
+		&.download-file {
+			background-image: url(/img/file-icon.svg);
+
+			.delete-file {
+				color: #000;
+				display: none; 
+				font-size: 1.25em;
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				right: 0;
+			}
+			
+			&:hover {
+				.delete-file {
+					display: block;
+					&:hover { color: $red; }
+				}
+			}
+		}
+
+		&.view-trail {
+			background-image: url(/img/trails-circle-bg.svg);
+		}
+
+		&:hover, &:focus {
+			color: $blue;
+		}
+	}
+}
+
+.edit-form {
+
+	label, textarea, input[type="text"] {
+		display: block;
+		font-size: 14px;
+		margin: 10px 0;
+		width: 100%;
+	}
+
+	.form-group {
+		.button-label {
+			display: inline-block;
+			margin-bottom: 0;
+			width: auto;
+		}
+	}
+
+	.markdown_text_container,
+	.video_url_container {
+		display: none; // toggled w/ JS
+	}
+}

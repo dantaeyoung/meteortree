@@ -1,0 +1,19 @@
+$red: #fc0452;
+$purple: #be00c8;
+$nearblack: #333333;
+$blue: #3ABCD4;
+$gray: #939598; 
+$darkgray: #434548;
+$white: #FFFFFF;
+
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+} 
+.clearfix:after {
+    clear: both;
+}
+.clearfix {
+    zoom: 1; /* For IE 6/7 (trigger hasLayout) */
+}

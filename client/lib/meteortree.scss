@@ -1,0 +1,235 @@
+@import "../../components/shared/styles/vars";
+
+/** HTML AND BODY **/
+
+* {
+	box-sizing: border-box;
+}
+
+html, body{
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	font-size: 15px;
+	line-height: 1.4;
+	margin: 0px;
+	overflow: hidden;
+	padding: 0px;
+	font-family: 'Raleway', Helvetica, Arial, sans-serif;
+	color: #333;
+
+	.dep-mode {
+		background-color: pink;
+	}
+
+	.draft-mode .logged-in #section-tree {
+		/*background-color: #ccc;*/
+	}
+
+}
+
+/** GENERAL OBJECT TYPES **/
+/** e.g. links, buttons, etc **/
+
+h1 { font-size: 28px; }
+h2 { font-size: 22px; }
+h3 { font-size: 18px; }
+h4 { font-size: 16px; }
+h5 { font-size: 14px; }
+h6 { font-size: 12px; }
+
+.button,
+.button-label {
+	cursor:pointer;
+	background: $red;
+	border: 0;
+	color: white;
+	padding: 5px 10px 5px 10px;
+	text-decoration: none;
+	display: inline-block;
+
+	&:hover {
+		background-image: -webkit-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: -moz-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: -ms-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: -o-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: linear-gradient(to bottom, #f5c4d4, #e6a6ba);
+		text-decoration: none;
+	}
+
+}
+
+.button-small {
+	cursor:pointer;
+	padding: 1px 2px;
+	text-decoration: none;
+	display: inline-block;
+
+	&:hover {
+		color: $red;
+
+		/*  background-image: -webkit-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: -moz-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: -ms-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: -o-linear-gradient(top, #f5c4d4, #e6a6ba);
+		background-image: linear-gradient(to bottom, #f5c4d4, #e6a6ba);*/
+text-decoration: none;
+	}
+
+}
+
+.label {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.float-right { float: right; }
+.float-left { float: left; }
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* IE/Edge */
+  user-select: none;           /* non-prefixed version, currently */
+}
+
+
+/***** SELECTION AND SCROLL STYLES *****/
+
+::selection,
+a::selection,
+img::selection {
+	background: $red;
+	color: #ffffff;
+}
+
+::-moz-selection {
+	background: $red;
+	color: #ffffff;
+}
+
+::-webkit-scrollbar-thumb:vertical { background-color: $red; height:200px;}
+::-webkit-scrollbar-thumb:horizontal { background-color: $red; height:10px !important;}
+::-webkit-scrollbar { height:10px; width:7px; background-color:#fcfeff; }
+
+/*** SECTIONS  **/
+
+
+#container {
+	/*position: relative;*/
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+}
+
+#content {
+	flex: 1;
+	display: flex;
+}
+
+
+// going to turn this into #node-info, see below...
+#column-content {
+	z-index: 100;
+	background-color: white;
+	height: 100%;
+    overflow: visible;
+    position: absolute;
+    right: 0;
+    top: 46px; // height of header
+    transform: translateX(calc(100% + 40px));
+    transition: 0.2s transform;
+    width: 50%;
+
+    .viewing-node & {
+    	transform: translateX(0);
+    }
+
+    .node-content-hidden & {
+    	transform: translateX(90%) !important;
+    }
+}
+
+#node-info {
+	background: #fff;
+	box-shadow: 0 0 5px $red;
+	opacity: 0;
+	padding: 10px;
+	pointer-events: none;
+	position: absolute;
+	width: 240px;
+	transition: 0.2s opacity;
+	z-index: 100;
+
+	:first-child { margin-top: 0; }
+	:last-child { margin-bottom: 0; }
+
+	.node:hover ~ & {
+		opacity: 1;
+	}
+}
+
+#section-logo {
+	position: absolute;
+	z-index: 1000;
+	top:  30px;
+	left: 30px;
+
+	.logo {
+		width: 120px;
+		height: 120px;
+	}
+}
+
+#section-tree {
+	position: relative;
+}
+
+
+#section-tutorial {
+	padding: 20px;
+	font-size: 0.8em;
+}
+
+#draft-sign {
+	display:  none;
+}
+
+body.draft-mode .logged-in #draft-sign {
+	display: block;
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	font-size: 20em;
+	font-weight: bold;
+	padding: 10px 15px;
+	opacity: 0.1;
+	pointer-events: none;
+	/*content:  "boo";*/
+}
+
+
+
+
+.editable-text,
+.wide-text-edit {
+	background: transparentize(#fff, 0.5);
+	cursor: text;
+	display: block; // can we do this? doesn't show up if empty
+	min-height: 24px;
+	padding: 5px;
+}
+
+.edit-bar {
+	/* & > * {
+		float: left;
+		width: auto;
+	} */
+}
+
+
+

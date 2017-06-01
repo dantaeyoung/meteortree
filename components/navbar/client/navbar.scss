@@ -1,0 +1,130 @@
+@import "../../shared/styles/vars";	
+
+$button_pad_vertical: 5px;
+$button_pad_horizontal: 12px;
+
+#navbar {
+	background-color: $red;
+	background-image: url(/img/navbar-logo.svg);
+	background-position: center center;
+	background-repeat: no-repeat;
+	font-size: 15px;
+	padding: 10px;
+	position: fixed;
+	width: 100%;
+	z-index: 700;
+
+	.button {
+		background: #fff;
+		border-radius: 4px;
+		color: $red;
+		padding: $button_pad_vertical $button_pad_horizontal;
+		transition: 0.1s;
+		margin: 0px 2px;
+
+		&:focus, &:hover {
+			box-shadow: 0 2px 4px transparentize(#000, 0.5);
+		}
+
+		&:active {
+			box-shadow: 0 1px 2px transparentize(#000, 0.5);
+			transform: translateY(1.5px);
+		}
+
+		&.text-blue { color: $blue; }
+	}
+
+	.toggle-courses {
+		background-image: url(/img/trails-01.svg);
+		background-position: 5px 0;
+		background-size: auto 100%;
+		background-repeat: no-repeat;
+		padding-left: 40px;
+
+		&:focus, &:active, &:hover {
+			// background-image: url(/img/trails-02.svg);
+			background-color: $blue;
+			color: #fff;
+		}
+
+		&.showing {
+			background-color: #fff;
+			border-radius: 4px 4px 0 0;
+			color: $blue !important;
+		}
+	}
+
+	.section-courses-content {
+		background: #fff;
+		border-radius: 0 4px 4px 4px;
+		left: 0;
+		min-width: 240px;
+		padding: 1em;
+		position: absolute;
+		z-index: 900;
+
+		.course {
+			padding: 5px;
+			margin-bottom: 10px;
+		}
+	}
+}
+
+#login-dropdown-list {
+	background: transparent;
+	padding: 8px 0 0;
+	position: relative;
+	border: 0;
+	border-radius: 0;
+	box-shadow: 0 0 0 transparent;
+	margin: 0;
+
+	.login-button {
+		border: 0;
+		border-radius: 0;
+		@extend .button;
+		width: 100%;
+	}
+
+	label {
+		cursor: pointer;
+	}
+}
+
+
+
+
+.login-close-text { display: none; }
+
+.modal {
+	background: #fff;
+	border-top: 4px solid $red;
+	border-bottom: 4px solid $red;
+	display: none;
+	overflow-y: scroll;
+	padding: 2em;
+	position: fixed;
+	height: 60vh;
+	top: 20vh;
+	left: 20%;
+	width: 60%;
+	z-index: 900;
+}
+
+.modal-close {
+	cursor: pointer;
+	position: absolute;
+	top: 0.75em;
+	left: 0.75em;
+}
+
+.modal-shadow {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.25);
+	z-index: 600;
+}

@@ -1,0 +1,45 @@
+# Meteor packages used by this project, one per line.
+# Check this file (and the other files in this directory) into your repository.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+accounts-ui
+accounts-password
+coffeescript
+cfs:standard-packages
+fortawesome:fontawesome
+meteorhacks:kadira
+babrahams:editable-text
+babrahams:transactions
+cfs:filesystem
+cfs:gridfs
+d3js:d3
+meteorhacks:kadira-profiler
+autopublish
+insecure
+cfs:s3
+fourseven:scss
+jeremy:ghostdown
+iron:router
+erasaur:meteor-lodash
+standard-minifiers
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+session
+jquery
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check
+markdown
+reywood:publish-composite
+meteorhacks:fast-render
+dbernhard:jquery-ui-draggable
+jsplumb:jsplumb
+okgrow:analytics

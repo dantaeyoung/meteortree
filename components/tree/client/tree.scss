@@ -1,0 +1,145 @@
+@import "../../shared/styles/vars";	
+
+body.draft-mode .logged-in #section-tree {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAKElEQVQIW2NkwAL+AwEjujhYEASQJWCCIDG4BLIgXAJdECyBTRAkAQAIvhgD4hkqMQAAAABJRU5ErkJggg==) repeat #f4e69c;
+}
+
+#column-navtree {
+	position: absolute;
+	height: 100%;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	transition: 0.2s width;
+	width: 100%;
+
+	.viewing-node & {
+		width: 50%;
+	}
+
+	.node-content-hidden & {
+		width: 95%;
+	}
+
+	order: -1;
+	background-color: #EAEAEA;
+}
+
+
+.node-image {
+	height: 60px;
+	width: 60px;
+	border: 1px solid black;
+}
+
+
+.logged-in.draft-node {
+	opacity: 0.5;
+	border: 5px dotted #333;
+}
+
+
+.logged-in .node.unpublish  {
+	opacity: 0.3;
+}
+
+.logged-in .node.unpublish::before {
+	content:    "UNPUB";
+	color:      $red;
+	font-weight: bold;
+	font-size: 0.6em;
+	border-bottom: 2px solid $red;
+	margin-left: 65px;
+	margin-bottom: -65px;
+}
+
+
+.node {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	width: 60px;
+	cursor: pointer;
+	text-align: center;
+	z-index: 10;
+	transform: translateY(20px);
+
+	& a {
+		text-decoration: none !important;
+	}
+
+	& .icon > img {
+		max-width: 100%;
+		max-height: 100%;
+	}
+
+
+	& .title {
+		color: $darkgray;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		line-height: 130%;
+		font-size: 0.6em;
+		font-weight: 700;
+		text-decoration: none;
+		text-align: center;
+		margin: 2px -5px;
+	}
+
+	&.ui-draggable {
+		cursor: move;
+		cursor: -webkit-grab;
+		cursor: -moz-grab;
+	}
+
+	&.ui-draggable-dragging {
+//		box-shadow: 4px 4px 20px #AAA;
+//		margin-left: -2px;
+//		margin-top: -2px;
+		cursor: move;
+		cursor: -webkit-grabbing; cursor: -moz-grabbing;
+
+	}
+
+}
+
+
+
+.change-dep {
+	cursor: pointer;
+	color: $red;
+	display: inline-block;
+}
+
+.jqDropZone {
+	background: lightgrey;
+	width: 150px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	font-weight: bold;
+}
+.jqDropZone.in {
+	width: 600px;
+	height: 200px;
+	line-height: 200px;
+	font-size: larger;
+}
+.jqDropZone.hover {
+	background: lawngreen;
+}
+.jqDropZone.fade {
+	-webkit-transition: all 0.3s ease-out;
+	-moz-transition: all 0.3s ease-out;
+	-ms-transition: all 0.3s ease-out;
+	-o-transition: all 0.3s ease-out;
+	transition: all 0.3s ease-out;
+	opacity: 1;
+}
+
+
+

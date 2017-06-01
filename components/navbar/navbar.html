@@ -1,0 +1,60 @@
+<template name="navbar">
+	<div id="navbar" class="clearfix">
+
+		{{> sectioncourses }}
+
+		<div class="float-right">
+
+			{{> settings}}
+		</div>
+	</div>
+</template>
+
+<template name="settings">
+
+	<div class="button" data-modal="settings"><i class="fa fa-gears"></i> Settings</div>
+
+	<aside class="modal" modal-target="settings">
+		{{> loginButtons}}
+
+		<div id="megavision-toggle">
+			<h3>Megavision:</h3>
+			
+			<input type="radio" name="megavision-toggle" id="megavision-toggle-on" {{megavisionOn}}>
+			<label for="megavision-toggle-on">On</label>
+
+			<br>
+			
+			<input type="radio" name="megavision-toggle" id="megavision-toggle-off" {{megavisionOff}}>
+			<label for="megavision-toggle-off">Off</label>
+		</div>
+	</aside>
+
+</template>
+
+<template name="sectioncourses">
+
+	<div class="button text-blue toggle-courses">Trails</div>
+	<div style="display: none;" class="section-courses-content">
+		<div class="courses">
+			{{#each courses}}
+				{{> course}}
+			{{/each}}
+		</div>
+		{{#if currentUser}}
+			<div class="new-course">
+				<form class="new-course">
+					<input type="submit" class="button" value="Add New Course" />
+				</form>
+			</div>
+		{{/if}}
+	</div>
+</template> 
+
+<template name="about">
+	<div data-modal="about" class="button"><i class="fa fa-info-circle"></i> About</div>
+	<aside class="modal" modal-target="about">
+		<div class="modal-close">&#10005;</div>
+		<p>GSAPP SKILL TREE is a pedagogy tool for explaining and teaching the unknown unknowns of architectural software tools.</p>
+	</aside>
+</template>
