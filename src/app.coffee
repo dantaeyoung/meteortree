@@ -36,6 +36,7 @@ Router.route '/tutorial/:slug', ->
 		fastRender: true
 		to: 'tutorial'
 		data: ->
+			console.log this.params.slug
 			tut = Tutorials.findOne({slug: this.params.slug})
 			if tut 
 				return tut
