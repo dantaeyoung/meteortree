@@ -98,8 +98,8 @@ $button_pad_horizontal: 12px;
 
 .modal {
 	background: #fff;
-	border-top: 4px solid $red;
-	border-bottom: 4px solid $red;
+	border: 10px solid $red;
+  border-radius: 10px;
 	display: none;
 	overflow-y: scroll;
 	padding: 2em;
@@ -109,6 +109,10 @@ $button_pad_horizontal: 12px;
 	left: 20%;
 	width: 60%;
 	z-index: 900;
+
+  a {
+    color: $red;
+  }
 }
 
 .modal-close {
@@ -125,6 +129,6 @@ $button_pad_horizontal: 12px;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: rgba(0, 0, 0, 0.25);
+	background: rgba(0, 0, 0, 0.7);
 	z-index: 600;
 }

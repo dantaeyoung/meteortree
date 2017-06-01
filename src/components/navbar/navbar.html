@@ -6,6 +6,7 @@
 		<div class="float-right">
 
 			{{> settings}}
+			{{> aboutthis}}
 		</div>
 	</div>
 </template>
@@ -32,6 +33,34 @@
 
 </template>
 
+<template name="aboutthis">
+
+	<div class="button" data-modal="aboutthis"><i class="fa fa-question-circle"></i> What is this?</div>
+
+	<aside class="modal" modal-target="aboutthis">
+    <div id="about-text">
+			<h3>About the GSAPP Skill Tree:</h3>
+      <div class="modal-close">&#10005;</div>
+      <p>The GSAPP Skill Tree is a pedagogy platform at Columbia University GSAPP for explaining and teaching the unknown unknowns of architectural software tools.</p>
+      <p><b>How to use this site:</b> Introductory tutorials start at the left, and are connected to related tutorials via a network of lines. More advanced tutorials exist on the right.</p>
+      <p><b>Created by:</b> Dan Taeyoung and Danil Nagy.<br>
+      <b>Design:</b> Dan Taeyoung <br>
+      <b>Software development:</b> Dan Taeyoung, Scott Donaldson<br>
+      <b>Icons:</b> Dan Taeyoung<br>
+      <b>Video tutorials:</b><br>
+      Farzin Lotfi-Jam<br>
+      Danil Nagy<br>
+      Bika Rebek<br>
+      Dan Taeyoung<br>
+      Josh Uhl<br>
+      and many others.<br></p>
+      <p>Please send suggestions/comments to <a href="mailto:dan.taeyoung@columbia.edu">dan.taeyoung@columbia.edu</a>.</p>
+
+		</div>
+	</aside>
+
+</template>
+
 <template name="sectioncourses">
 
 	<div class="button text-blue toggle-courses">Trails</div>
@@ -51,10 +80,4 @@
 	</div>
 </template> 
 
-<template name="about">
-	<div data-modal="about" class="button"><i class="fa fa-info-circle"></i> About</div>
-	<aside class="modal" modal-target="about">
-		<div class="modal-close">&#10005;</div>
-		<p>GSAPP SKILL TREE is a pedagogy tool for explaining and teaching the unknown unknowns of architectural software tools.</p>
-	</aside>
-</template>
+
